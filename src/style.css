@@ -11,6 +11,7 @@ html, body {
 }
 
 #stage {
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
@@ -25,6 +26,65 @@ html, body {
   background-repeat: no-repeat;
   flex-shrink: 0;
 }
+
+#nav-prev,
+#nav-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.32);
+  cursor: pointer;
+  padding: 12px 10px;
+  transition: color 0.25s ease;
+  user-select: none;
+  z-index: 10;
+}
+
+#nav-prev { left: 4px; }
+#nav-next { right: 4px; }
+
+#nav-prev:hover,
+#nav-next:hover {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.nav--muted {
+  color: rgba(255, 255, 255, 0.12);
+  cursor: default;
+}
+
+.nav--muted:hover {
+  color: rgba(255, 255, 255, 0.12);
+}
+
+@keyframes scene-exit-left {
+  from { opacity: 1; transform: translateX(0);     }
+  to   { opacity: 0; transform: translateX(-26px); }
+}
+
+@keyframes scene-exit-right {
+  from { opacity: 1; transform: translateX(0);    }
+  to   { opacity: 0; transform: translateX(26px); }
+}
+
+@keyframes scene-enter-from-right {
+  from { opacity: 0; transform: translateX(26px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+
+@keyframes scene-enter-from-left {
+  from { opacity: 0; transform: translateX(-26px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+
+.scene--exit-left        { animation: scene-exit-left        280ms ease-in;  }
+.scene--exit-right       { animation: scene-exit-right       280ms ease-in;  }
+.scene--enter-from-right { animation: scene-enter-from-right 300ms ease-out; }
+.scene--enter-from-left  { animation: scene-enter-from-left  300ms ease-out; }
 
 .marker {
   position: absolute;
