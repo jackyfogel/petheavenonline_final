@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Phase 1, Step 3 — Marker interaction: tomb focus + anchored preview card
+Phase 1, Step 3 — Marker interaction: tomb focus + anchored preview card (+ entrance polish)
 
 ---
 
@@ -22,7 +22,7 @@ Phase 1, Step 3 — Marker interaction: tomb focus + anchored preview card
 ## Files changed
 
 - `src/main.js` — added memorial data per slot, `activateMarker()`, `closePreview()`, click handlers, CSS variable for scale
-- `src/style.css` — updated `.marker` to use `--base-scale`, added `.marker--active`, `.marker--dimmed`, `.preview-card` and all inner element styles
+- `src/style.css` — updated `.marker` to use `--base-scale`, added `.marker--active`, `.marker--dimmed`, `.preview-card` and all inner element styles; added `card-in` keyframe for subtle entrance (fade + 8px upward drift, 220ms ease-out)
 
 ---
 
