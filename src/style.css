@@ -25,3 +25,13 @@ html, body {
   background-repeat: no-repeat;
   flex-shrink: 0;
 }
+
+.marker {
+  position: absolute;
+  width: 28px;
+  height: 42px;
+  background-color: #6b6057;
+  border-radius: 6px 6px 2px 2px;
+  transform-origin: bottom center;
+  opacity: 0.85;
+}

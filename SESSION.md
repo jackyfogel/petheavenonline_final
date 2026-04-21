@@ -2,41 +2,38 @@
 
 ## Last completed step
 
-Phase 1, Step 1 — Static single-scene homepage foundation
+Phase 1, Step 2 — Hardcoded memorial markers on the single scene
 
 ---
 
 ## What was done
 
-- Created the Vite project structure from scratch
-- Built a full-screen 16:9 scenic stage with intentional ambient-color letterboxing
-- Scene data lives as a plain inline object in `main.js`
-- Placeholder gradient background used (sky → ground) until real art is available
-- Resize handler keeps the 16:9 rectangle correctly fitted at all viewport sizes
+- Added 5 authored slot positions (x, y as percentages, scale per slot) to the scene object in `main.js`
+- Added `renderMarkers()` which creates a `.marker` div per slot, positioned absolutely within the scene using percentage coordinates and per-slot scale
+- Markers are anchored at their base point via `transform: translate(-50%, -100%) scale(scale)`
+- Added `.marker` CSS: small headstone shape (rounded top rectangle), muted warm-grey, no hover behavior, no labels, no interaction
 
 ---
 
 ## Files changed
 
-- `package.json` — created (Vite dependency, dev/build scripts)
-- `index.html` — created (entry point, mounts stage and scene)
-- `src/style.css` — created (full-page reset, stage layout, scene sizing)
-- `src/main.js` — created (scene object, applyScene, fitScene, resize listener)
+- `src/main.js` — added `slots` array to scene object, added `renderMarkers()` function
+- `src/style.css` — added `.marker` styling
 
 ---
 
 ## What to test
 
-- Open `http://localhost:5173` and confirm the 16:9 scene is centered with ambient color filling the remaining space
-- Resize the browser window in all directions and confirm the scene recalculates correctly
-- Narrow the window to portrait proportions and confirm no layout breaks
-- Check on a mobile device or browser DevTools mobile emulation
+- Open `http://localhost:5173` and confirm 5 quiet headstone markers are visible in the lower ground band of the scene
+- Confirm markers vary slightly in size (depth suggestion)
+- Confirm no hover or click behavior exists
+- Resize the browser and confirm markers stay correctly anchored to their authored positions within the scene
+- Check on a narrow/portrait viewport that markers remain inside the scene rectangle
 
 ---
 
 ## What remains (Phase 1)
 
-- Step 2: render 5 hardcoded markers in authored slot positions on the scene
 - Step 3: marker click → gentle tomb focus → anchored preview card with fake data
 - Step 4: add 2–3 scenes with soft slide/fade transition and keyboard + swipe navigation
 - Step 5: basic responsive behavior review and authored portrait slot sets
