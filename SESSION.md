@@ -2,38 +2,45 @@
 
 ## Last completed step
 
-Phase 1, Step 2 — Hardcoded memorial markers on the single scene
+Phase 1, Step 3 — Marker interaction: tomb focus + anchored preview card
 
 ---
 
 ## What was done
 
-- Added 5 authored slot positions (x, y as percentages, scale per slot) to the scene object in `main.js`
-- Added `renderMarkers()` which creates a `.marker` div per slot, positioned absolutely within the scene using percentage coordinates and per-slot scale
-- Markers are anchored at their base point via `transform: translate(-50%, -100%) scale(scale)`
-- Added `.marker` CSS: small headstone shape (rounded top rectangle), muted warm-grey, no hover behavior, no labels, no interaction
+- Added fake memorial data (name, born, passed, epitaph) inline to each slot in the scene object
+- Switched marker transform to use a CSS custom property (`--base-scale`) so active/dimmed states can compose cleanly in CSS
+- Added `activateMarker()`: sets `marker--active` on the clicked marker, `marker--dimmed` on all others, and appends a `.preview-card` anchored to the slot's percentage position
+- Added `closePreview()`: removes the card and clears all marker state classes
+- Scene background click closes the preview; clicks inside the card do not (checked via `e.target.closest`)
+- Marker clicks use `e.stopPropagation()` to prevent immediate close
+- "Enter Memorial" button is styled and active-looking but does nothing yet
+- No routing, no modal, no overlay, no heavy animation
 
 ---
 
 ## Files changed
 
-- `src/main.js` — added `slots` array to scene object, added `renderMarkers()` function
-- `src/style.css` — added `.marker` styling
+- `src/main.js` — added memorial data per slot, `activateMarker()`, `closePreview()`, click handlers, CSS variable for scale
+- `src/style.css` — updated `.marker` to use `--base-scale`, added `.marker--active`, `.marker--dimmed`, `.preview-card` and all inner element styles
 
 ---
 
 ## What to test
 
-- Open `http://localhost:5173` and confirm 5 quiet headstone markers are visible in the lower ground band of the scene
-- Confirm markers vary slightly in size (depth suggestion)
-- Confirm no hover or click behavior exists
-- Resize the browser and confirm markers stay correctly anchored to their authored positions within the scene
-- Check on a narrow/portrait viewport that markers remain inside the scene rectangle
+- Click each of the 5 markers and confirm the preview card appears anchored above that tomb
+- Confirm the other markers fade back when one is active
+- Confirm the card shows the correct name, dates, epitaph for each marker
+- Click another marker and confirm focus switches cleanly
+- Click `×` and confirm everything returns to default
+- Click the scene background and confirm the preview closes
+- Click inside the preview card and confirm it does NOT close
+- Confirm "Enter Memorial" button looks real but does nothing
+- Resize the browser and confirm card and markers stay correctly anchored
 
 ---
 
 ## What remains (Phase 1)
 
-- Step 3: marker click → gentle tomb focus → anchored preview card with fake data
 - Step 4: add 2–3 scenes with soft slide/fade transition and keyboard + swipe navigation
 - Step 5: basic responsive behavior review and authored portrait slot sets
