@@ -189,3 +189,29 @@ html, body {
   cursor: pointer;
   font-family: inherit;
 }
+
+@media (max-width: 520px) {
+  #nav-prev,
+  #nav-next {
+    font-size: 30px;
+    padding: 8px 6px;
+  }
+
+  .preview-card {
+    width: 150px;
+    padding: 10px 10px 9px;
+    gap: 4px;
+  }
+
+  .preview-photo {
+    display: none;
+  }
+
+  .preview-name {
+    font-size: 13px;
+  }
+
+  .preview-epitaph {
+    display: none;
+  }
+}

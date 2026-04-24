@@ -11,6 +11,13 @@ const scenes = [
       { id: "slot-4", x: 66, y: 80, scale: 1.05, memorial: { name: "Daisy",   born: "2012", passed: "2023", epitaph: "Forever chasing sunbeams."           } },
       { id: "slot-5", x: 82, y: 75, scale: 0.92, memorial: { name: "Milo",    born: "2017", passed: "2025", epitaph: "Small paws, enormous heart."         } },
     ],
+    slotsPortrait: [
+      { id: "slot-1", x: 18, y: 68, scale: 0.90, memorial: { name: "Buddy",   born: "2010", passed: "2023", epitaph: "Loyal beyond measure."              } },
+      { id: "slot-2", x: 34, y: 73, scale: 1.00, memorial: { name: "Luna",    born: "2015", passed: "2024", epitaph: "She filled every room with light."   } },
+      { id: "slot-3", x: 50, y: 70, scale: 0.95, memorial: { name: "Oscar",   born: "2008", passed: "2022", epitaph: "A gentleman until the very end."     } },
+      { id: "slot-4", x: 66, y: 74, scale: 1.05, memorial: { name: "Daisy",   born: "2012", passed: "2023", epitaph: "Forever chasing sunbeams."           } },
+      { id: "slot-5", x: 82, y: 69, scale: 0.92, memorial: { name: "Milo",    born: "2017", passed: "2025", epitaph: "Small paws, enormous heart."         } },
+    ],
   },
   {
     id: "quiet-forest",
@@ -23,6 +30,13 @@ const scenes = [
       { id: "slot-3", x: 50, y: 77, scale: 0.96, memorial: { name: "Bear",    born: "2009", passed: "2021", epitaph: "Brave, warm, and true."              } },
       { id: "slot-4", x: 68, y: 81, scale: 1.04, memorial: { name: "Willow",  born: "2016", passed: "2025", epitaph: "She taught us how to rest."          } },
       { id: "slot-5", x: 84, y: 74, scale: 0.90, memorial: { name: "Chester", born: "2007", passed: "2020", epitaph: "Steadfast to the last."              } },
+    ],
+    slotsPortrait: [
+      { id: "slot-1", x: 15, y: 70, scale: 0.88, memorial: { name: "Shadow",  born: "2011", passed: "2022", epitaph: "He walked quietly beside us."        } },
+      { id: "slot-2", x: 30, y: 74, scale: 1.02, memorial: { name: "Maple",   born: "2013", passed: "2024", epitaph: "Gentle and curious always."          } },
+      { id: "slot-3", x: 50, y: 71, scale: 0.96, memorial: { name: "Bear",    born: "2009", passed: "2021", epitaph: "Brave, warm, and true."              } },
+      { id: "slot-4", x: 68, y: 75, scale: 1.04, memorial: { name: "Willow",  born: "2016", passed: "2025", epitaph: "She taught us how to rest."          } },
+      { id: "slot-5", x: 84, y: 68, scale: 0.90, memorial: { name: "Chester", born: "2007", passed: "2020", epitaph: "Steadfast to the last."              } },
     ],
   },
   {
@@ -37,6 +51,13 @@ const scenes = [
       { id: "slot-4", x: 67, y: 79, scale: 1.06, memorial: { name: "Coral",   born: "2018", passed: "2025", epitaph: "Too bright, too brief."              } },
       { id: "slot-5", x: 83, y: 74, scale: 0.93, memorial: { name: "Duke",    born: "2006", passed: "2019", epitaph: "A long life, well and fully lived."   } },
     ],
+    slotsPortrait: [
+      { id: "slot-1", x: 20, y: 67, scale: 0.91, memorial: { name: "Pearl",   born: "2014", passed: "2024", epitaph: "She shone in every quiet moment."    } },
+      { id: "slot-2", x: 36, y: 72, scale: 1.00, memorial: { name: "Sandy",   born: "2012", passed: "2023", epitaph: "Always running toward the waves."    } },
+      { id: "slot-3", x: 52, y: 69, scale: 0.94, memorial: { name: "Finn",    born: "2010", passed: "2022", epitaph: "Free and joyful every single day."   } },
+      { id: "slot-4", x: 67, y: 73, scale: 1.06, memorial: { name: "Coral",   born: "2018", passed: "2025", epitaph: "Too bright, too brief."              } },
+      { id: "slot-5", x: 83, y: 68, scale: 0.93, memorial: { name: "Duke",    born: "2006", passed: "2019", epitaph: "A long life, well and fully lived."   } },
+    ],
   },
 ];
 
@@ -48,6 +69,12 @@ const sceneEl = document.getElementById("scene");
 
 let previewCard = null;
 let markerEls = [];
+
+// --- Orientation helper ---
+
+function isPortrait() {
+  return window.innerHeight > window.innerWidth;
+}
 
 // --- Nav arrows ---
 
@@ -132,8 +159,12 @@ function clearMarkers() {
   markerEls = [];
 }
 
+function activeSlots(sc) {
+  return (isPortrait() && sc.slotsPortrait) ? sc.slotsPortrait : sc.slots;
+}
+
 function renderMarkers(sc) {
-  sc.slots.forEach((slot) => {
+  activeSlots(sc).forEach((slot) => {
     const marker = document.createElement("div");
     marker.className = "marker";
     marker.style.left = slot.x + "%";
@@ -172,7 +203,7 @@ function goToScene(index, direction) {
     renderMarkers(scenes[currentIndex]);
     updateArrows();
 
-    void sceneEl.offsetWidth; // force reflow before enter animation
+    void sceneEl.offsetWidth;
     sceneEl.style.opacity = "";
     sceneEl.classList.add(enterClass);
 
@@ -215,11 +246,24 @@ sceneEl.addEventListener("click", (e) => {
   closePreview();
 });
 
+// --- Resize: re-render markers only on orientation change ---
+
+let lastPortrait = isPortrait();
+
+window.addEventListener("resize", () => {
+  fitScene();
+  const nowPortrait = isPortrait();
+  if (nowPortrait !== lastPortrait) {
+    lastPortrait = nowPortrait;
+    closePreview();
+    clearMarkers();
+    renderMarkers(scenes[currentIndex]);
+  }
+});
+
 // --- Init ---
 
 applyScene(scenes[currentIndex]);
 fitScene();
 renderMarkers(scenes[currentIndex]);
 updateArrows();
-
-window.addEventListener("resize", fitScene);
