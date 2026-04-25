@@ -84,7 +84,7 @@ function activateMarker(slot, markerEl) {
     <div class="preview-name">${m.name}</div>
     <div class="preview-dates">${m.born} &ndash; ${m.passed}</div>
     <div class="preview-epitaph">${m.epitaph}</div>
-    <button class="preview-enter">Enter Memorial</button>
+    <a class="preview-enter" href="/memorial/${m.slug}">Enter Memorial</a>
   `;
   card.querySelector(".preview-close").addEventListener("click", (e) => {
     e.stopPropagation();

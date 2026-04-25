@@ -200,6 +200,9 @@ html, body {
 }
 
 .preview-enter {
+  display: block;
+  text-align: center;
+  text-decoration: none;
   margin-top: 4px;
   padding: 7px 0;
   background-color: #5a4e40;
