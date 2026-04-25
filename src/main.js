@@ -170,6 +170,7 @@ function renderMarkers(sc) {
     marker.style.left = slot.x + "%";
     marker.style.top = slot.y + "%";
     marker.style.setProperty("--base-scale", slot.scale);
+    marker.style.setProperty("--base-opacity", slot.scale * 0.83);
     marker.addEventListener("click", (e) => {
       e.stopPropagation();
       activateMarker(slot, marker);
@@ -262,6 +263,10 @@ window.addEventListener("resize", () => {
 });
 
 // --- Init ---
+
+const vignette = document.createElement("div");
+vignette.id = "vignette";
+sceneEl.appendChild(vignette);
 
 applyScene(scenes[currentIndex]);
 fitScene();
