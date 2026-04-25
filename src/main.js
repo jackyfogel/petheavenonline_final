@@ -35,6 +35,15 @@ function updateArrows() {
   nextBtn.classList.toggle("nav--muted", currentIndex === scenes.length - 1);
 }
 
+const indicator = document.createElement("div");
+indicator.id = "scene-indicator";
+stage.appendChild(indicator);
+
+function updateIndicator() {
+  const sc = scenes[currentIndex];
+  indicator.textContent = `${sc.title} · ${currentIndex + 1} / ${scenes.length}`;
+}
+
 // --- Scene rendering ---
 
 function applyScene(sc) {
@@ -143,6 +152,7 @@ function goToScene(index, direction) {
     applyScene(scenes[currentIndex]);
     renderMarkers(scenes[currentIndex]);
     updateArrows();
+    updateIndicator();
 
     void sceneEl.offsetWidth;
     sceneEl.style.opacity = "";
@@ -212,3 +222,4 @@ applyScene(scenes[currentIndex]);
 fitScene();
 renderMarkers(scenes[currentIndex]);
 updateArrows();
+updateIndicator();
