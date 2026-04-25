@@ -1,0 +1,17 @@
+export const memorials = {
+  "mem-buddy":   { name: "Buddy",   born: "2010", passed: "2023", epitaph: "Loyal beyond measure."              },
+  "mem-luna":    { name: "Luna",    born: "2015", passed: "2024", epitaph: "She filled every room with light."   },
+  "mem-oscar":   { name: "Oscar",   born: "2008", passed: "2022", epitaph: "A gentleman until the very end."     },
+  "mem-daisy":   { name: "Daisy",   born: "2012", passed: "2023", epitaph: "Forever chasing sunbeams."           },
+  "mem-milo":    { name: "Milo",    born: "2017", passed: "2025", epitaph: "Small paws, enormous heart."         },
+  "mem-shadow":  { name: "Shadow",  born: "2011", passed: "2022", epitaph: "He walked quietly beside us."        },
+  "mem-maple":   { name: "Maple",   born: "2013", passed: "2024", epitaph: "Gentle and curious always."          },
+  "mem-bear":    { name: "Bear",    born: "2009", passed: "2021", epitaph: "Brave, warm, and true."              },
+  "mem-willow":  { name: "Willow",  born: "2016", passed: "2025", epitaph: "She taught us how to rest."          },
+  "mem-chester": { name: "Chester", born: "2007", passed: "2020", epitaph: "Steadfast to the last."              },
+  "mem-pearl":   { name: "Pearl",   born: "2014", passed: "2024", epitaph: "She shone in every quiet moment."    },
+  "mem-sandy":   { name: "Sandy",   born: "2012", passed: "2023", epitaph: "Always running toward the waves."    },
+  "mem-finn":    { name: "Finn",    born: "2010", passed: "2022", epitaph: "Free and joyful every single day."   },
+  "mem-coral":   { name: "Coral",   born: "2018", passed: "2025", epitaph: "Too bright, too brief."              },
+  "mem-duke":    { name: "Duke",    born: "2006", passed: "2019", epitaph: "A long life, well and fully lived."   },
+};

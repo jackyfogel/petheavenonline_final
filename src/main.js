@@ -1,4 +1,5 @@
 import { scenes } from './data/scenes.js';
+import { memorials } from './data/memorials.js';
 
 let currentIndex = 0;
 let isTransitioning = false;
@@ -72,7 +73,7 @@ function activateMarker(slot, markerEl) {
     el.classList.add(el === markerEl ? "marker--active" : "marker--dimmed");
   });
 
-  const m = slot.memorial;
+  const m = memorials[slot.memorialId];
   const card = document.createElement("div");
   card.className = "preview-card";
   card.style.left = slot.x + "%";
