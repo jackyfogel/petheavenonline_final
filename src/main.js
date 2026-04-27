@@ -22,7 +22,10 @@ function renderMemorialPage(slug) {
 
   sceneEl.style.display = "none";
   stage.classList.add("memorial-page");
+  document.documentElement.style.overflow = "auto";
+  document.documentElement.style.height = "auto";
   document.body.style.overflow = "auto";
+  document.body.style.height = "auto";
 
   const content = document.createElement("div");
   content.className = "memorial-content";
@@ -34,12 +37,59 @@ function renderMemorialPage(slug) {
     `;
   } else {
     content.innerHTML = `
-      <a href="/" class="memorial-back">&#8592; Back to Home</a>
-      <div class="memorial-photo-placeholder"></div>
-      <h1 class="memorial-name">${m.name}</h1>
-      <p class="memorial-dates">${m.born} &ndash; ${m.passed}</p>
-      <p class="memorial-epitaph">${m.epitaph}</p>
-      <p class="memorial-story">A fuller story and remembrance will live here.</p>
+      <div class="memorial-hero-band">
+        <a href="/" class="memorial-back">&#8592; Back to Home</a>
+        <div class="memorial-photo-placeholder"></div>
+        <h1 class="memorial-name">${m.name}</h1>
+        <p class="memorial-dates">${m.born} &ndash; ${m.passed}</p>
+        <p class="memorial-epitaph">${m.epitaph}</p>
+      </div>
+
+      <section class="memorial-section">
+        <h2 class="memorial-section-title">In Memory</h2>
+        <p class="memorial-story">A fuller story and remembrance will live here.</p>
+      </section>
+
+      <section class="memorial-section">
+        <h2 class="memorial-section-title">Photos</h2>
+        <div class="memorial-gallery">
+          <div class="memorial-gallery-item"></div>
+          <div class="memorial-gallery-item"></div>
+          <div class="memorial-gallery-item"></div>
+          <div class="memorial-gallery-item"></div>
+        </div>
+      </section>
+
+      <section class="memorial-section">
+        <h2 class="memorial-section-title">Light a Candle</h2>
+        <div class="memorial-candles">
+          <div class="memorial-candle"></div>
+          <div class="memorial-candle"></div>
+          <div class="memorial-candle"></div>
+          <div class="memorial-candle"></div>
+        </div>
+      </section>
+
+      <section class="memorial-section">
+        <h2 class="memorial-section-title">Tributes</h2>
+        <div class="memorial-tributes">
+          <div class="memorial-tribute">
+            <div class="memorial-tribute-author"></div>
+            <div class="memorial-tribute-line"></div>
+            <div class="memorial-tribute-line memorial-tribute-line--short"></div>
+          </div>
+          <div class="memorial-tribute">
+            <div class="memorial-tribute-author"></div>
+            <div class="memorial-tribute-line"></div>
+            <div class="memorial-tribute-line memorial-tribute-line--mid"></div>
+          </div>
+          <div class="memorial-tribute">
+            <div class="memorial-tribute-author"></div>
+            <div class="memorial-tribute-line"></div>
+            <div class="memorial-tribute-line memorial-tribute-line--short"></div>
+          </div>
+        </div>
+      </section>
     `;
   }
 
