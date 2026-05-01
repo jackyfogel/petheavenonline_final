@@ -138,7 +138,14 @@ function initHomepage() {
   // Scene rendering
   function applyScene(sc) {
     stage.style.backgroundColor = sc.ambientColor;
-    sceneEl.style.background = sc.gradient;
+    if (sc.background) {
+      sceneEl.style.background = "";
+      sceneEl.style.backgroundColor = sc.ambientColor;
+      sceneEl.style.backgroundImage = `url(${sc.background})`;
+    } else {
+      sceneEl.style.backgroundImage = "";
+      sceneEl.style.background = sc.gradient;
+    }
   }
 
   function fitScene() {
