@@ -216,7 +216,12 @@ function initHomepage() {
       marker.style.left = slot.x + "%";
       marker.style.top = slot.y + "%";
       marker.style.setProperty("--base-scale", slot.scale);
-      marker.style.setProperty("--base-opacity", slot.scale * 0.83);
+      const img = document.createElement("img");
+      img.src = "/markers/tombstone.webp";
+      img.alt = "";
+      img.draggable = false;
+      marker.appendChild(img);
+
       marker.addEventListener("click", (e) => {
         e.stopPropagation();
         activateMarker(slot, marker);

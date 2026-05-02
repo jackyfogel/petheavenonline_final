@@ -89,16 +89,20 @@ html, body {
 
 .marker {
   position: absolute;
-  width: 28px;
-  height: 42px;
-  background-color: #6b6057;
-  border-radius: 6px 6px 2px 2px;
   transform-origin: bottom center;
   transform: translate(-50%, -100%) scale(var(--base-scale, 1));
-  opacity: var(--base-opacity, 0.82);
+  opacity: var(--base-opacity, 1);
   cursor: pointer;
   transition: opacity 0.3s ease, transform 0.25s ease;
   z-index: 2;
+}
+
+.marker img {
+  display: block;
+  height: 70px;
+  width: auto;
+  pointer-events: none;
+  user-select: none;
 }
 
 .marker::after {
@@ -133,18 +137,18 @@ html, body {
 @keyframes card-in {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(calc(-100% - 46px));
+    transform: translateX(-50%) translateY(calc(-100% - 74px));
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(calc(-100% - 54px));
+    transform: translateX(-50%) translateY(calc(-100% - 82px));
   }
 }
 
 .preview-card {
   position: absolute;
   width: 180px;
-  transform: translateX(-50%) translateY(calc(-100% - 54px));
+  transform: translateX(-50%) translateY(calc(-100% - 82px));
   z-index: 3;
   background: rgba(250, 245, 238, 0.97);
   border-radius: 6px;
