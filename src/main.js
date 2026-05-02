@@ -227,7 +227,7 @@ function initHomepage() {
       const overlay = document.createElement("div");
       overlay.className = "marker-overlay";
       overlay.innerHTML = `
-        <div class="marker-photo"></div>
+        <div class="marker-photo">${m.photo ? `<img src="${m.photo}" alt="${m.name}">` : ""}</div>
         <div class="marker-name">${m.name}</div>
         <div class="marker-dates">${m.born}–${m.passed}</div>
       `;
