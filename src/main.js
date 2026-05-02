@@ -218,7 +218,7 @@ function initHomepage() {
       marker.style.setProperty("--base-scale", slot.scale);
 
       const img = document.createElement("img");
-      img.src = "/markers/tombstone.webp";
+      img.src = "/assets/markers/tombstone.webp";
       img.alt = "";
       img.draggable = false;
       marker.appendChild(img);

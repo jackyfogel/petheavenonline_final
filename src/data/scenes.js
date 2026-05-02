@@ -3,7 +3,7 @@ export const scenes = [
     id: "meadow-dawn",
     title: "Morning Meadow",
     ambientColor: "#e8d5a8",
-    background: "/scenes/meadow-dawn.webp",
+    background: "/assets/scenes/meadow-dawn.webp",
     gradient: "linear-gradient(to bottom, #b8cfe8 0%, #d4c5a0 55%, #8a7d5a 100%)",
     slots: [
       { id: "slot-1", x: 18, y: 78, scale: 0.90, memorialId: "mem-buddy"   },
