@@ -216,11 +216,22 @@ function initHomepage() {
       marker.style.left = slot.x + "%";
       marker.style.top = slot.y + "%";
       marker.style.setProperty("--base-scale", slot.scale);
+
       const img = document.createElement("img");
       img.src = "/markers/tombstone.webp";
       img.alt = "";
       img.draggable = false;
       marker.appendChild(img);
+
+      const m = memorials[slot.memorialId];
+      const overlay = document.createElement("div");
+      overlay.className = "marker-overlay";
+      overlay.innerHTML = `
+        <div class="marker-photo"></div>
+        <div class="marker-name">${m.name}</div>
+        <div class="marker-dates">${m.born}–${m.passed}</div>
+      `;
+      marker.appendChild(overlay);
 
       marker.addEventListener("click", (e) => {
         e.stopPropagation();
