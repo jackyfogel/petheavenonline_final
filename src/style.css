@@ -8,6 +8,75 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* --- Navigation --- */
+
+#site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  background: rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 20;
+}
+
+.nav-brand {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-link {
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.30);
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: rgba(255, 255, 255, 1.0);
+}
+
+/* --- Hero --- */
+
+#hero {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 4;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+#hero-headline {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: #3d2e1e;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.55), 0 2px 16px rgba(255, 255, 255, 0.30);
+  line-height: 1.3;
 }
 
 #stage {
@@ -34,13 +103,10 @@ html, body {
   transform: translateY(-50%);
   background: none;
   border: none;
-  font-size: 44px;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.90);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.50);
+  color: rgba(255, 255, 255, 0.40);
   cursor: pointer;
-  padding: 12px 10px;
-  transition: color 0.25s ease, text-shadow 0.25s ease;
+  padding: 12px 8px;
+  transition: color 0.25s ease, opacity 0.25s ease;
   user-select: none;
   z-index: 10;
 }
@@ -48,16 +114,21 @@ html, body {
 #nav-prev { left: 4px; }
 #nav-next { right: 4px; }
 
+#nav-prev svg,
+#nav-next svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+
 #nav-prev:hover,
 #nav-next:hover {
-  color: rgba(255, 255, 255, 1.0);
-  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.80);
 }
 
 #nav-prev.nav--muted,
 #nav-next.nav--muted {
-  color: rgba(150, 150, 150, 0.60);
-  text-shadow: none;
+  color: rgba(255, 255, 255, 0.15);
   cursor: default;
   pointer-events: none;
 }
@@ -305,7 +376,7 @@ html, body {
 .memorial-hero-band {
   width: 100%;
   background: linear-gradient(to bottom, #b8cfe8 0%, #d4c5a0 55%, #f5efe6 100%);
-  padding: 48px 32px 56px;
+  padding: 72px 32px 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -480,10 +551,10 @@ html, body {
 }
 
 @media (max-width: 520px) {
-  #nav-prev,
-  #nav-next {
-    font-size: 30px;
-    padding: 8px 6px;
+  #nav-prev svg,
+  #nav-next svg {
+    width: 22px;
+    height: 22px;
   }
 
   .preview-card {

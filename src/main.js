@@ -112,13 +112,13 @@ function initHomepage() {
   const prevBtn = document.createElement("button");
   prevBtn.id = "nav-prev";
   prevBtn.setAttribute("aria-label", "Previous scene");
-  prevBtn.innerHTML = "&#8249;";
+  prevBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`;
   stage.appendChild(prevBtn);
 
   const nextBtn = document.createElement("button");
   nextBtn.id = "nav-next";
   nextBtn.setAttribute("aria-label", "Next scene");
-  nextBtn.innerHTML = "&#8250;";
+  nextBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`;
   stage.appendChild(nextBtn);
 
   function updateArrows() {
@@ -322,6 +322,13 @@ function initHomepage() {
   const vignette = document.createElement("div");
   vignette.id = "vignette";
   sceneEl.appendChild(vignette);
+
+  const hero = document.createElement("div");
+  hero.id = "hero";
+  hero.innerHTML = `
+    <h1 id="hero-headline">A peaceful place to remember them</h1>
+  `;
+  sceneEl.appendChild(hero);
 
   applyScene(scenes[currentIndex]);
   fitScene();
