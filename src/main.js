@@ -27,73 +27,163 @@ function renderMemorialPage(slug) {
   document.body.style.overflow = "auto";
   document.body.style.height = "auto";
 
-  const content = document.createElement("div");
-  content.className = "memorial-content";
+  const page = document.createElement("div");
+  page.className = "mem-page";
 
   if (!m) {
-    content.innerHTML = `
-      <p class="memorial-not-found">This memorial could not be found.</p>
-      <a href="/" class="memorial-back">&#8592; Back to Home</a>
-    `;
-  } else {
-    content.innerHTML = `
-      <div class="memorial-hero-band">
-        <a href="/" class="memorial-back">&#8592; Back to Home</a>
-        <div class="memorial-photo-placeholder"></div>
-        <h1 class="memorial-name">${m.name}</h1>
-        <p class="memorial-dates">${m.born} &ndash; ${m.passed}</p>
-        <p class="memorial-epitaph">${m.epitaph}</p>
+    page.innerHTML = `
+      <div class="mem-not-found">
+        <p>This memorial could not be found.</p>
+        <a href="/" class="mem-back-link">← Back to garden</a>
       </div>
-
-      <section class="memorial-section">
-        <h2 class="memorial-section-title">In Memory</h2>
-        <p class="memorial-story">A fuller story and remembrance will live here.</p>
-      </section>
-
-      <section class="memorial-section">
-        <h2 class="memorial-section-title">Photos</h2>
-        <div class="memorial-gallery">
-          <div class="memorial-gallery-item"></div>
-          <div class="memorial-gallery-item"></div>
-          <div class="memorial-gallery-item"></div>
-          <div class="memorial-gallery-item"></div>
-        </div>
-      </section>
-
-      <section class="memorial-section">
-        <h2 class="memorial-section-title">Light a Candle</h2>
-        <div class="memorial-candles">
-          <div class="memorial-candle"></div>
-          <div class="memorial-candle"></div>
-          <div class="memorial-candle"></div>
-          <div class="memorial-candle"></div>
-        </div>
-      </section>
-
-      <section class="memorial-section">
-        <h2 class="memorial-section-title">Tributes</h2>
-        <div class="memorial-tributes">
-          <div class="memorial-tribute">
-            <div class="memorial-tribute-author"></div>
-            <div class="memorial-tribute-line"></div>
-            <div class="memorial-tribute-line memorial-tribute-line--short"></div>
-          </div>
-          <div class="memorial-tribute">
-            <div class="memorial-tribute-author"></div>
-            <div class="memorial-tribute-line"></div>
-            <div class="memorial-tribute-line memorial-tribute-line--mid"></div>
-          </div>
-          <div class="memorial-tribute">
-            <div class="memorial-tribute-author"></div>
-            <div class="memorial-tribute-line"></div>
-            <div class="memorial-tribute-line memorial-tribute-line--short"></div>
-          </div>
-        </div>
-      </section>
     `;
+    stage.appendChild(page);
+    return;
   }
 
-  stage.appendChild(content);
+  const story    = m.story    || "A full story and remembrance will live here.";
+  const owner    = m.owner    || "";
+  const traits   = m.traits   || [];
+  const timeline = m.timeline || [
+    { year: m.born,   event: "Born into the world" },
+    { year: m.passed, event: "Passed away peacefully" },
+  ];
+
+  const galleryItems = Array.from({ length: 6 }, () =>
+    m.photo
+      ? `<div class="mem-gallery-item" style="background-image:url(${m.photo})"></div>`
+      : `<div class="mem-gallery-item"></div>`
+  ).join("");
+
+  const timelineHTML = timeline.map(item => `
+    <div class="mem-timeline-item">
+      <div class="mem-timeline-dot"></div>
+      <div class="mem-timeline-content">
+        <span class="mem-timeline-year">${item.year}</span>
+        <p class="mem-timeline-event">${item.event}</p>
+      </div>
+    </div>
+  `).join("");
+
+  const traitsHTML = traits.length
+    ? `<div class="mem-traits">${traits.map(t => `<span class="mem-trait">${t}</span>`).join("")}</div>`
+    : "";
+
+  const candleIcons = Array.from({ length: 5 }, () => `<div class="mem-candle-icon"></div>`).join("");
+
+  const tributes = [
+    { initials: "SM", name: "Sarah M.",          time: "2 days ago",   msg: `${m.name} was such a wonderful companion. Our hearts go out to your whole family.` },
+    { initials: "TL", name: "Tom & Lisa",         time: "1 week ago",   msg: `We'll never forget the joy ${m.name} brought to every gathering. A truly special soul.` },
+    { initials: "RF", name: "The Rivera Family",  time: "2 weeks ago",  msg: `May ${m.name} rest in eternal peace. Thinking of you all.` },
+  ];
+
+  const tributesHTML = tributes.map(t => `
+    <div class="mem-tribute">
+      <div class="mem-tribute-avatar">${t.initials}</div>
+      <div class="mem-tribute-body">
+        <div class="mem-tribute-header">
+          <span class="mem-tribute-name">${t.name}</span>
+          <span class="mem-tribute-time">${t.time}</span>
+        </div>
+        <p class="mem-tribute-message">${t.msg}</p>
+      </div>
+    </div>
+  `).join("");
+
+  page.innerHTML = `
+    <section class="mem-hero">
+      <div class="mem-hero-inner">
+        <a href="/" class="mem-back-link">← Back to garden</a>
+        <div class="mem-hero-photo-wrap">
+          ${m.photo ? `<img src="${m.photo}" alt="${m.name}">` : ""}
+        </div>
+        <p class="mem-hero-eyebrow">In Loving Memory of</p>
+        <h1 class="mem-hero-name">${m.name}</h1>
+        <p class="mem-hero-dates">${m.born} — ${m.passed}</p>
+        <p class="mem-hero-epitaph">"${m.epitaph}"</p>
+        ${owner ? `<p class="mem-hero-owner">Created by ${owner}</p>` : ""}
+      </div>
+    </section>
+
+    <section class="mem-section">
+      <div class="mem-section-inner">
+        <h2 class="mem-heading">About ${m.name}</h2>
+        <p class="mem-story">${story}</p>
+        ${traitsHTML}
+      </div>
+    </section>
+
+    <section class="mem-section mem-section--alt">
+      <div class="mem-section-inner">
+        <h2 class="mem-heading">Memories</h2>
+        <div class="mem-gallery">${galleryItems}</div>
+      </div>
+    </section>
+
+    <section class="mem-section">
+      <div class="mem-section-inner">
+        <h2 class="mem-heading">Life Timeline</h2>
+        <div class="mem-timeline">${timelineHTML}</div>
+      </div>
+    </section>
+
+    <section class="mem-section mem-section--alt">
+      <div class="mem-section-inner mem-section-inner--center">
+        <h2 class="mem-heading">Light a Candle</h2>
+        <p class="mem-candle-count">247 candles have been lit for ${m.name}</p>
+        <div class="mem-candle-row">${candleIcons}</div>
+        <button class="mem-btn">Light a Candle</button>
+      </div>
+    </section>
+
+    <section class="mem-section">
+      <div class="mem-section-inner mem-section-inner--center">
+        <h2 class="mem-heading">Send a Virtual Flower</h2>
+        <div class="mem-flowers">
+          <div class="mem-flower-option">
+            <div class="mem-flower-circle mem-flower-circle--rose"></div>
+            <p class="mem-flower-name">Rose</p>
+            <p class="mem-flower-price">Free</p>
+          </div>
+          <div class="mem-flower-option">
+            <div class="mem-flower-circle mem-flower-circle--lily"></div>
+            <p class="mem-flower-name">Lily</p>
+            <p class="mem-flower-price">$1</p>
+          </div>
+          <div class="mem-flower-option">
+            <div class="mem-flower-circle mem-flower-circle--bouquet"></div>
+            <p class="mem-flower-name">Bouquet</p>
+            <p class="mem-flower-price">$5</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mem-section mem-section--alt">
+      <div class="mem-section-inner">
+        <h2 class="mem-heading">Tributes</h2>
+        <div class="mem-tributes-list">${tributesHTML}</div>
+        <button class="mem-btn">Leave a Tribute</button>
+      </div>
+    </section>
+
+    <section class="mem-section">
+      <div class="mem-section-inner mem-section-inner--center">
+        <h2 class="mem-heading">Share This Memorial</h2>
+        <p class="mem-share-intro">Invite family and friends to remember ${m.name}</p>
+        <div class="mem-share-buttons">
+          <button class="mem-btn">Copy Link</button>
+          <button class="mem-btn">Share</button>
+        </div>
+        <div class="mem-qr">
+          <div class="mem-qr-placeholder"></div>
+          <p class="mem-qr-label">Scan to visit this memorial</p>
+        </div>
+      </div>
+    </section>
+  `;
+
+  stage.appendChild(page);
 }
 
 // --- Homepage ---
@@ -126,14 +216,6 @@ function initHomepage() {
     nextBtn.classList.toggle("nav--muted", currentIndex === scenes.length - 1);
   }
 
-  const indicator = document.createElement("div");
-  indicator.id = "scene-indicator";
-  stage.appendChild(indicator);
-
-  function updateIndicator() {
-    const sc = scenes[currentIndex];
-    indicator.textContent = `${sc.title} · ${currentIndex + 1} / ${scenes.length}`;
-  }
 
   // Scene rendering
   function applyScene(sc) {
@@ -264,7 +346,6 @@ function initHomepage() {
       applyScene(scenes[currentIndex]);
       renderMarkers(scenes[currentIndex]);
       updateArrows();
-      updateIndicator();
 
       void sceneEl.offsetWidth;
       sceneEl.style.opacity = "";
@@ -334,5 +415,4 @@ function initHomepage() {
   fitScene();
   renderMarkers(scenes[currentIndex]);
   updateArrows();
-  updateIndicator();
 }
