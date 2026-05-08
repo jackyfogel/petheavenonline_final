@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Slot x positions spread wider + nav padding + edge stone fix
+Memorial hero: heaven cloud background image + paw/heart icons on homepage headline
 
 ---
 
@@ -30,6 +30,15 @@ Slot x positions spread wider + nav padding + edge stone fix
 - Real background image wired for scene 1: `meadow-dawn.webp` in `public/assets/scenes/`
 
 ### Additional tasks completed (no phase number assigned)
+
+#### Memorial hero background
+- `heaven-hero.webp` set as background image on `.mem-hero`
+- Layered lavender overlay: 55% opacity at top → fully opaque at bottom, blends into page
+- Soft white text-shadow added to `.mem-hero-name` for readability against clouds
+
+#### Homepage headline icons
+- SVG paw prints added on each side of the headline, heart at the end
+- Icons inherit text color (#3d2e1e), 0.65 opacity, vertically aligned with text
 
 #### Slot layout refinements
 - Nav padding increased from 28px to 36px to prevent edge clipping

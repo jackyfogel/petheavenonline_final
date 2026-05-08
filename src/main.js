@@ -406,8 +406,19 @@ function initHomepage() {
 
   const hero = document.createElement("div");
   hero.id = "hero";
+  const pawSVG = `<svg class="hero-icon hero-icon--paw" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+    <ellipse cx="50" cy="75" rx="24" ry="19"/>
+    <ellipse cx="20" cy="46" rx="12" ry="14" transform="rotate(-12 20 46)"/>
+    <ellipse cx="39" cy="34" rx="12" ry="14"/>
+    <ellipse cx="61" cy="34" rx="12" ry="14"/>
+    <ellipse cx="80" cy="46" rx="12" ry="14" transform="rotate(12 80 46)"/>
+  </svg>`;
+  const heartSVG = `<svg class="hero-icon hero-icon--heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+  </svg>`;
+
   hero.innerHTML = `
-    <h1 id="hero-headline">A peaceful place to remember them</h1>
+    <h1 id="hero-headline">${pawSVG}A peaceful place to remember them${pawSVG}${heartSVG}</h1>
   `;
   sceneEl.appendChild(hero);
 
