@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Tombstone marker size increase + headline repositioned to clear overlap
+Slot x positions spread wider + nav padding + edge stone fix
 
 ---
 
@@ -30,6 +30,11 @@ Tombstone marker size increase + headline repositioned to clear overlap
 - Real background image wired for scene 1: `meadow-dawn.webp` in `public/assets/scenes/`
 
 ### Additional tasks completed (no phase number assigned)
+
+#### Slot layout refinements
+- Nav padding increased from 28px to 36px to prevent edge clipping
+- Slot x positions spread wider across all 3 scenes: 13 / 31 / 50 / 69 / 87 (landscape + portrait)
+- Previous edge fix (slot-1 ~22%, slot-5 ~79%) superseded by wider spread
 
 #### Tombstone marker upgrade (final size)
 - Marker height increased again to 200px; preview card offset raised to 215px
