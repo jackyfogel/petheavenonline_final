@@ -1499,3 +1499,325 @@ body.footer--inline #site-footer {
     font-size: 26px;
   }
 }
+
+/* ========================================
+   BROWSE MEMORIALS PAGE
+   ======================================== */
+
+.browse-page-stage {
+  background-color: #f0edf5;
+  height: auto;
+  min-height: 100vh;
+}
+
+.browse-page {
+  padding-top: 54px;
+  min-height: 100vh;
+}
+
+.browse-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.browse-title {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 32px;
+  color: #2e2640;
+  margin: 16px 0 10px;
+}
+
+.browse-intro {
+  font-size: 15px;
+  color: #9a89b5;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+/* Featured section */
+.browse-section-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9a89b5;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.featured-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.featured-card {
+  background: #fff;
+  border: 1.5px solid #e0d8ee;
+  border-radius: 14px;
+  padding: 20px 16px 18px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.featured-card:hover {
+  border-color: #9a89b5;
+  box-shadow: 0 4px 16px rgba(94, 79, 118, 0.12);
+  transform: translateY(-2px);
+}
+
+.featured-card-photo {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #e0d8ee;
+  overflow: hidden;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+
+.featured-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featured-card-name {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 15px;
+  color: #2e2640;
+  font-weight: 500;
+}
+
+.featured-card-dates {
+  font-size: 11px;
+  color: #9a89b5;
+}
+
+.featured-card-epitaph {
+  font-size: 12px;
+  font-style: italic;
+  color: #5e4f76;
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+/* Controls row */
+.browse-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.browse-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.browse-pill {
+  padding: 6px 16px;
+  border-radius: 99px;
+  border: 1.5px solid #d5cde5;
+  background: #fff;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  color: #5e4f76;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.browse-pill:hover {
+  border-color: #9a89b5;
+  background: #f0edf5;
+}
+
+.browse-pill.pill--active {
+  background: #5e4f76;
+  border-color: #5e4f76;
+  color: #fff;
+}
+
+.browse-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.browse-sort {
+  padding: 7px 12px;
+  border: 1.5px solid #d5cde5;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  color: #5e4f76;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  transition: border-color 0.15s;
+}
+
+.browse-sort:focus {
+  border-color: #9a89b5;
+}
+
+.browse-search {
+  padding: 7px 12px;
+  border: 1.5px solid #d5cde5;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  color: #2e2640;
+  background: #fff;
+  outline: none;
+  width: 160px;
+  transition: border-color 0.15s;
+}
+
+.browse-search:focus {
+  border-color: #9a89b5;
+}
+
+/* Memorial list cards */
+.browse-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.browse-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border: 1.5px solid #e0d8ee;
+  border-radius: 14px;
+  padding: 16px 20px;
+  text-decoration: none;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.browse-card:hover {
+  border-color: #9a89b5;
+  box-shadow: 0 4px 16px rgba(94, 79, 118, 0.1);
+  transform: translateY(-1px);
+}
+
+.browse-card-photo {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #e0d8ee;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.browse-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.browse-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.browse-card-name {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 16px;
+  color: #2e2640;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.browse-card-detail {
+  font-size: 12px;
+  color: #9a89b5;
+  margin-bottom: 2px;
+}
+
+.browse-card-dates {
+  font-size: 12px;
+  color: #9a89b5;
+  margin-bottom: 4px;
+}
+
+.browse-card-epitaph {
+  font-size: 13px;
+  font-style: italic;
+  color: #5e4f76;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.browse-card-chevron {
+  width: 18px;
+  height: 18px;
+  stroke: #c4b8d9;
+  flex-shrink: 0;
+  transition: stroke 0.15s;
+}
+
+.browse-card:hover .browse-card-chevron {
+  stroke: #5e4f76;
+}
+
+.browse-empty {
+  text-align: center;
+  font-size: 15px;
+  color: #9a89b5;
+  padding: 48px 0;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .browse-inner {
+    padding: 32px 16px 60px;
+  }
+
+  .browse-title {
+    font-size: 26px;
+  }
+
+  .featured-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .featured-card {
+    flex-direction: row;
+    text-align: left;
+    padding: 14px 16px;
+  }
+
+  .featured-card-photo {
+    margin-bottom: 0;
+  }
+
+  .browse-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .browse-controls-right {
+    width: 100%;
+  }
+
+  .browse-search {
+    flex: 1;
+    width: auto;
+  }
+}

@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Nav bar solid background + footer flow fix on content pages
+Browse Memorials page at /browse with featured strip, filters, sort, and search
 
 ---
 
@@ -28,6 +28,19 @@ Nav bar solid background + footer flow fix on content pages
 - Homepage code wrapped in `initHomepage()`; memorial route calls `renderMemorialPage(slug)`
 - Full lavender-themed memorial page with 8 sections (see below)
 - Real background image wired for scene 1: `meadow-dawn.webp` in `public/assets/scenes/`
+
+### Phase 4 (completed)
+
+- Browse Memorials page at `/browse`
+- Featured strip: 3 most recently passed memorials shown as cards at top
+- Species filter pills: All, Dogs, Cats, Birds, Other — real-time filtering
+- Sort dropdown: Newest first, Oldest first, Most visited (alphabetical proxy)
+- Name search input — real-time, combined with active species filter
+- Horizontal list cards: circular photo, name, breed/species, dates, italic epitaph, chevron
+- Empty state message when no results match
+- All 15 memorials enriched with `species` field in memorials.js
+- Nav Browse link updated from `#` to `/browse`
+- Solid nav + inline footer consistent with other content pages
 
 ### Nav + footer fix (completed)
 
@@ -120,9 +133,11 @@ Nav bar solid background + footer flow fix on content pages
 ## Files changed (cumulative)
 
 - `src/main.js` — route detection, homepage init, full memorial page render, tombstone overlay, hero text, SVG arrows
-- `src/style.css` — all homepage and memorial page styles; nav, footer, hero, chevrons, full `.mem-*` system; create page styles appended; contact page styles appended
+- `src/style.css` — all homepage and memorial page styles; nav, footer, hero, chevrons, full `.mem-*` system; create/contact/browse page styles appended
 - `src/create.js` — NEW: full 5-step create memorial wizard
 - `src/contact.js` — NEW: contact form with validation and success state
+- `src/browse.js` — NEW: browse page with featured strip, filter/sort/search, card list
+- `src/data/memorials.js` — `species` field added to all 15 memorials
 - `src/data/scenes.js` — 3 scenes with updated slot y values, portrait slots, background image path
 - `src/data/memorials.js` — 15 memorial records with slugs, photos, owner, story, traits, timeline
 - `index.html` — Google Fonts, nav bar, footer; Create Memorial link updated to /create
@@ -151,14 +166,14 @@ Nav bar solid background + footer flow fix on content pages
 - Create page: step 5 — owner input updates live preview; validates name + email; submit shows success with pet name + email in message
 - Contact page: visit `/contact` — form renders; all fields validate; success shows email confirmation; "Back to home" works
 - Nav on homepage: semi-transparent, white text
-- Nav on /memorial, /create, /contact: solid lavender background, dark text, no bleed-through on scroll
+- Nav on /memorial, /create, /contact, /browse: solid lavender background, dark text, no bleed-through on scroll
 - Footer on homepage: fixed to bottom of viewport
 - Footer on content pages: flows naturally after page content
+- Browse page: featured strip, species pills, sort, search, card list all functional
 
 ---
 
 ## What remains
 
-- Phase 4: Browse page (`/browse`) — grid/list of memorials, basic search/filter
 - Phase 6+: Django backend, PostgreSQL, S3, Render deployment
 - Phase 7: Loading states, responsive refinement, SEO, analytics, launch

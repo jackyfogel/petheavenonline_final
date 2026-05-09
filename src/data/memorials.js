@@ -1,6 +1,7 @@
 export const memorials = {
   "mem-buddy": {
     slug: "buddy", name: "Buddy", born: "2010", passed: "2023",
+    species: "Dog",
     epitaph: "Loyal beyond measure.",
     photo: "/assets/memorials/mem-buddy.webp",
     owner: "The Johnson Family",
@@ -15,6 +16,7 @@ export const memorials = {
   },
   "mem-luna": {
     slug: "luna", name: "Luna", born: "2015", passed: "2024",
+    species: "Cat",
     epitaph: "She filled every room with light.",
     photo: "/assets/memorials/mem-luna.webp",
     owner: "The Park Family",
@@ -29,6 +31,7 @@ export const memorials = {
   },
   "mem-oscar": {
     slug: "oscar", name: "Oscar", born: "2008", passed: "2022",
+    species: "Dog",
     epitaph: "A gentleman until the very end.",
     photo: "/assets/memorials/mem-oscar.webp",
     owner: "The Williams Family",
@@ -43,6 +46,7 @@ export const memorials = {
   },
   "mem-daisy": {
     slug: "daisy", name: "Daisy", born: "2012", passed: "2023",
+    species: "Dog",
     epitaph: "Forever chasing sunbeams.",
     photo: "/assets/memorials/mem-daisy.webp",
     owner: "The Thompson Family",
@@ -57,6 +61,7 @@ export const memorials = {
   },
   "mem-milo": {
     slug: "milo", name: "Milo", born: "2017", passed: "2025",
+    species: "Dog",
     epitaph: "Small paws, enormous heart.",
     photo: "/assets/memorials/mem-milo.webp",
     owner: "The Garcia Family",
@@ -71,60 +76,70 @@ export const memorials = {
   },
   "mem-shadow": {
     slug: "shadow", name: "Shadow", born: "2011", passed: "2022",
+    species: "Dog",
     epitaph: "He walked quietly beside us.",
     owner: "The Davis Family",
     story: "Shadow was a quiet, faithful companion who never needed much — just to be near his people. He walked beside us for eleven years, steady and undemanding, and left the kind of absence that only a truly good dog can.",
   },
   "mem-maple": {
     slug: "maple", name: "Maple", born: "2013", passed: "2024",
+    species: "Cat",
     epitaph: "Gentle and curious always.",
     owner: "The Chen Family",
     story: "Maple had a way of making every corner of the house feel lived-in and loved. Curious about everything, gentle with everyone, she was a constant warm presence for eleven years.",
   },
   "mem-bear": {
     slug: "bear", name: "Bear", born: "2009", passed: "2021",
+    species: "Dog",
     epitaph: "Brave, warm, and true.",
     owner: "The Morrison Family",
     story: "Bear earned his name on day one. Big in frame, bigger in heart, he was the kind of dog who made you feel safe just by being in the room. Twelve years of loyalty we will never forget.",
   },
   "mem-willow": {
     slug: "willow", name: "Willow", born: "2016", passed: "2025",
+    species: "Cat",
     epitaph: "She taught us how to rest.",
     owner: "The Nakamura Family",
     story: "Willow had mastered the art of stillness. She had her favorite spots and her favorite people, and she devoted herself to both completely. Nine years of quiet, deep companionship.",
   },
   "mem-chester": {
     slug: "chester", name: "Chester", born: "2007", passed: "2020",
+    species: "Dog",
     epitaph: "Steadfast to the last.",
     owner: "The O'Brien Family",
     story: "Chester was with us through everything — moves, milestones, losses, and celebrations. For thirteen years he was the constant. We didn't realize how much of the day revolved around him until he was gone.",
   },
   "mem-pearl": {
     slug: "pearl", name: "Pearl", born: "2014", passed: "2024",
+    species: "Cat",
     epitaph: "She shone in every quiet moment.",
     owner: "The Reyes Family",
     story: "Pearl was a cat of refined tastes and deep affections. She chose carefully who she loved, but when she chose you, she was yours completely. Ten years of grace and warmth.",
   },
   "mem-sandy": {
     slug: "sandy", name: "Sandy", born: "2012", passed: "2023",
+    species: "Dog",
     epitaph: "Always running toward the waves.",
     owner: "The Sullivan Family",
     story: "Sandy lived for the outdoors. Every beach trip, every park visit, every open window was a gift to her. Eleven years of pure, uncontained joy.",
   },
   "mem-finn": {
     slug: "finn", name: "Finn", born: "2010", passed: "2022",
+    species: "Dog",
     epitaph: "Free and joyful every single day.",
     owner: "The Anderson Family",
     story: "Finn had one speed: full. He approached every day, every walk, and every person with the same unbridled enthusiasm. Twelve years of life lived completely and joyfully.",
   },
   "mem-coral": {
     slug: "coral", name: "Coral", born: "2018", passed: "2025",
+    species: "Cat",
     epitaph: "Too bright, too brief.",
     owner: "The Kim Family",
     story: "Coral was with us for only seven years, but she packed a lifetime of love into every one of them. Vivid, affectionate, and full of surprises — we are grateful for every moment.",
   },
   "mem-duke": {
     slug: "duke", name: "Duke", born: "2006", passed: "2019",
+    species: "Dog",
     epitaph: "A long life, well and fully lived.",
     owner: "The Hartman Family",
     story: "Duke lived to thirteen and earned every grey whisker. He saw us through the best years of our lives, always present, always loyal, always himself. A life well and fully lived.",
