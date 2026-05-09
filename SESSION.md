@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Contact page at /contact with form validation and success state
+Nav bar solid background + footer flow fix on content pages
 
 ---
 
@@ -28,6 +28,13 @@ Contact page at /contact with form validation and success state
 - Homepage code wrapped in `initHomepage()`; memorial route calls `renderMemorialPage(slug)`
 - Full lavender-themed memorial page with 8 sections (see below)
 - Real background image wired for scene 1: `meadow-dawn.webp` in `public/assets/scenes/`
+
+### Nav + footer fix (completed)
+
+- Homepage: nav stays semi-transparent; footer fixed to viewport bottom (`footer--fixed` body class)
+- Content pages (/memorial, /create, /contact): nav solid `#f0edf5` with dark lavender text; footer flows with document (`footer--inline` body class)
+- Body classes set in `main.js` route detection; CSS uses `body.nav--solid` and `body.footer--fixed/inline` selectors
+- No changes to page layouts or any other functionality
 
 ### Contact page (completed)
 
@@ -143,6 +150,10 @@ Contact page at /contact with form validation and success state
 - Create page: step 4 — gallery upload shows thumbnails
 - Create page: step 5 — owner input updates live preview; validates name + email; submit shows success with pet name + email in message
 - Contact page: visit `/contact` — form renders; all fields validate; success shows email confirmation; "Back to home" works
+- Nav on homepage: semi-transparent, white text
+- Nav on /memorial, /create, /contact: solid lavender background, dark text, no bleed-through on scroll
+- Footer on homepage: fixed to bottom of viewport
+- Footer on content pages: flows naturally after page content
 
 ---
 

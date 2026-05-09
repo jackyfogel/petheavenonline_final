@@ -29,6 +29,28 @@ html, body {
   z-index: 20;
 }
 
+/* Solid nav for scrollable content pages */
+body.nav--solid #site-nav {
+  background: #f0edf5;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid #e0d8ee;
+}
+
+body.nav--solid .nav-brand {
+  color: #2e2640;
+  text-shadow: none;
+}
+
+body.nav--solid .nav-link {
+  color: #5e4f76;
+  text-shadow: none;
+}
+
+body.nav--solid .nav-link:hover {
+  color: #2e2640;
+}
+
 .nav-brand {
   font-family: 'Lora', Georgia, serif;
   font-size: 17px;
@@ -118,10 +140,6 @@ html, body {
 /* --- Footer --- */
 
 #site-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   text-align: center;
   padding: 10px 0;
   font-size: 11px;
@@ -130,7 +148,22 @@ html, body {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   pointer-events: none;
   user-select: none;
+}
+
+/* On homepage the scene is full-screen — fix footer to viewport bottom */
+body.footer--fixed #site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 10;
+}
+
+/* On content pages the footer sits in the document flow */
+body.footer--inline #site-footer {
+  color: #c4b8d9;
+  text-shadow: none;
+  margin-top: 16px;
 }
 
 #nav-prev,

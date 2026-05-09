@@ -12,12 +12,16 @@ const path = window.location.pathname;
 
 if (path.startsWith("/memorial/")) {
   const slug = path.slice("/memorial/".length).replace(/\/$/, "");
+  document.body.classList.add("nav--solid", "footer--inline");
   renderMemorialPage(slug);
 } else if (path === "/create") {
+  document.body.classList.add("nav--solid", "footer--inline");
   initCreatePage();
 } else if (path === "/contact") {
+  document.body.classList.add("nav--solid", "footer--inline");
   initContactPage();
 } else {
+  document.body.classList.add("footer--fixed");
   initHomepage();
 }
 
