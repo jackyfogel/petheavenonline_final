@@ -1,6 +1,7 @@
 import { scenes } from './data/scenes.js';
 import { memorials } from './data/memorials.js';
 import { initCreatePage } from './create.js';
+import { initContactPage } from './contact.js';
 
 const stage = document.getElementById("stage");
 const sceneEl = document.getElementById("scene");
@@ -14,6 +15,8 @@ if (path.startsWith("/memorial/")) {
   renderMemorialPage(slug);
 } else if (path === "/create") {
   initCreatePage();
+} else if (path === "/contact") {
+  initContactPage();
 } else {
   initHomepage();
 }

@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Create Memorial page — photo required validation + updated success message
+Contact page at /contact with form validation and success state
 
 ---
 
@@ -28,6 +28,15 @@ Create Memorial page — photo required validation + updated success message
 - Homepage code wrapped in `initHomepage()`; memorial route calls `renderMemorialPage(slug)`
 - Full lavender-themed memorial page with 8 sections (see below)
 - Real background image wired for scene 1: `meadow-dawn.webp` in `public/assets/scenes/`
+
+### Contact page (completed)
+
+- `/contact` route added — replaces mailto link in nav
+- Form fields: name, email, subject (dropdown), message — all required
+- Validation on submit; email format check
+- Success state shows confirmation with entered email interpolated
+- "Back to home" link on success state
+- Consistent with site palette, nav, footer, fonts
 
 ### Phase 5 (completed)
 
@@ -104,8 +113,9 @@ Create Memorial page — photo required validation + updated success message
 ## Files changed (cumulative)
 
 - `src/main.js` — route detection, homepage init, full memorial page render, tombstone overlay, hero text, SVG arrows
-- `src/style.css` — all homepage and memorial page styles; nav, footer, hero, chevrons, full `.mem-*` system; create page styles appended
+- `src/style.css` — all homepage and memorial page styles; nav, footer, hero, chevrons, full `.mem-*` system; create page styles appended; contact page styles appended
 - `src/create.js` — NEW: full 5-step create memorial wizard
+- `src/contact.js` — NEW: contact form with validation and success state
 - `src/data/scenes.js` — 3 scenes with updated slot y values, portrait slots, background image path
 - `src/data/memorials.js` — 15 memorial records with slugs, photos, owner, story, traits, timeline
 - `index.html` — Google Fonts, nav bar, footer; Create Memorial link updated to /create
@@ -132,6 +142,7 @@ Create Memorial page — photo required validation + updated success message
 - Create page: step 3 — add/remove trait tags; add/remove timeline rows
 - Create page: step 4 — gallery upload shows thumbnails
 - Create page: step 5 — owner input updates live preview; validates name + email; submit shows success with pet name + email in message
+- Contact page: visit `/contact` — form renders; all fields validate; success shows email confirmation; "Back to home" works
 
 ---
 
