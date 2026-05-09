@@ -126,7 +126,7 @@ export function initCreatePage() {
       </div>
 
       <div class="create-field-group">
-        <label class="create-label">Memorial photo <span class="opt">(optional)</span></label>
+        <label class="create-label">Memorial photo <span class="req">*</span></label>
         <div class="create-dropzone" id="dz-photo">
           <div class="dropzone-placeholder" id="dz-photo-placeholder"${fd.photoUrl ? ' style="display:none"' : ""}>
             <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -141,6 +141,7 @@ export function initCreatePage() {
             style="${fd.photoUrl ? "" : "display:none"}">
           <input type="file" class="dropzone-input" id="f-photo" name="photo" accept="image/*">
         </div>
+        <p class="create-hint" style="margin-top:6px" id="photo-hint">A photo of your pet is required to create a memorial.</p>
       </div>
     `;
   }
@@ -430,6 +431,13 @@ export function initCreatePage() {
       need("f-pet_name",     "Please enter your pet's name.");
       need("f-species",      "Please select a species.");
       need("f-passing_date", "Please enter the date of passing.");
+      if (!fd.photo) {
+        const dz = document.getElementById("dz-photo");
+        if (dz) { dz.classList.add("input-error"); }
+        const hint = document.getElementById("photo-hint");
+        if (hint) { hint.classList.add("create-error-msg"); hint.style.color = ""; }
+        ok = false;
+      }
     } else if (currentStep === 2) {
       need("f-epitaph", "Please write a short epitaph for the tombstone.");
     } else if (currentStep === 5) {
@@ -456,7 +464,13 @@ export function initCreatePage() {
 
   function clearErrors() {
     document.querySelectorAll(".input-error").forEach(el => el.classList.remove("input-error"));
-    document.querySelectorAll(".create-error-msg").forEach(el => el.remove());
+    document.querySelectorAll(".create-error-msg").forEach(el => {
+      if (el.id === "photo-hint") {
+        el.classList.remove("create-error-msg");
+      } else {
+        el.remove();
+      }
+    });
   }
 
   // ---- Navigation ----
@@ -471,7 +485,6 @@ export function initCreatePage() {
   // ---- Submit ----
 
   function handleSubmit() {
-    const slug = fd.pet_name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
     document.getElementById("create-body").innerHTML = `
       <div class="create-success">
         <svg class="success-icon-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -479,9 +492,9 @@ export function initCreatePage() {
           <path d="M20 33l9 9 15-18" stroke="#5e4f76" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <h2 class="success-title">Memorial Created</h2>
-        <p class="success-msg">${esc(fd.pet_name)}'s memorial is ready.</p>
-        <a href="/memorial/${slug}" class="create-btn create-btn--primary">View Memorial →</a>
-        <a href="/" class="create-btn create-btn--ghost">Back to Garden</a>
+        <p class="success-msg">Your memorial for ${esc(fd.pet_name)} has been created and is pending review. You'll receive a confirmation email at ${esc(fd.email)} with a temporary preview link. Once approved, your memorial will receive its permanent URL and be placed in our garden.</p>
+        <a href="/memorial/preview/temp-id" class="create-btn create-btn--primary">Preview your memorial →</a>
+        <a href="/" class="create-btn create-btn--ghost">Back to home</a>
       </div>
     `;
   }

@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Create Memorial page — 5-step wizard at /create
+Create Memorial page — photo required validation + updated success message
 
 ---
 
@@ -37,7 +37,8 @@ Create Memorial page — 5-step wizard at /create
 - Step 3: trait tag input (Enter to add, × to remove), repeatable timeline rows
 - Step 4: multi-file gallery upload with grid preview
 - Step 5: owner name, email, live preview hero card, submit
-- On submit: shows success state with checkmark SVG and link to `/memorial/{slug}`
+- Photo upload is required (step 1 validation); dropzone turns red if skipped; hint text shown below
+- On submit: success screen with pet name + email interpolated into confirmation copy; "Preview your memorial" link + "Back to home" link
 - Validation on steps 1, 2, 5; XSS-safe via `esc()` helper
 - Form field names match Django model (`pet_name`, `species`, `birth_date`, etc.)
 - Routing: `/create` detected in `main.js`, calls `initCreatePage()` from `src/create.js`
@@ -126,11 +127,11 @@ Create Memorial page — 5-step wizard at /create
 - Memorial page: visit `/memorial/shadow` — renders with story but no photo, 2-item timeline fallback
 - Memorial page: visit `/memorial/notreal` — graceful not-found message
 - Create page: visit `/create` — 5-step wizard renders with lavender styles
-- Create page: step 1 validates pet name, species, passing date
+- Create page: step 1 validates pet name, species, passing date; advancing without photo shows red dropzone + error hint
 - Create page: step 2 validates epitaph; character counter works
 - Create page: step 3 — add/remove trait tags; add/remove timeline rows
 - Create page: step 4 — gallery upload shows thumbnails
-- Create page: step 5 — owner input updates live preview; validates name + email; submit shows success
+- Create page: step 5 — owner input updates live preview; validates name + email; submit shows success with pet name + email in message
 
 ---
 
