@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Memorial hero: heaven cloud background image + paw/heart icons on homepage headline
+Create Memorial page — 5-step wizard at /create
 
 ---
 
@@ -28,6 +28,21 @@ Memorial hero: heaven cloud background image + paw/heart icons on homepage headl
 - Homepage code wrapped in `initHomepage()`; memorial route calls `renderMemorialPage(slug)`
 - Full lavender-themed memorial page with 8 sections (see below)
 - Real background image wired for scene 1: `meadow-dawn.webp` in `public/assets/scenes/`
+
+### Phase 5 (completed)
+
+- Create Memorial page at `/create` — 5-step wizard form
+- Step 1: pet name, species, breed, birth/passing dates, photo upload with live preview
+- Step 2: epitaph (100-char limit with counter), story textarea
+- Step 3: trait tag input (Enter to add, × to remove), repeatable timeline rows
+- Step 4: multi-file gallery upload with grid preview
+- Step 5: owner name, email, live preview hero card, submit
+- On submit: shows success state with checkmark SVG and link to `/memorial/{slug}`
+- Validation on steps 1, 2, 5; XSS-safe via `esc()` helper
+- Form field names match Django model (`pet_name`, `species`, `birth_date`, etc.)
+- Routing: `/create` detected in `main.js`, calls `initCreatePage()` from `src/create.js`
+- Nav "Create Memorial" link updated from `#` to `/create`
+- Lavender palette, Lora/Inter fonts — consistent with memorial page
 
 ### Additional tasks completed (no phase number assigned)
 
@@ -88,10 +103,11 @@ Memorial hero: heaven cloud background image + paw/heart icons on homepage headl
 ## Files changed (cumulative)
 
 - `src/main.js` — route detection, homepage init, full memorial page render, tombstone overlay, hero text, SVG arrows
-- `src/style.css` — all homepage and memorial page styles; nav, footer, hero, chevrons, full `.mem-*` system
+- `src/style.css` — all homepage and memorial page styles; nav, footer, hero, chevrons, full `.mem-*` system; create page styles appended
+- `src/create.js` — NEW: full 5-step create memorial wizard
 - `src/data/scenes.js` — 3 scenes with updated slot y values, portrait slots, background image path
 - `src/data/memorials.js` — 15 memorial records with slugs, photos, owner, story, traits, timeline
-- `index.html` — Google Fonts, nav bar, footer
+- `index.html` — Google Fonts, nav bar, footer; Create Memorial link updated to /create
 - `public/assets/scenes/meadow-dawn.webp` — real scene background
 - `public/assets/markers/tombstone.webp` — tombstone marker image
 - `public/assets/memorials/mem-buddy.webp` through `mem-milo.webp` — 5 pet photos
@@ -103,20 +119,23 @@ Memorial hero: heaven cloud background image + paw/heart icons on homepage headl
 - Homepage: all 3 scenes navigate, markers show tombstone image with photo/name/dates overlay
 - Scene 1 markers show real circular pet photos; scenes 2–3 show placeholder circles
 - Preview cards appear above tombstones, close correctly
-- Nav: brand, Browse, Create Memorial, Contact (mailto) all present and styled as plain links
+- Nav: brand, Browse, Create Memorial (→ /create), Contact (mailto) all present
 - Headline visible in upper scene, dark brown, readable on all 3 scene backgrounds
 - Footer barely visible at bottom
 - Memorial page: visit `/memorial/buddy` — all 8 sections render, circular hero photo, all content correct
 - Memorial page: visit `/memorial/shadow` — renders with story but no photo, 2-item timeline fallback
 - Memorial page: visit `/memorial/notreal` — graceful not-found message
-- "← Back to garden" returns to homepage
-- "Enter Memorial" in preview card links to correct slug
+- Create page: visit `/create` — 5-step wizard renders with lavender styles
+- Create page: step 1 validates pet name, species, passing date
+- Create page: step 2 validates epitaph; character counter works
+- Create page: step 3 — add/remove trait tags; add/remove timeline rows
+- Create page: step 4 — gallery upload shows thumbnails
+- Create page: step 5 — owner input updates live preview; validates name + email; submit shows success
 
 ---
 
 ## What remains
 
 - Phase 4: Browse page (`/browse`) — grid/list of memorials, basic search/filter
-- Phase 5: Create memorial page (`/create`) — form, image upload placeholder, fake submit
 - Phase 6+: Django backend, PostgreSQL, S3, Render deployment
 - Phase 7: Loading states, responsive refinement, SEO, analytics, launch

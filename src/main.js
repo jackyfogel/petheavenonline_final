@@ -1,5 +1,6 @@
 import { scenes } from './data/scenes.js';
 import { memorials } from './data/memorials.js';
+import { initCreatePage } from './create.js';
 
 const stage = document.getElementById("stage");
 const sceneEl = document.getElementById("scene");
@@ -11,6 +12,8 @@ const path = window.location.pathname;
 if (path.startsWith("/memorial/")) {
   const slug = path.slice("/memorial/".length).replace(/\/$/, "");
   renderMemorialPage(slug);
+} else if (path === "/create") {
+  initCreatePage();
 } else {
   initHomepage();
 }
@@ -403,6 +406,7 @@ function initHomepage() {
   const vignette = document.createElement("div");
   vignette.id = "vignette";
   sceneEl.appendChild(vignette);
+
 
   const hero = document.createElement("div");
   hero.id = "hero";
