@@ -2869,10 +2869,6 @@ body.nav--solid #nav-hamburger span {
   }
 
   /* Auth pages — full width */
-  .auth-page {
-    padding: 0;
-  }
-
   .auth-btn {
     min-height: 44px;
   }
