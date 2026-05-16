@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Browse Memorials page at /browse with featured strip, filters, sort, and search
+Account / Profile page at /account with mock user, memorial cards, and settings
 
 ---
 
@@ -41,6 +41,16 @@ Browse Memorials page at /browse with featured strip, filters, sort, and search
 - All 15 memorials enriched with `species` field in memorials.js
 - Nav Browse link updated from `#` to `/browse`
 - Solid nav + inline footer consistent with other content pages
+
+### Account / Profile page (completed)
+
+- `/account` route added — calls `initAccountPage()` from `src/account.js`
+- Profile header: "SM" avatar circle, name "Sarah Mitchell", email, member since April 2026, "Edit profile" button
+- My Memorials section: 3 horizontal cards (Buddy, Luna, Oscar) with circular photo, name, dates, epitaph, status badge (Live / Pending review), and View / Edit action links
+- "Create new memorial" button linking to `/create`
+- Settings section: Change password, Email notifications toggle (functional UI, fake), Delete account (red)
+- Nav "My Account" link added after Contact in `index.html`
+- Consistent lavender palette, Lora/Inter fonts, solid nav, inline footer
 
 ### Nav + footer fix (completed)
 
@@ -132,6 +142,7 @@ Browse Memorials page at /browse with featured strip, filters, sort, and search
 
 ## Files changed (cumulative)
 
+- `src/account.js` — NEW: account/profile page
 - `src/main.js` — route detection, homepage init, full memorial page render, tombstone overlay, hero text, SVG arrows
 - `src/style.css` — all homepage and memorial page styles; nav, footer, hero, chevrons, full `.mem-*` system; create/contact/browse page styles appended
 - `src/create.js` — NEW: full 5-step create memorial wizard
@@ -147,7 +158,18 @@ Browse Memorials page at /browse with featured strip, filters, sort, and search
 
 ---
 
-## What to test
+## What to test (most recent additions)
+
+- Visit `/account` — page loads with solid nav, lavender background
+- Profile header: "SM" avatar circle (lavender), name, email, "Member since April 2026", "Edit profile" button
+- Three memorial cards: Buddy (Live badge, green), Luna (Live badge, green), Oscar (Pending review badge, amber)
+- Each card: circular pet photo, name (Lora), dates, italic epitaph, status badge, "View" link → memorial page, "Edit" button (no-op)
+- "Create new memorial" button → `/create`
+- Settings: three rows — Change password (button), Email notifications (toggle switch, starts checked, toggles on click), Delete account (red text + red button)
+- Nav "My Account" link present and functional on all pages
+- No regressions on homepage, /memorial, /browse, /create, /contact pages
+
+## What to test (all)
 
 - Homepage: all 3 scenes navigate, markers show tombstone image with photo/name/dates overlay
 - Scene 1 markers show real circular pet photos; scenes 2–3 show placeholder circles

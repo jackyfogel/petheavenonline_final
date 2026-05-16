@@ -3,6 +3,7 @@ import { memorials } from './data/memorials.js';
 import { initCreatePage } from './create.js';
 import { initContactPage } from './contact.js';
 import { initBrowsePage } from './browse.js';
+import { initAccountPage } from './account.js';
 
 const stage = document.getElementById("stage");
 const sceneEl = document.getElementById("scene");
@@ -24,6 +25,9 @@ if (path.startsWith("/memorial/")) {
 } else if (path === "/browse") {
   document.body.classList.add("nav--solid", "footer--inline");
   initBrowsePage();
+} else if (path === "/account") {
+  document.body.classList.add("nav--solid", "footer--inline");
+  initAccountPage();
 } else {
   document.body.classList.add("footer--fixed");
   initHomepage();
