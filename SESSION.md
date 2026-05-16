@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Login (/login) and Register (/register) auth pages; nav "Sign In" link added
+Real background images added for scenes 2 and 3; marker text updated for readability
 
 ---
 
@@ -41,6 +41,12 @@ Login (/login) and Register (/register) auth pages; nav "Sign In" link added
 - All 15 memorials enriched with `species` field in memorials.js
 - Nav Browse link updated from `#` to `/browse`
 - Solid nav + inline footer consistent with other content pages
+
+### Scene backgrounds — scenes 2 and 3 (completed)
+
+- Scene 2: id → `sunset-lake`, title → "Sunset Lake", `background: "/assets/scenes/sunset-lake.webp"`, `ambientColor: "#e8b078"`
+- Scene 3: id → `twilight-garden`, title → "Twilight Garden", `background: "/assets/scenes/twilight-garden.webp"`, `ambientColor: "#b8a5d4"`
+- Marker overlay text switched from dark-on-white-shadow to warm-white-on-dark-shadow so names and dates read clearly against all three scene backgrounds
 
 ### Login and Register auth pages (completed)
 

@@ -21,9 +21,10 @@ export const scenes = [
     ],
   },
   {
-    id: "quiet-forest",
-    title: "Quiet Forest",
-    ambientColor: "#4a5e43",
+    id: "sunset-lake",
+    title: "Sunset Lake",
+    ambientColor: "#e8b078",
+    background: "/assets/scenes/sunset-lake.webp",
     gradient: "linear-gradient(to bottom, #2d4a2a 0%, #4a6e42 40%, #3a5230 70%, #2a3a22 100%)",
     slots: [
       { id: "slot-1", x: 13, y: 80, scale: 0.88, memorialId: "mem-shadow"  },
@@ -41,9 +42,10 @@ export const scenes = [
     ],
   },
   {
-    id: "evening-shore",
-    title: "Evening Shore",
-    ambientColor: "#9a8878",
+    id: "twilight-garden",
+    title: "Twilight Garden",
+    ambientColor: "#b8a5d4",
+    background: "/assets/scenes/twilight-garden.webp",
     gradient: "linear-gradient(to bottom, #d4a89a 0%, #c8b89a 45%, #9a8878 70%, #7a6858 100%)",
     slots: [
       { id: "slot-1", x: 13, y: 77, scale: 0.91, memorialId: "mem-pearl"   },
