@@ -2688,6 +2688,43 @@ body.nav--solid #nav-hamburger span {
   }
 }
 
+/* --- Mobile nav arrows — circle backdrop, high visibility --- */
+
+@media (max-width: 767px) {
+  #nav-prev,
+  #nav-next {
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 12;
+  }
+
+  #nav-prev { left: 8px; }
+  #nav-next { right: 8px; }
+
+  #nav-prev svg,
+  #nav-next svg {
+    width: 44px;
+    height: 44px;
+  }
+
+  #nav-prev:active,
+  #nav-next:active {
+    color: #ffffff;
+  }
+
+  #nav-prev.nav--muted,
+  #nav-next.nav--muted {
+    color: rgba(255, 255, 255, 0.15);
+  }
+}
+
 /* --- Mobile tombstones — smaller, absolute in scene (staggered garden layout) --- */
 
 @media (max-width: 767px) {
