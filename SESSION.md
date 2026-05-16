@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Real background images added for scenes 2 and 3; marker text updated for readability
+Mobile responsive pass — hamburger nav, homepage, memorial, browse, account, auth, legal pages
 
 ---
 
@@ -41,6 +41,17 @@ Real background images added for scenes 2 and 3; marker text updated for readabi
 - All 15 memorials enriched with `species` field in memorials.js
 - Nav Browse link updated from `#` to `/browse`
 - Solid nav + inline footer consistent with other content pages
+
+### Mobile responsive pass (completed)
+
+- Hamburger menu: button in nav, slide-in panel from right, overlay dismiss, close button — hidden on desktop via CSS, shown at ≤768px
+- Homepage: hero headline wraps + reduces to 19px at 480px; tombstones reduce to 120px height with smaller photo/text; nav arrow tap targets enlarged; portrait slots already wired in JS
+- Memorial detail: hero photo 140px → 100px at 768px; name 44px → 30px/26px; gallery 3-col → 2-col; section padding tightened to 16px sides
+- Browse: filter pills horizontally scrollable (no-wrap) at 768px; list cards stack vertically; chevron hidden in vertical layout
+- Account: profile header stacks vertically; edit button full-width; card actions horizontal at 480px
+- Auth pages: max-width dropped, full-width padding at 768px; button min-height 44px
+- Create/Contact/Legal: side padding confirmed at 16px min
+- CSS added: hamburger + mobile menu styles + @media (max-width: 768px) + @media (max-width: 480px) blocks
 
 ### Scene backgrounds — scenes 2 and 3 (completed)
 

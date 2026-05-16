@@ -461,3 +461,24 @@ function initHomepage() {
   renderMarkers(scenes[currentIndex]);
   updateArrows();
 }
+
+// --- Hamburger menu (runs on all pages) ---
+
+const hamburger   = document.getElementById("nav-hamburger");
+const mobileMenu  = document.getElementById("mobile-menu");
+const mobileOverlay = document.getElementById("mobile-menu-overlay");
+const mobileClose = document.getElementById("mobile-menu-close");
+
+function openMobileMenu() {
+  mobileMenu.classList.add("menu--open");
+  hamburger.setAttribute("aria-expanded", "true");
+}
+
+function closeMobileMenu() {
+  mobileMenu.classList.remove("menu--open");
+  hamburger.setAttribute("aria-expanded", "false");
+}
+
+hamburger.addEventListener("click", openMobileMenu);
+mobileClose.addEventListener("click", closeMobileMenu);
+mobileOverlay.addEventListener("click", closeMobileMenu);
