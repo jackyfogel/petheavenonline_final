@@ -306,7 +306,9 @@ function initHomepage() {
 
   function closePreview() {
     if (previewCard) {
-      previewCard.remove();
+      const overlay = previewCard.closest(".mobile-card-overlay");
+      if (overlay) overlay.remove();
+      else previewCard.remove();
       previewCard = null;
     }
     markerEls.forEach((el) => el.classList.remove("marker--active", "marker--dimmed"));
@@ -440,6 +442,11 @@ function initHomepage() {
     });
 
     const m = memorials[slot.memorialId];
+
+    const overlay = document.createElement("div");
+    overlay.className = "mobile-card-overlay";
+    overlay.addEventListener("click", closePreview);
+
     const card = document.createElement("div");
     card.className = "preview-card preview-card--mobile";
     card.innerHTML = `
@@ -454,7 +461,10 @@ function initHomepage() {
       e.stopPropagation();
       closePreview();
     });
-    sceneEl.appendChild(card);
+    card.addEventListener("click", (e) => e.stopPropagation());
+
+    overlay.appendChild(card);
+    document.body.appendChild(overlay);
     previewCard = card;
   }
 

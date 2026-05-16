@@ -2714,11 +2714,27 @@ body.nav--solid #nav-hamburger span {
   }
 }
 
-/* Mobile preview card — centered in scene, not anchored to stone */
+/* Mobile overlay — full-screen dark backdrop, tapping it closes the card */
+.mobile-card-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.30);
+  z-index: 10;
+}
+
+@keyframes card-in-mobile {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 8px)); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+/* Mobile preview card — fixed, centered in viewport */
 .preview-card.preview-card--mobile {
+  position: fixed;
+  top: 50%;
   left: 50%;
-  top: 28%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
+  z-index: 11;
+  animation: card-in-mobile 0.22s ease-out both;
 }
 
 /* --- Show hamburger, hide desktop nav links --- */
