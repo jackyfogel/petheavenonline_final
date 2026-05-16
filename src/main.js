@@ -1,3 +1,4 @@
+import './style.css';
 import { scenes } from './data/scenes.js';
 import { memorials } from './data/memorials.js';
 import { initCreatePage } from './create.js';
