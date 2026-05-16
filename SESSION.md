@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Terms of Service (/terms) and Privacy Policy (/privacy) legal pages; footer links added
+Login (/login) and Register (/register) auth pages; nav "Sign In" link added
 
 ---
 
@@ -41,6 +41,14 @@ Terms of Service (/terms) and Privacy Policy (/privacy) legal pages; footer link
 - All 15 memorials enriched with `species` field in memorials.js
 - Nav Browse link updated from `#` to `/browse`
 - Solid nav + inline footer consistent with other content pages
+
+### Login and Register auth pages (completed)
+
+- `/login` and `/register` routes added; handled by `src/auth.js` (`initLoginPage`, `initRegisterPage`)
+- Login: email + password fields, validation, fake submit → redirect to /account; "Forgot password?" → /forgot-password; link to /register
+- Register: full_name, email, password (min 8), password_confirm fields; validation for all fields + length + match; fake submit → success message → redirect to /account after 2s; Terms/Privacy links in disclaimer; link to /login
+- Nav "My Account" replaced with "Sign In" → /login (logged-in state deferred to Django)
+- Shared `.auth-*` CSS — max-width 450px, same input style as create/contact forms, full-width pill button
 
 ### Terms and Privacy legal pages (completed)
 
