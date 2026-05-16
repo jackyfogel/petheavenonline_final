@@ -149,15 +149,6 @@ export function initRegisterPage() {
         </p>
       </form>
 
-      <div class="auth-success" id="reg-success" hidden>
-        <svg class="auth-success-icon" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <polyline points="9 12 11 14 15 10"/>
-        </svg>
-        <p class="auth-success-msg">Account created! Welcome to PetHeavenOnline.</p>
-      </div>
-
       <p class="auth-switch">
         Already have an account?
         <a href="/login" class="auth-link">Log in</a>
@@ -176,7 +167,6 @@ export function initRegisterPage() {
   const emailErr   = document.getElementById("reg-email-err");
   const passErr    = document.getElementById("reg-password-err");
   const confirmErr = document.getElementById("reg-confirm-err");
-  const successEl  = document.getElementById("reg-success");
 
   function showError(el, errEl, msg) {
     el.classList.add("auth-input--error");
@@ -227,9 +217,42 @@ export function initRegisterPage() {
     }
 
     if (valid) {
-      form.hidden = true;
-      successEl.hidden = false;
-      setTimeout(() => { window.location.href = "/create"; }, 2000);
+      showWelcome(page);
     }
   });
+}
+
+function showWelcome(page) {
+  const pawSVG = `<svg class="welcome-paw" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+    <ellipse cx="50" cy="75" rx="24" ry="19"/>
+    <ellipse cx="20" cy="46" rx="12" ry="14" transform="rotate(-12 20 46)"/>
+    <ellipse cx="39" cy="34" rx="12" ry="14"/>
+    <ellipse cx="61" cy="34" rx="12" ry="14"/>
+    <ellipse cx="80" cy="46" rx="12" ry="14" transform="rotate(12 80 46)"/>
+  </svg>`;
+
+  page.innerHTML = `
+    <div class="welcome-screen">
+      ${pawSVG}
+      <h1 class="welcome-heading">Welcome to PetHeavenOnline!</h1>
+      <p class="welcome-sub">Your account has been created successfully.</p>
+
+      <p class="welcome-prompt">What would you like to do?</p>
+
+      <div class="welcome-actions">
+        <a href="/create" class="welcome-card">
+          <span class="welcome-card-title">Create your first memorial</span>
+          <span class="welcome-card-desc">Honour a beloved pet with a beautiful tribute page.</span>
+        </a>
+        <a href="/" class="welcome-card">
+          <span class="welcome-card-title">Explore the garden</span>
+          <span class="welcome-card-desc">Walk through our peaceful scenic memorial world.</span>
+        </a>
+        <a href="/browse" class="welcome-card">
+          <span class="welcome-card-title">Browse memorials</span>
+          <span class="welcome-card-desc">Discover and remember pets from our community.</span>
+        </a>
+      </div>
+    </div>
+  `;
 }
