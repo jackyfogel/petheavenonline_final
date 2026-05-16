@@ -4,6 +4,7 @@ import { initCreatePage } from './create.js';
 import { initContactPage } from './contact.js';
 import { initBrowsePage } from './browse.js';
 import { initAccountPage } from './account.js';
+import { initLegalPage } from './legal.js';
 
 const stage = document.getElementById("stage");
 const sceneEl = document.getElementById("scene");
@@ -28,6 +29,12 @@ if (path.startsWith("/memorial/")) {
 } else if (path === "/account") {
   document.body.classList.add("nav--solid", "footer--inline");
   initAccountPage();
+} else if (path === "/terms") {
+  document.body.classList.add("nav--solid", "footer--inline");
+  initLegalPage("terms");
+} else if (path === "/privacy") {
+  document.body.classList.add("nav--solid", "footer--inline");
+  initLegalPage("privacy");
 } else {
   document.body.classList.add("footer--fixed");
   initHomepage();

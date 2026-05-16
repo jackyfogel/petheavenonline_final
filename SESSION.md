@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Account / Profile page at /account with mock user, memorial cards, and settings
+Terms of Service (/terms) and Privacy Policy (/privacy) legal pages; footer links added
 
 ---
 
@@ -41,6 +41,16 @@ Account / Profile page at /account with mock user, memorial cards, and settings
 - All 15 memorials enriched with `species` field in memorials.js
 - Nav Browse link updated from `#` to `/browse`
 - Solid nav + inline footer consistent with other content pages
+
+### Terms and Privacy legal pages (completed)
+
+- `/terms` and `/privacy` routes added
+- Single `src/legal.js` module handles both pages via `initLegalPage(type)`
+- Terms: 10 sections (Acceptance, Description, Accounts, Content, Prohibited, IP, Liability, Termination, Changes, Contact)
+- Privacy: 9 sections (Collection, Usage, Photos, Cookies, Retention, Rights, Children, Changes, Contact)
+- Placeholder text throughout; "Last updated: May 2026" on both
+- Shared `.legal-*` CSS — max-width 700px, Inter body text, Lora title, 1.75 line-height, dividers between sections
+- Footer updated with Terms and Privacy links; `pointer-events: auto` added for `footer--inline` so links are clickable on content pages
 
 ### Account / Profile page (completed)
 
