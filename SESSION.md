@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Homepage mobile scene fix — cover fill, horizontal tombstone scroll track
+Homepage mobile tombstones — staggered garden layout replacing horizontal scroll track
 
 ---
 

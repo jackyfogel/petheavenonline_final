@@ -342,8 +342,6 @@ function initHomepage() {
   function clearMarkers() {
     markerEls.forEach((el) => el.remove());
     markerEls = [];
-    const track = sceneEl.querySelector(".mobile-marker-track");
-    if (track) track.remove();
   }
 
   function activeSlots(sc) {
@@ -391,19 +389,29 @@ function initHomepage() {
     });
   }
 
-  function renderMobileMarkers(sc) {
-    const track = document.createElement("div");
-    track.className = "mobile-marker-track";
+  // Staggered garden positions for 5 stones on mobile
+  const MOBILE_POSITIONS = [
+    { x:  8, y: 46 },
+    { x: 60, y: 38 },
+    { x: 35, y: 56 },
+    { x: 16, y: 63 },
+    { x: 72, y: 58 },
+  ];
 
-    sc.slots.forEach((slot) => {
-      const item = document.createElement("div");
-      item.className = "mobile-marker-item";
+  function renderMobileMarkers(sc) {
+    sc.slots.forEach((slot, i) => {
+      const pos    = MOBILE_POSITIONS[i] || { x: 50, y: 55 };
+      const marker = document.createElement("div");
+      marker.className = "marker";
+      marker.style.left = pos.x + "%";
+      marker.style.top  = pos.y + "%";
+      marker.style.setProperty("--base-scale", 1);
 
       const img = document.createElement("img");
       img.src = "/assets/markers/tombstone.webp";
       img.alt = "";
       img.draggable = false;
-      item.appendChild(img);
+      marker.appendChild(img);
 
       const m = memorials[slot.memorialId];
       const overlay = document.createElement("div");
@@ -413,18 +421,15 @@ function initHomepage() {
         <div class="marker-name">${m.name}</div>
         <div class="marker-dates">${m.born}–${m.passed}</div>
       `;
-      item.appendChild(overlay);
+      marker.appendChild(overlay);
 
-      item.addEventListener("click", (e) => {
+      marker.addEventListener("click", (e) => {
         e.stopPropagation();
-        activateMobileMarker(slot, item);
+        activateMobileMarker(slot, marker);
       });
-
-      track.appendChild(item);
-      markerEls.push(item);
+      sceneEl.appendChild(marker);
+      markerEls.push(marker);
     });
-
-    sceneEl.appendChild(track);
   }
 
   function activateMobileMarker(slot, markerEl) {
