@@ -2,7 +2,7 @@
 
 ## Last completed step
 
-Mobile responsive pass — hamburger nav, homepage, memorial, browse, account, auth, legal pages
+Homepage mobile scene fix — cover fill, horizontal tombstone scroll track
 
 ---
 
@@ -41,6 +41,19 @@ Mobile responsive pass — hamburger nav, homepage, memorial, browse, account, a
 - All 15 memorials enriched with `species` field in memorials.js
 - Nav Browse link updated from `#` to `/browse`
 - Solid nav + inline footer consistent with other content pages
+
+### Homepage mobile scene layout (completed)
+
+- `fitScene()` now detects mobile (<768px): sets scene to `position:absolute; top:54px; left:0; right:0; bottom:0` — fills viewport below nav, no letterbox
+- Desktop path resets those overrides then applies 16:9 letterbox as before
+- `isMobile()` helper added inside `initHomepage()`
+- `renderMarkers()` splits into `renderDesktopMarkers()` (unchanged) and `renderMobileMarkers()` (new)
+- Mobile markers rendered in `.mobile-marker-track` — horizontal flex with `overflow-x:auto`, `scroll-snap-type:x mandatory`, edge fade mask, 130px tombstones
+- `activateMobileMarker()` — preview card positioned centered above track (`.preview-card--mobile`)
+- `clearMarkers()` also removes `.mobile-marker-track` element
+- Resize handler now also re-renders when crossing the 768px mobile threshold
+- `touchend` swipe-to-switch-scene ignores events originating from inside the scroll track
+- CSS: `#scene { background-size: cover }` on mobile; `.mobile-marker-track`, `.mobile-marker-item`, `.preview-card--mobile` styles added
 
 ### Mobile responsive pass (completed)
 

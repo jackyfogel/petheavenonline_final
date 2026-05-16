@@ -263,20 +263,44 @@ function initHomepage() {
     }
   }
 
+  function isMobile() {
+    return window.innerWidth < 768;
+  }
+
   function fitScene() {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    const targetRatio = 16 / 9;
-    const viewportRatio = vw / vh;
+
+    if (isMobile()) {
+      // Fill viewport below nav — no letterbox
+      sceneEl.style.position = "absolute";
+      sceneEl.style.top      = "54px";
+      sceneEl.style.left     = "0";
+      sceneEl.style.right    = "0";
+      sceneEl.style.bottom   = "0";
+      sceneEl.style.width    = "";
+      sceneEl.style.height   = "";
+      return;
+    }
+
+    // Desktop: reset any mobile overrides, then letterbox at 16:9
+    sceneEl.style.position = "";
+    sceneEl.style.top      = "";
+    sceneEl.style.left     = "";
+    sceneEl.style.right    = "";
+    sceneEl.style.bottom   = "";
+
+    const targetRatio    = 16 / 9;
+    const viewportRatio  = vw / vh;
     let width, height;
     if (viewportRatio > targetRatio) {
       height = vh;
-      width = Math.round(vh * targetRatio);
+      width  = Math.round(vh * targetRatio);
     } else {
-      width = vw;
+      width  = vw;
       height = Math.round(vw / targetRatio);
     }
-    sceneEl.style.width = width + "px";
+    sceneEl.style.width  = width  + "px";
     sceneEl.style.height = height + "px";
   }
 
@@ -318,6 +342,8 @@ function initHomepage() {
   function clearMarkers() {
     markerEls.forEach((el) => el.remove());
     markerEls = [];
+    const track = sceneEl.querySelector(".mobile-marker-track");
+    if (track) track.remove();
   }
 
   function activeSlots(sc) {
@@ -325,11 +351,19 @@ function initHomepage() {
   }
 
   function renderMarkers(sc) {
+    if (isMobile()) {
+      renderMobileMarkers(sc);
+    } else {
+      renderDesktopMarkers(sc);
+    }
+  }
+
+  function renderDesktopMarkers(sc) {
     activeSlots(sc).forEach((slot) => {
       const marker = document.createElement("div");
       marker.className = "marker";
       marker.style.left = slot.x + "%";
-      marker.style.top = slot.y + "%";
+      marker.style.top  = slot.y + "%";
       marker.style.setProperty("--base-scale", slot.scale);
 
       const img = document.createElement("img");
@@ -355,6 +389,67 @@ function initHomepage() {
       sceneEl.appendChild(marker);
       markerEls.push(marker);
     });
+  }
+
+  function renderMobileMarkers(sc) {
+    const track = document.createElement("div");
+    track.className = "mobile-marker-track";
+
+    sc.slots.forEach((slot) => {
+      const item = document.createElement("div");
+      item.className = "mobile-marker-item";
+
+      const img = document.createElement("img");
+      img.src = "/assets/markers/tombstone.webp";
+      img.alt = "";
+      img.draggable = false;
+      item.appendChild(img);
+
+      const m = memorials[slot.memorialId];
+      const overlay = document.createElement("div");
+      overlay.className = "marker-overlay";
+      overlay.innerHTML = `
+        <div class="marker-photo">${m.photo ? `<img src="${m.photo}" alt="${m.name}">` : ""}</div>
+        <div class="marker-name">${m.name}</div>
+        <div class="marker-dates">${m.born}–${m.passed}</div>
+      `;
+      item.appendChild(overlay);
+
+      item.addEventListener("click", (e) => {
+        e.stopPropagation();
+        activateMobileMarker(slot, item);
+      });
+
+      track.appendChild(item);
+      markerEls.push(item);
+    });
+
+    sceneEl.appendChild(track);
+  }
+
+  function activateMobileMarker(slot, markerEl) {
+    closePreview();
+    markerEls.forEach((el) => {
+      el.classList.add(el === markerEl ? "marker--active" : "marker--dimmed");
+    });
+
+    const m = memorials[slot.memorialId];
+    const card = document.createElement("div");
+    card.className = "preview-card preview-card--mobile";
+    card.innerHTML = `
+      <button class="preview-close" aria-label="Close">&#215;</button>
+      <div class="preview-photo"></div>
+      <div class="preview-name">${m.name}</div>
+      <div class="preview-dates">${m.born} &ndash; ${m.passed}</div>
+      <div class="preview-epitaph">${m.epitaph}</div>
+      <a class="preview-enter" href="/memorial/${m.slug}">Enter Memorial</a>
+    `;
+    card.querySelector(".preview-close").addEventListener("click", (e) => {
+      e.stopPropagation();
+      closePreview();
+    });
+    sceneEl.appendChild(card);
+    previewCard = card;
   }
 
   // Navigation
@@ -407,6 +502,7 @@ function initHomepage() {
   }, { passive: true });
 
   sceneEl.addEventListener("touchend", (e) => {
+    if (e.target.closest(".mobile-marker-track")) return;
     const delta = e.changedTouches[0].clientX - touchStartX;
     if (Math.abs(delta) < 50) return;
     if (delta < 0) goToScene(currentIndex + 1, "next");
@@ -420,12 +516,15 @@ function initHomepage() {
 
   // Resize
   let lastPortrait = isPortrait();
+  let lastMobile   = isMobile();
 
   window.addEventListener("resize", () => {
     fitScene();
     const nowPortrait = isPortrait();
-    if (nowPortrait !== lastPortrait) {
+    const nowMobile   = isMobile();
+    if (nowPortrait !== lastPortrait || nowMobile !== lastMobile) {
       lastPortrait = nowPortrait;
+      lastMobile   = nowMobile;
       closePreview();
       clearMarkers();
       renderMarkers(scenes[currentIndex]);

@@ -2679,6 +2679,107 @@ body.nav--solid #nav-hamburger span {
    MOBILE RESPONSIVE PASS
    ======================================== */
 
+/* --- Mobile scene: fill viewport, no letterbox --- */
+
+@media (max-width: 767px) {
+  /* JS sets position:absolute / top:54px / left:0 / right:0 / bottom:0 */
+  #scene {
+    background-size: cover !important;
+  }
+}
+
+/* --- Mobile marker scroll track (rendered by JS only on mobile) --- */
+
+.mobile-marker-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 195px;
+  display: flex;
+  align-items: flex-end;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0 70px;
+  gap: 36px;
+  z-index: 3;
+  /* Fade edges hint that more tombstones exist */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%);
+}
+
+.mobile-marker-track::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-marker-item {
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  position: relative;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.25s ease;
+  transform-origin: bottom center;
+}
+
+.mobile-marker-item img {
+  display: block;
+  height: 130px;
+  width: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.mobile-marker-item .marker-overlay {
+  padding-top: 16px;
+  gap: 3px;
+}
+
+.mobile-marker-item .marker-photo {
+  width: 34px;
+  height: 34px;
+}
+
+.mobile-marker-item .marker-name {
+  font-size: 11px;
+}
+
+.mobile-marker-item .marker-dates {
+  font-size: 9px;
+}
+
+/* Ground shadow on mobile items */
+.mobile-marker-item::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140%;
+  height: 5px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.26) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Active/dimmed states — no translate, only scale */
+.mobile-marker-item.marker--active {
+  transform: scale(1.07);
+}
+
+.mobile-marker-item.marker--dimmed {
+  opacity: 0.42;
+}
+
+/* Mobile preview card — centered above the scroll track */
+.preview-card.preview-card--mobile {
+  bottom: 200px;
+  top: auto;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 /* --- Show hamburger, hide desktop nav links --- */
 
 @media (max-width: 768px) {
