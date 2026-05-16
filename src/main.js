@@ -389,13 +389,14 @@ function initHomepage() {
     });
   }
 
-  // Staggered garden positions for 5 stones on mobile
+  // Diamond: left=center-x, top=feet-y (marker anchors bottom-center)
+  // Grass is bottom 33% (~y:67+). Apex top, wide middle, narrower bottom = no overlap.
   const MOBILE_POSITIONS = [
-    { x:  8, y: 46 },
-    { x: 60, y: 38 },
-    { x: 35, y: 56 },
-    { x: 16, y: 63 },
-    { x: 72, y: 58 },
+    { x: 50, y: 78 }, // apex — top-center
+    { x: 20, y: 84 }, // mid-left
+    { x: 80, y: 84 }, // mid-right
+    { x: 33, y: 90 }, // bottom-left
+    { x: 67, y: 90 }, // bottom-right
   ];
 
   function renderMobileMarkers(sc) {
