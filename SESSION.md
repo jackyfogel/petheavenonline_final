@@ -2,11 +2,37 @@
 
 ## Last completed step
 
-Homepage mobile tombstones — staggered garden layout replacing horizontal scroll track
+Phase 6A.3 — Django configured to serve Vite frontend at localhost:8000
 
 ---
 
 ## What was done
+
+### Phase 6A.3 — Django serves Vite frontend (completed)
+
+- `config/views.py` created: `frontend()` reads `dist/index.html` and returns it as `text/html`
+- `config/urls.py` updated:
+  - `admin/` → Django admin (unchanged)
+  - `^assets/(.*)` → `django.views.static.serve` from `dist/assets/` — serves JS, CSS, and all images
+  - `^.*$` → `frontend()` catch-all — handles `/`, `/memorial/:slug`, `/browse`, `/create`, etc.
+- Build: `npm run build` → `dist/` contains index.html + assets/
+- Server: `.\venv\Scripts\python manage.py runserver` → full site at localhost:8000
+
+### Django backend initialization (completed)
+
+- Python venv created at `venv/` (added to `.gitignore`)
+- Installed Django 6.0.5 + psycopg2-binary 2.9.12; `requirements.txt` generated
+- Django project created via `django-admin startproject config .` — `manage.py` + `config/` in project root
+- `config/settings.py` configured:
+  - `SECRET_KEY` via `DJANGO_SECRET_KEY` env var with local fallback
+  - `DEBUG = True`, `ALLOWED_HOSTS = ['localhost', '127.0.0.1']`
+  - PostgreSQL: db `petheavenonline`, user `postgres`, pw `postgres`, host `localhost:5432`
+  - `TIME_ZONE = 'America/New_York'`
+  - `STATIC_URL = '/static/'`, `STATICFILES_DIRS = [BASE_DIR / 'dist']`, `STATIC_ROOT = BASE_DIR / 'staticfiles'`
+- All Django built-in migrations applied (`auth`, `admin`, `contenttypes`, `sessions`)
+- `python manage.py check` — 0 issues
+
+
 
 ### Phase 1 (completed)
 - Static single-scene homepage with 16:9 composition and ambient letterboxing
