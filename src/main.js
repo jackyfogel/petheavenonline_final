@@ -31,12 +31,6 @@ if (path.startsWith("/memorial/")) {
 } else if (path === "/account") {
   document.body.classList.add("nav--solid", "footer--inline");
   initAccountPage();
-} else if (path === "/login") {
-  document.body.classList.add("nav--solid", "footer--inline");
-  initLoginPage();
-} else if (path === "/register") {
-  document.body.classList.add("nav--solid", "footer--inline");
-  initRegisterPage();
 } else if (path === "/terms") {
   document.body.classList.add("nav--solid", "footer--inline");
   initLegalPage("terms");
