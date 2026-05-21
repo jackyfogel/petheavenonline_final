@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Create Account — PetHeavenOnline{% endblock %}
+
+{% block content %}
+<main class="auth-page">
+  <div class="auth-inner">
+    <h1 class="auth-title">Create your account</h1>
+    <p class="auth-intro">Join PetHeavenOnline to create lasting memorials for your beloved pets.</p>
+
+    {% if next == '/create/' %}
+      <div class="auth-context-note">
+        To create a memorial for your beloved pet, please create an account first.
+      </div>
+    {% endif %}
+
+    {% if form.non_field_errors %}
+      <div class="auth-error-box">
+        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+      </div>
+    {% endif %}
+
+    <form class="auth-form" method="post" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+
+      <div class="auth-field-group">
+        <label class="auth-label" for="id_full_name">Full name</label>
+        <input class="auth-input {% if form.full_name.errors %}auth-input--error{% endif %}"
+               type="text" name="full_name" id="id_full_name"
+               value="{{ form.full_name.value|default:'' }}" autocomplete="name">
+        {% for error in form.full_name.errors %}
+          <div class="auth-error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="auth-field-group">
+        <label class="auth-label" for="id_email">Email</label>
+        <input class="auth-input {% if form.email.errors %}auth-input--error{% endif %}"
+               type="email" name="email" id="id_email"
+               value="{{ form.email.value|default:'' }}" autocomplete="email">
+        {% for error in form.email.errors %}
+          <div class="auth-error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="auth-field-group">
+        <label class="auth-label" for="id_password">Password</label>
+        <input class="auth-input {% if form.password.errors %}auth-input--error{% endif %}"
+               type="password" name="password" id="id_password" autocomplete="new-password">
+        {% for error in form.password.errors %}
+          <div class="auth-error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="auth-field-group">
+        <label class="auth-label" for="id_password_confirm">Confirm password</label>
+        <input class="auth-input {% if form.password_confirm.errors %}auth-input--error{% endif %}"
+               type="password" name="password_confirm" id="id_password_confirm" autocomplete="new-password">
+        {% for error in form.password_confirm.errors %}
+          <div class="auth-error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <button type="submit" class="auth-btn">Create account</button>
+
+      <p class="auth-terms">
+        By creating an account you agree to our
+        <a href="/terms" class="auth-link">Terms of Service</a> and
+        <a href="/privacy" class="auth-link">Privacy Policy</a>.
+      </p>
+    </form>
+
+    <div class="auth-switch">
+      Already have an account? <a href="/login/" class="auth-link">Log in</a>
+    </div>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}{% if not_found %}Memorial Not Found{% else %}{{ m.name }} — PetHeavenOnline{% endif %}{% endblock %}
+
+{% block content %}
+{% if not_found %}
+<div class="memorial-page">
+  <div class="mem-page">
+    <div class="mem-not-found">
+      <p>This memorial could not be found.</p>
+      <a href="/" class="mem-back-link">← Back to garden</a>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="memorial-page">
+  <div class="mem-page">
+
+    <section class="mem-hero">
+      <div class="mem-hero-inner">
+        <a href="/" class="mem-back-link">← Back to garden</a>
+        <div class="mem-hero-photo-wrap">
+          {% if m.photo %}<img src="{{ m.photo }}" alt="{{ m.name }}">{% endif %}
+        </div>
+        <p class="mem-hero-eyebrow">In Loving Memory of</p>
+        <h1 class="mem-hero-name">{{ m.name }}</h1>
+        <p class="mem-hero-dates">{{ m.born }} &mdash; {{ m.passed }}</p>
+        <p class="mem-hero-epitaph">&ldquo;{{ m.epitaph }}&rdquo;</p>
+        {% if m.owner %}<p class="mem-hero-owner">Created by {{ m.owner }}</p>{% endif %}
+      </div>
+    </section>
+
+    <section class="mem-section">
+      <div class="mem-section-inner">
+        <h2 class="mem-heading">About {{ m.name }}</h2>
+        <p class="mem-story">{{ m.story|default:"A full story and remembrance will live here." }}</p>
+        {% if m.traits %}
+        <div class="mem-traits">
+          {% for trait in m.traits %}<span class="mem-trait">{{ trait }}</span>{% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <section class="mem-section mem-section--alt">
+      <div class="mem-section-inner">
+        <h2 class="mem-heading">Memories</h2>
+        <div class="mem-gallery">
+          {% for i in gallery_range %}
+          <div class="mem-gallery-item"{% if m.photo %} style="background-image:url({{ m.photo }})"{% endif %}></div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="mem-section">
+      <div class="mem-section-inner">
+        <h2 class="mem-heading">Life Timeline</h2>
+        <div class="mem-timeline">
+          {% for item in m.timeline %}
+          <div class="mem-timeline-item">
+            <div class="mem-timeline-dot"></div>
+            <div>
+              <span class="mem-timeline-year">{{ item.year }}</span>
+              <p class="mem-timeline-event">{{ item.event }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="mem-section mem-section--alt">
+      <div class="mem-section-inner mem-section-inner--center">
+        <h2 class="mem-heading">Light a Candle</h2>
+        <p class="mem-candle-count">247 candles have been lit for {{ m.name }}</p>
+        <div class="mem-candle-row">
+          <div class="mem-candle-icon"></div>
+          <div class="mem-candle-icon"></div>
+          <div class="mem-candle-icon"></div>
+          <div class="mem-candle-icon"></div>
+          <div class="mem-candle-icon"></div>
+        </div>
+        <button class="mem-btn">Light a Candle</button>
+      </div>
+    </section>
+
+    <section class="mem-section">
+      <div class="mem-section-inner mem-section-inner--center">
+        <h2 class="mem-heading">Send a Virtual Flower</h2>
+        <div class="mem-flowers">
+          <div class="mem-flower-option">
+            <div class="mem-flower-circle mem-flower-circle--rose"></div>
+            <p class="mem-flower-name">Rose</p>
+            <p class="mem-flower-price">Free</p>
+          </div>
+          <div class="mem-flower-option">
+            <div class="mem-flower-circle mem-flower-circle--lily"></div>
+            <p class="mem-flower-name">Lily</p>
+            <p class="mem-flower-price">$1</p>
+          </div>
+          <div class="mem-flower-option">
+            <div class="mem-flower-circle mem-flower-circle--bouquet"></div>
+            <p class="mem-flower-name">Bouquet</p>
+            <p class="mem-flower-price">$5</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mem-section mem-section--alt">
+      <div class="mem-section-inner">
+        <h2 class="mem-heading">Tributes</h2>
+        <div class="mem-tributes-list">
+          <div class="mem-tribute">
+            <div class="mem-tribute-avatar">SM</div>
+            <div class="mem-tribute-body">
+              <div class="mem-tribute-header">
+                <span class="mem-tribute-name">Sarah M.</span>
+                <span class="mem-tribute-time">2 days ago</span>
+              </div>
+              <p class="mem-tribute-message">{{ m.name }} was such a wonderful companion. Our hearts go out to your whole family.</p>
+            </div>
+          </div>
+          <div class="mem-tribute">
+            <div class="mem-tribute-avatar">TL</div>
+            <div class="mem-tribute-body">
+              <div class="mem-tribute-header">
+                <span class="mem-tribute-name">Tom &amp; Lisa</span>
+                <span class="mem-tribute-time">1 week ago</span>
+              </div>
+              <p class="mem-tribute-message">We'll never forget the joy {{ m.name }} brought to every gathering. A truly special soul.</p>
+            </div>
+          </div>
+          <div class="mem-tribute">
+            <div class="mem-tribute-avatar">RF</div>
+            <div class="mem-tribute-body">
+              <div class="mem-tribute-header">
+                <span class="mem-tribute-name">The Rivera Family</span>
+                <span class="mem-tribute-time">2 weeks ago</span>
+              </div>
+              <p class="mem-tribute-message">May {{ m.name }} rest in eternal peace. Thinking of you all.</p>
+            </div>
+          </div>
+        </div>
+        <button class="mem-btn">Leave a Tribute</button>
+      </div>
+    </section>
+
+    <section class="mem-section">
+      <div class="mem-section-inner mem-section-inner--center">
+        <h2 class="mem-heading">Share This Memorial</h2>
+        <p class="mem-share-intro">Invite family and friends to remember {{ m.name }}</p>
+        <div class="mem-share-buttons">
+          <button class="mem-btn">Copy Link</button>
+          <button class="mem-btn">Share</button>
+        </div>
+        <div class="mem-qr">
+          <div class="mem-qr-placeholder"></div>
+          <p class="mem-qr-label">Scan to visit this memorial</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+{% endif %}
+{% endblock %}

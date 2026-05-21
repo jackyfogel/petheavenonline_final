@@ -2,11 +2,53 @@
 
 ## Last completed step
 
-Phase 6A.4 — Django configured for production deployment on Render
+Elegant redirect to register for logged-out users clicking Create Memorial
 
 ---
 
 ## What was done
+
+### Full Django template conversion (completed)
+
+Killed the Vite SPA client-side router. All pages now rendered server-side via Django templates.
+
+**New static assets:**
+- `static/css/main.css` — all site CSS (from `src/style.css`); removed `height:100%; overflow:hidden` from base `html,body` rule; added `.auth-error-box`
+- `static/js/scene.js` — self-contained IIFE; inlines SCENES (3) and MEMORIALS (15, minimal fields); renders homepage markers + preview cards; no ES module imports
+- `static/js/browse.js` — IIFE; captures pre-rendered `.browse-card` elements by data attributes; filters/sorts in-place on pill click, sort change, search input
+- `static/js/contact.js` — IIFE; attaches submit handler to `#contact-form`; validates + shows `#contact-success` on success
+- `static/js/create.js` — IIFE; 5-step wizard targeting `#create-stage`; same logic as `src/create.js`
+
+**Templates (all new):**
+- `templates/base.html` — `{% load static %}`, links `main.css`, body class blocks (`footer--fixed` / `footer--inline`), auth-aware nav, hamburger JS inline, `extra_scripts` block
+- `templates/home.html` — `footer--fixed` body class, `extra_head` injects homepage-only overflow CSS, loads `scene.js`
+- `templates/memorial.html` — server-rendered with `m` dict; handles `not_found` 404 path; `gallery_range` for grid; iterates `m.traits` and `m.timeline`
+- `templates/browse.html` — pre-renders all 15 memorial cards with `data-species/passed/name` attrs; loads `browse.js`
+- `templates/create.html` — `#create-stage` div; loads `create.js`
+- `templates/contact.html` — full form pre-rendered; `{% csrf_token %}`; loads `contact.js`
+- `templates/account.html` — uses `{{ initials }}`, `{{ user.get_full_name }}`, `{{ user.date_joined }}`
+- `templates/terms.html`, `templates/privacy.html` — static content, hard-coded
+
+**Config:**
+- `config/views.py` — full Python MEMORIALS list (15 entries); `home_view`, `memorial_view`, `browse_view`, `create_view`, `contact_view`, `account_view` (`@login_required`), `terms_view`, `privacy_view`; removed `frontend()`
+- `config/urls.py` — explicit path for every page; removed `re_path(r'^.*$', frontend)` catch-all; kept `/assets/` serve and `accounts.urls` include
+- `config/settings.py` — added `BASE_DIR / 'static'` to `STATICFILES_DIRS`; fixed `LOGIN_URL` to `/login/`
+
+### Phase 6B.1 + 6B.2 — Django authentication (completed)
+
+- `accounts` app created (`python manage.py startapp accounts`)
+- `accounts/forms.py` — `RegisterForm`: full_name, email (unique), password, confirm; validates match + email uniqueness
+- `accounts/views.py` — `register_view`, `login_view`, `logout_view`, `welcome_view`
+  - Register: creates User with `username=email`, auto-logs in, redirects to `/welcome`
+  - Login: authenticates by email (username field), redirects to `/`
+  - Logout: clears session, redirects to `/`
+- `accounts/urls.py` — paths for `/register`, `/login`, `/logout`, `/welcome`
+- `config/urls.py` — `include('accounts.urls')` inserted before catch-all
+- `config/settings.py` — added `'accounts'` to `INSTALLED_APPS`; `templates/` to `TEMPLATES DIRS`; `LOGIN_URL`, `LOGIN_REDIRECT_URL`, `LOGOUT_REDIRECT_URL`
+- `templates/base.html` — nav (with auth-aware Sign In / My Account), footer, hamburger, all inline CSS
+- `templates/accounts/register.html` — form with field errors, terms/privacy links
+- `templates/accounts/login.html` — form with error message
+- `templates/accounts/welcome.html` — 3 action cards (Create, Explore, Browse)
 
 ### Phase 6A.4 — Production config for Render (completed)
 
@@ -247,16 +289,22 @@ Phase 6A.4 — Django configured for production deployment on Render
 
 ---
 
-## What to test (most recent additions)
+## What to test (most recent additions — Django template conversion)
 
-- Visit `/account` — page loads with solid nav, lavender background
-- Profile header: "SM" avatar circle (lavender), name, email, "Member since April 2026", "Edit profile" button
-- Three memorial cards: Buddy (Live badge, green), Luna (Live badge, green), Oscar (Pending review badge, amber)
-- Each card: circular pet photo, name (Lora), dates, italic epitaph, status badge, "View" link → memorial page, "Edit" button (no-op)
-- "Create new memorial" button → `/create`
-- Settings: three rows — Change password (button), Email notifications (toggle switch, starts checked, toggles on click), Delete account (red text + red button)
-- Nav "My Account" link present and functional on all pages
-- No regressions on homepage, /memorial, /browse, /create, /contact pages
+- Start server: `.\venv\Scripts\python manage.py runserver`
+- `/` — homepage loads, scene.js renders markers + preview cards, scenes navigate
+- `/browse/` — all 15 cards render; species pills, sort, search all filter correctly
+- `/memorial/buddy/` — full memorial page with photo, story, traits, timeline
+- `/memorial/shadow/` — memorial without photo or traits renders gracefully
+- `/memorial/notreal/` — returns 404 page with not-found message
+- `/create/` — create wizard renders in `#create-stage`
+- `/contact/` — form validation works; success state shows on submit
+- `/account/` — redirects to `/login/` when logged out; shows real user data when logged in
+- `/terms/`, `/privacy/` — static content pages load
+- `/register/`, `/login/`, `/logout/` — auth flows still work
+- Nav: auth-aware (Sign In + Register vs My Account + Log Out); hamburger on mobile
+- No 404 on any CSS (`/static/css/main.css`) or JS (`/static/js/scene.js` etc.)
+- Assets still load: tombstone, scene backgrounds, pet photos (served from `/assets/`)
 
 ## What to test (all)
 
@@ -286,5 +334,7 @@ Phase 6A.4 — Django configured for production deployment on Render
 
 ## What remains
 
-- Phase 6+: Django backend, PostgreSQL, S3, Render deployment
-- Phase 7: Loading states, responsive refinement, SEO, analytics, launch
+- Wire real memorial creation: Django model + form + S3 photo upload
+- Account page: show user's real memorials (currently placeholder text)
+- Contact form: server-side handling (currently frontend-only)
+- Phase 7: Loading states, SEO, analytics, Render deployment

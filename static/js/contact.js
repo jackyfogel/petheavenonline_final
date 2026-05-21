@@ -1,0 +1,58 @@
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    var form = document.getElementById("contact-form");
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      clearErrors();
+
+      var nameEl    = document.getElementById("c-name");
+      var emailEl   = document.getElementById("c-email");
+      var subjectEl = document.getElementById("c-subject");
+      var msgEl     = document.getElementById("c-message");
+      var ok        = true;
+
+      function need(el, msg) {
+        if (!el || !el.value.trim()) { markError(el, msg); ok = false; }
+      }
+
+      need(nameEl,    "Please enter your name.");
+      need(subjectEl, "Please select a subject.");
+      need(msgEl,     "Please write a message.");
+
+      if (!emailEl.value.trim()) {
+        markError(emailEl, "Please enter your email address.");
+        ok = false;
+      } else if (!emailEl.value.includes("@")) {
+        markError(emailEl, "Please enter a valid email address.");
+        ok = false;
+      }
+
+      if (!ok) return;
+
+      var email = emailEl.value.trim();
+      form.style.display = "none";
+      var successEl = document.getElementById("contact-success");
+      var msgTextEl = document.getElementById("contact-success-msg");
+      if (msgTextEl) {
+        msgTextEl.textContent = "Thanks for reaching out! We’ll get back to you at " + email + " as soon as possible.";
+      }
+      if (successEl) successEl.style.display = "flex";
+    });
+
+    function markError(el, msg) {
+      if (!el) return;
+      el.classList.add("input-error");
+      var p = document.createElement("p");
+      p.className = "create-error-msg";
+      p.textContent = msg;
+      el.after(p);
+    }
+
+    function clearErrors() {
+      document.querySelectorAll(".input-error").forEach(function (el) { el.classList.remove("input-error"); });
+      document.querySelectorAll(".create-error-msg").forEach(function (el) { el.remove(); });
+    }
+  });
+})();

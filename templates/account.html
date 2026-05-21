@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}My Account — PetHeavenOnline{% endblock %}
+
+{% block content %}
+<div class="acct-page-stage">
+  <div class="acct-page">
+    <div class="acct-inner">
+
+      <section class="acct-profile">
+        <div class="acct-avatar">{{ initials }}</div>
+        <div class="acct-profile-info">
+          <h1 class="acct-profile-name">{{ user.get_full_name|default:user.username }}</h1>
+          <p class="acct-profile-email">{{ user.email }}</p>
+          <p class="acct-profile-since">Member since {{ user.date_joined|date:"F Y" }}</p>
+        </div>
+        <button class="acct-edit-btn" type="button">Edit profile</button>
+      </section>
+
+      <section class="acct-section">
+        <h2 class="acct-section-title">My memorials</h2>
+        <div class="acct-cards">
+          <div class="acct-card" style="justify-content:center; padding: 32px;">
+            <p style="font-size:14px; color:#9a89b5; text-align:center;">Your memorials will appear here once you create them.</p>
+          </div>
+        </div>
+        <a href="/create/" class="acct-create-btn">+ Create new memorial</a>
+      </section>
+
+      <section class="acct-section">
+        <h2 class="acct-section-title">Settings</h2>
+        <ul class="acct-settings-list">
+          <li class="acct-settings-item">
+            <span class="acct-settings-label">Change password</span>
+            <button class="acct-settings-action" type="button">Change</button>
+          </li>
+          <li class="acct-settings-item">
+            <span class="acct-settings-label">Email notifications</span>
+            <label class="acct-toggle" aria-label="Email notifications">
+              <input type="checkbox" checked>
+              <span class="acct-toggle-track"></span>
+            </label>
+          </li>
+          <li class="acct-settings-item">
+            <span class="acct-settings-label acct-settings-danger">Delete account</span>
+            <button class="acct-settings-action acct-settings-action--danger" type="button">Delete</button>
+          </li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}PetHeavenOnline{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}nav--solid footer--inline{% endblock %}">
+
+<nav id="site-nav">
+  <a href="/" class="nav-brand">PetHeavenOnline</a>
+  <div class="nav-links">
+    <a href="/browse/" class="nav-link">Browse</a>
+    <a href="/create/" class="nav-link">Create Memorial</a>
+    <a href="/contact/" class="nav-link">Contact</a>
+    {% if user.is_authenticated %}
+      <a href="/account/" class="nav-link">My Account</a>
+      <a href="/logout/" class="nav-link">Log Out</a>
+    {% else %}
+      <a href="/login/" class="nav-link">Sign In</a>
+      <a href="/register/" class="nav-link">Register</a>
+    {% endif %}
+  </div>
+  <button id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div id="mobile-menu">
+  <div id="mobile-menu-overlay"></div>
+  <div id="mobile-menu-panel">
+    <button id="mobile-menu-close" aria-label="Close menu">&#215;</button>
+    <a href="/browse/" class="mobile-nav-link">Browse</a>
+    <a href="/create/" class="mobile-nav-link">Create Memorial</a>
+    <a href="/contact/" class="mobile-nav-link">Contact</a>
+    {% if user.is_authenticated %}
+      <a href="/account/" class="mobile-nav-link">My Account</a>
+      <a href="/logout/" class="mobile-nav-link">Sign Out</a>
+    {% else %}
+      <a href="/login/" class="mobile-nav-link">Sign In</a>
+      <a href="/register/" class="mobile-nav-link">Register</a>
+    {% endif %}
+  </div>
+</div>
+
+{% block content %}{% endblock %}
+
+<footer id="site-footer">
+  <span>&copy; 2026 PetHeavenOnline</span>
+  <span class="footer-divider">&middot;</span>
+  <a href="/terms/" class="footer-link">Terms</a>
+  <span class="footer-divider">&middot;</span>
+  <a href="/privacy/" class="footer-link">Privacy</a>
+</footer>
+
+<script>
+  var hamburger    = document.getElementById('nav-hamburger');
+  var mobileMenu   = document.getElementById('mobile-menu');
+  var mobileOverlay = document.getElementById('mobile-menu-overlay');
+  var mobileClose  = document.getElementById('mobile-menu-close');
+
+  hamburger.addEventListener('click', function () {
+    mobileMenu.classList.add('menu--open');
+    hamburger.setAttribute('aria-expanded', 'true');
+  });
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('menu--open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+  mobileClose.addEventListener('click', closeMobileMenu);
+  mobileOverlay.addEventListener('click', closeMobileMenu);
+</script>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

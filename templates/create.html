@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Create a Memorial — PetHeavenOnline{% endblock %}
+
+{% block content %}
+<div id="create-stage" class="create-page-stage">
+  <!-- create.js builds the wizard here -->
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/create.js' %}"></script>
+{% endblock %}

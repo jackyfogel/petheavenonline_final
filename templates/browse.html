@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Browse Memorials — PetHeavenOnline{% endblock %}
+
+{% block content %}
+<div class="browse-page-stage">
+  <div class="browse-page">
+    <div class="browse-inner">
+      <a href="/" class="mem-back-link">← Back to garden</a>
+      <h1 class="browse-title">Browse Memorials</h1>
+      <p class="browse-intro">Explore the memorials in our garden and remember those who touched our lives.</p>
+
+      <section>
+        <h2 class="browse-section-label">Recently added</h2>
+        <div class="featured-cards">
+          {% for m in featured %}
+          <a class="featured-card" href="/memorial/{{ m.slug }}/">
+            <div class="featured-card-photo">
+              {% if m.photo %}<img src="{{ m.photo }}" alt="{{ m.name }}">{% endif %}
+            </div>
+            <div class="featured-card-name">{{ m.name }}</div>
+            <div class="featured-card-dates">{{ m.born }} &ndash; {{ m.passed }}</div>
+            <p class="featured-card-epitaph">{{ m.epitaph }}</p>
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+
+      <div class="browse-controls">
+        <div class="browse-pills" id="browse-pills" role="group" aria-label="Filter by species">
+          <button class="browse-pill pill--active" data-species="All">All</button>
+          <button class="browse-pill" data-species="Dogs">Dogs</button>
+          <button class="browse-pill" data-species="Cats">Cats</button>
+          <button class="browse-pill" data-species="Birds">Birds</button>
+          <button class="browse-pill" data-species="Other">Other</button>
+        </div>
+        <div class="browse-controls-right">
+          <select class="browse-sort" id="browse-sort" aria-label="Sort order">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="visited">Most visited</option>
+          </select>
+          <input class="browse-search" id="browse-search" type="search"
+            placeholder="Search by name…" aria-label="Search memorials">
+        </div>
+      </div>
+
+      <div class="browse-list" id="browse-list">
+        {% for m in memorials %}
+        <a class="browse-card" href="/memorial/{{ m.slug }}/"
+           data-species="{{ m.species }}"
+           data-passed="{{ m.passed }}"
+           data-name="{{ m.name }}">
+          <div class="browse-card-photo">
+            {% if m.photo %}<img src="{{ m.photo }}" alt="{{ m.name }}">{% endif %}
+          </div>
+          <div class="browse-card-body">
+            <div class="browse-card-name">{{ m.name }}</div>
+            <div class="browse-card-detail">{% if m.traits %}{{ m.traits.0 }} &middot; {% endif %}{{ m.species }}</div>
+            <div class="browse-card-dates">{{ m.born }} &ndash; {{ m.passed }}</div>
+            <p class="browse-card-epitaph">{{ m.epitaph }}</p>
+          </div>
+          <svg class="browse-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/browse.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}PetHeavenOnline — A peaceful place to remember them{% endblock %}
+{% block body_class %}footer--fixed{% endblock %}
+
+{% block extra_head %}
+<style>html, body { height: 100%; overflow: hidden; }</style>
+{% endblock %}
+
+{% block content %}
+<div id="stage">
+  <div id="scene"></div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/scene.js' %}"></script>
+{% endblock %}

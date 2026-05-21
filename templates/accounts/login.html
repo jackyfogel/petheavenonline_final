@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Sign In — PetHeavenOnline{% endblock %}
+
+{% block content %}
+<main class="auth-page">
+  <div class="auth-inner">
+    <h1 class="auth-title">Welcome back</h1>
+    <p class="auth-intro">Sign in to manage your memorials.</p>
+
+    {% if next %}
+      <div class="auth-context-note">Please log in to continue.</div>
+    {% endif %}
+
+    {% if error %}
+      <div class="auth-error-box">{{ error }}</div>
+    {% endif %}
+
+    <form class="auth-form" method="post" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+
+      <div class="auth-field-group">
+        <label class="auth-label" for="id_email">Email</label>
+        <input class="auth-input" type="email" name="email" id="id_email"
+               value="{{ request.POST.email|default:'' }}" autocomplete="email">
+      </div>
+
+      <div class="auth-field-group">
+        <label class="auth-label" for="id_password">Password</label>
+        <input class="auth-input" type="password" name="password" id="id_password"
+               autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="auth-btn">Log in</button>
+
+      <p class="auth-terms">
+        <a href="#" class="auth-link">Forgot your password?</a>
+      </p>
+    </form>
+
+    <div class="auth-switch">
+      Don't have an account? <a href="/register/" class="auth-link">Sign up</a>
+    </div>
+  </div>
+</main>
+{% endblock %}
