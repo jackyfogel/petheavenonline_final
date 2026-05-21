@@ -2,11 +2,26 @@
 
 ## Last completed step
 
-Phase 6A.3 — Django configured to serve Vite frontend at localhost:8000
+Phase 6A.4 — Django configured for production deployment on Render
 
 ---
 
 ## What was done
+
+### Phase 6A.4 — Production config for Render (completed)
+
+- `requirements.txt` regenerated (UTF-8); added gunicorn 26, whitenoise 6.12, dj-database-url 3.1.2, python-dotenv 1.2.2
+- `config/settings.py` updated:
+  - `load_dotenv()` loads `.env` for local dev
+  - `DEBUG` and `SECRET_KEY` read from env vars
+  - `ALLOWED_HOSTS` includes `.onrender.com` and production domains
+  - `DATABASES` uses `dj_database_url.config()` with local PostgreSQL fallback
+  - `WhiteNoiseMiddleware` added after `SecurityMiddleware`
+  - `STATICFILES_STORAGE` set to `CompressedManifestStaticFilesStorage`
+  - `CSRF_TRUSTED_ORIGINS` added for production domains
+- `render.yaml` created: web service + free PostgreSQL, gunicorn start command, env vars
+- `build.sh` created: pip install → npm install → npm build → collectstatic → migrate
+- `.env` created for local dev (gitignored)
 
 ### Phase 6A.3 — Django serves Vite frontend (completed)
 
