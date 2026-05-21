@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'memorials',
 ]
 
 MIDDLEWARE = [
@@ -87,6 +88,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'dist', BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 CSRF_TRUSTED_ORIGINS = [
     'https://petheavenonline.com',

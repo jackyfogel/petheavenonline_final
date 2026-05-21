@@ -2,11 +2,27 @@
 
 ## Last completed step
 
-Elegant redirect to register for logged-out users clicking Create Memorial
+Phase 6C — Django models for memorials, scenes, placements
 
 ---
 
 ## What was done
+
+### Phase 6C — Django models (completed)
+
+- `memorials` app created (`python manage.py startapp memorials`)
+- `memorials/models.py` — 7 models:
+  - `Memorial`: user FK, slug, pet_name, species (9 choices), breed, birth_date, passing_date, photo (ImageField), epitaph, story, owner_name, status (pending/approved/rejected), candle_count, timestamps; `get_absolute_url()` returns `/memorial/{slug}/`
+  - `MemorialTrait`: FK to Memorial, trait CharField
+  - `TimelineMilestone`: FK to Memorial, date/description/order
+  - `GalleryPhoto`: FK to Memorial, photo ImageField, caption, order
+  - `Tribute`: FK to Memorial, author_name, message, created_at
+  - `Scene`: title, slug, background path, ambient_color, order, is_active
+  - `Placement`: FK to Scene, OneToOne to Memorial, slot_index; unique_together on scene+slot_index
+- `memorials/admin.py` — all models registered; MemorialAdmin has trait/timeline/gallery inlines
+- `config/settings.py` — added `'memorials'` to INSTALLED_APPS; added `MEDIA_URL = '/media/'` and `MEDIA_ROOT = BASE_DIR / 'media'`
+- `requirements.txt` — added `Pillow==12.2.0`
+- `memorials/migrations/0001_initial.py` — generated and applied
 
 ### Full Django template conversion (completed)
 
