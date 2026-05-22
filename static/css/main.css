@@ -1164,6 +1164,27 @@ body.footer--inline #site-footer {
   background-color: #e8e2f2;
 }
 
+.gallery-existing-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gallery-existing-remove {
+  background: none;
+  border: 1px solid #d5cde5;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 11px;
+  color: #5e4f76;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+.gallery-existing-remove:hover {
+  background: #f0edf5;
+}
+
 /* Trait tags */
 .trait-input-wrap {
   border: 1.5px solid #d5cde5;

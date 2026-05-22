@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Edit Memorial — PetHeavenOnline{% endblock %}
+
+{% block extra_head %}
+{{ edit_data|json_script:"edit-data" }}
+<script>window.EDIT_DATA = JSON.parse(document.getElementById('edit-data').textContent);</script>
+{% endblock %}
+
+{% block content %}
+<form id="edit-form" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div id="edit-stage" class="create-page-stage">
+    <!-- edit.js builds the wizard here -->
+  </div>
+</form>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/edit.js' %}"></script>
+{% endblock %}

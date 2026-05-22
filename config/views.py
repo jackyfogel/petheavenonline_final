@@ -1,7 +1,9 @@
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import Http404, HttpResponseForbidden
 from django.utils.text import slugify
-from memorials.forms import MemorialForm
+from memorials.forms import MemorialForm, MemorialEditForm
 from memorials.models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto
 
 MEMORIALS = [
@@ -312,6 +314,75 @@ def create_success_view(request, slug):
     except Memorial.DoesNotExist:
         return redirect('home')
     return render(request, 'create_success.html', {'memorial': memorial})
+
+
+@login_required
+def edit_view(request, slug):
+    try:
+        memorial = Memorial.objects.get(slug=slug)
+    except Memorial.DoesNotExist:
+        raise Http404
+
+    if memorial.user != request.user:
+        return HttpResponseForbidden("You do not have permission to edit this memorial.")
+
+    if request.method == 'POST':
+        form = MemorialEditForm(request.POST, request.FILES, instance=memorial)
+        if form.is_valid():
+            m = form.save(commit=False)
+            if not request.FILES.get('photo'):
+                m.photo = memorial.photo
+            m.save()
+
+            memorial.traits.all().delete()
+            for trait in request.POST.getlist('traits'):
+                trait = trait.strip()
+                if trait:
+                    MemorialTrait.objects.create(memorial=m, trait=trait)
+
+            memorial.timeline.all().delete()
+            dates = request.POST.getlist('timeline_date')
+            descs = request.POST.getlist('timeline_desc')
+            for i, (date, desc) in enumerate(zip(dates, descs)):
+                date = date.strip()
+                desc = desc.strip()
+                if date or desc:
+                    TimelineMilestone.objects.create(memorial=m, date=date, description=desc, order=i)
+
+            remove_ids = [x for x in request.POST.getlist('remove_gallery') if x.isdigit()]
+            if remove_ids:
+                GalleryPhoto.objects.filter(memorial=m, id__in=remove_ids).delete()
+
+            existing_count = m.gallery.count()
+            for idx, photo_file in enumerate(request.FILES.getlist('gallery')):
+                GalleryPhoto.objects.create(memorial=m, photo=photo_file, order=existing_count + idx)
+
+            return redirect('memorial', slug=m.slug)
+
+    traits = [t.trait for t in memorial.traits.all()]
+    timeline = [{'date': item.date, 'description': item.description} for item in memorial.timeline.all()]
+    gallery = [{'id': g.id, 'url': g.photo.url} for g in memorial.gallery.all() if g.photo]
+
+    edit_data = {
+        'slug': memorial.slug,
+        'pet_name': memorial.pet_name,
+        'species': memorial.species,
+        'breed': memorial.breed,
+        'birth_date': memorial.birth_date.strftime('%Y-%m-%d') if memorial.birth_date else '',
+        'passing_date': memorial.passing_date.strftime('%Y-%m-%d') if memorial.passing_date else '',
+        'photoUrl': memorial.photo.url if memorial.photo else '',
+        'epitaph': memorial.epitaph,
+        'story': memorial.story,
+        'traits': traits,
+        'timeline': timeline,
+        'gallery': gallery,
+        'owner_name': memorial.owner_name,
+    }
+
+    return render(request, 'edit.html', {
+        'memorial': memorial,
+        'edit_data': edit_data,
+    })
 
 
 def contact_view(request):

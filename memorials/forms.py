@@ -12,3 +12,7 @@ class MemorialForm(forms.ModelForm):
             'birth_date', 'passing_date',
             'photo', 'epitaph', 'story', 'owner_name',
         ]
+
+
+class MemorialEditForm(MemorialForm):
+    photo = forms.ImageField(required=False)

@@ -2,11 +2,20 @@
 
 ## Last completed step
 
-Phase 6D.5 — Wire Account page to show real user data and their memorials
+Phase 6D.4 — Build Edit Memorial page
 
 ---
 
 ## What was done
+
+### Phase 6D.4 — Edit Memorial page (completed)
+
+- `memorials/forms.py` — added `MemorialEditForm(MemorialForm)` with `photo = forms.ImageField(required=False)` so editing without changing the photo doesn't fail validation
+- `config/views.py` — added `json` and `Http404`/`HttpResponseForbidden` imports; added `MemorialEditForm` import; added `edit_view`: looks up memorial by slug, returns 403 if not the owner, on GET builds `edit_data` dict (pet fields + traits/timeline/gallery as JSON-serializable lists) and passes `edit_data_json` to template, on POST validates with `MemorialEditForm`, keeps existing photo if no new file uploaded, replaces traits and timeline in full, removes any gallery photos listed in `remove_gallery` POST param, appends new gallery uploads, redirects to `/memorial/<slug>/`
+- `config/urls.py` — added `path('edit/<slug:slug>/', views.edit_view, name='edit_memorial')`
+- `templates/edit.html` — NEW: extends base.html; injects `window.EDIT_DATA = {{ edit_data_json }}` in `{% block extra_head %}`; wraps `#edit-stage` in a POST form with CSRF token; loads `edit.js`
+- `static/js/edit.js` — NEW: self-contained IIFE; reads `window.EDIT_DATA` to pre-fill `fd`; same 5-step wizard as create.js but with "Edit Memorial" title/subtitle, "Save Changes" button, back link to `/memorial/<slug>/`, no email field in step 5, photo step shows existing photo with hint to replace, step 4 shows existing gallery photos with per-photo Remove/Undo toggle, new gallery uploads append alongside existing; `handleSubmit` POSTs `remove_gallery` IDs and new gallery files via fetch to `/edit/<slug>/`, redirects to memorial page on success
+- `static/css/main.css` — added `.gallery-existing-item`, `.gallery-existing-remove`, `.gallery-existing-remove:hover` for the existing gallery thumbnails in the edit wizard
 
 ### Phase 6D.5 — Account page wired to real data (completed)
 

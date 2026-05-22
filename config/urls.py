@@ -12,6 +12,7 @@ urlpatterns = [
     path('browse/', views.browse_view, name='browse'),
     path('create/', views.create_view, name='create'),
     path('create/success/<slug:slug>/', views.create_success_view, name='create_success'),
+    path('edit/<slug:slug>/', views.edit_view, name='edit_memorial'),
     path('contact/', views.contact_view, name='contact'),
     path('account/', views.account_view, name='account'),
     path('terms/', views.terms_view, name='terms'),
