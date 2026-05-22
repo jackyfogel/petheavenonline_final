@@ -2,11 +2,17 @@
 
 ## Last completed step
 
-Phase 6D.3 — Wire Browse page to show real memorials from the database
+Phase 6D.5 — Wire Account page to show real user data and their memorials
 
 ---
 
 ## What was done
+
+### Phase 6D.5 — Account page wired to real data (completed)
+
+- `config/views.py` — `account_view` now queries `Memorial.objects.filter(user=user).order_by('-created_at')` and passes the list to the template; initials logic unchanged
+- `templates/account.html` — My Memorials section replaced: loops through real memorials with photo, name+badge row, dates, epitaph, View/Edit links; empty state shows friendly message + "Create your first memorial" button; "Create new memorial" button shown below the list only when memorials exist; all hardcoded mock data removed; profile header unchanged (already used real user context variables)
+- `static/css/main.css` — added `.acct-badge--rejected` (red) alongside existing `--live` and `--pending` badge variants
 
 ### Phase 6D.3 — Browse page wired to real data (completed)
 

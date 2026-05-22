@@ -19,11 +19,44 @@
       <section class="acct-section">
         <h2 class="acct-section-title">My memorials</h2>
         <div class="acct-cards">
-          <div class="acct-card" style="justify-content:center; padding: 32px;">
-            <p style="font-size:14px; color:#9a89b5; text-align:center;">Your memorials will appear here once you create them.</p>
+          {% if memorials %}
+            {% for memorial in memorials %}
+            <div class="acct-card">
+              <div class="acct-card-photo">
+                {% if memorial.photo %}<img src="{{ memorial.photo.url }}" alt="{{ memorial.pet_name }}">{% endif %}
+              </div>
+              <div class="acct-card-body">
+                <div class="acct-card-top">
+                  <span class="acct-card-name">{{ memorial.pet_name }}</span>
+                  {% if memorial.status == 'approved' %}
+                    <span class="acct-badge acct-badge--live">Live</span>
+                  {% elif memorial.status == 'pending' %}
+                    <span class="acct-badge acct-badge--pending">Pending review</span>
+                  {% else %}
+                    <span class="acct-badge acct-badge--rejected">Rejected</span>
+                  {% endif %}
+                </div>
+                <div class="acct-card-dates">
+                  {{ memorial.birth_date|date:"Y"|default:"—" }} &ndash; {{ memorial.passing_date|date:"Y"|default:"—" }}
+                </div>
+                <p class="acct-card-epitaph">{{ memorial.epitaph }}</p>
+              </div>
+              <div class="acct-card-actions">
+                <a href="/memorial/{{ memorial.slug }}/" class="acct-action-link">View</a>
+                <a href="/edit/{{ memorial.slug }}/" class="acct-action-link">Edit</a>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+          <div class="acct-card" style="flex-direction:column; align-items:center; justify-content:center; padding:32px; gap:16px;">
+            <p style="font-size:14px; color:#9a89b5; text-align:center;">You haven't created any memorials yet.</p>
+            <a href="/create/" class="acct-create-btn">Create your first memorial</a>
           </div>
+          {% endif %}
         </div>
+        {% if memorials %}
         <a href="/create/" class="acct-create-btn">+ Create new memorial</a>
+        {% endif %}
       </section>
 
       <section class="acct-section">

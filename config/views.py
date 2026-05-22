@@ -327,7 +327,8 @@ def account_view(request):
         initials = parts[0][0].upper() + (parts[-1][0].upper() if len(parts) > 1 else "")
     else:
         initials = user.username[0].upper() if user.username else "?"
-    return render(request, "account.html", {"initials": initials})
+    memorials = list(Memorial.objects.filter(user=user).order_by('-created_at'))
+    return render(request, "account.html", {"initials": initials, "memorials": memorials})
 
 
 def terms_view(request):

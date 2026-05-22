@@ -2029,6 +2029,11 @@ body.footer--inline #site-footer {
   color: #a06b00;
 }
 
+.acct-badge--rejected {
+  background: #fde8e8;
+  color: #a02020;
+}
+
 .acct-card-dates {
   font-size: 12px;
   color: #9a89b5;
