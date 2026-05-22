@@ -3,9 +3,19 @@
 {% block title %}Create a Memorial — PetHeavenOnline{% endblock %}
 
 {% block content %}
-<div id="create-stage" class="create-page-stage">
-  <!-- create.js builds the wizard here -->
+{% if form.errors %}
+<div class="auth-error-box" style="max-width:700px;margin:24px auto 0;padding:12px 20px">
+  Please correct the errors below before submitting.
+  {% for field in form %}{% for error in field.errors %}<br>{{ field.label }}: {{ error }}{% endfor %}{% endfor %}
+  {% for error in form.non_field_errors %}<br>{{ error }}{% endfor %}
 </div>
+{% endif %}
+<form id="create-form" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div id="create-stage" class="create-page-stage">
+    <!-- create.js builds the wizard here -->
+  </div>
+</form>
 {% endblock %}
 
 {% block extra_scripts %}

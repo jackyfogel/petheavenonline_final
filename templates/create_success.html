@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Memorial Created — PetHeavenOnline{% endblock %}
+
+{% block content %}
+<div class="create-page">
+  <div class="create-inner">
+    <div class="create-success">
+      <svg class="success-icon-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="30" stroke="#9a89b5" stroke-width="2"/>
+        <path d="M20 33l9 9 15-18" stroke="#5e4f76" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h2 class="success-title">Memorial Created!</h2>
+      <p class="success-msg">Your memorial for <strong>{{ memorial.pet_name }}</strong> is pending review.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:28px">
+        <a href="{{ memorial.get_absolute_url }}" class="create-btn create-btn--primary">View preview</a>
+        <a href="/create/" class="create-btn create-btn--ghost">Create another</a>
+        <a href="/" class="create-btn create-btn--ghost">Back to home</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

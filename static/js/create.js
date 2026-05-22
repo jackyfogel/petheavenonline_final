@@ -16,7 +16,7 @@
       epitaph: "", story: "",
       traits: [],
       timeline: [{ date: "", description: "" }, { date: "", description: "" }],
-      gallery: [],
+      gallery: [], galleryFiles: [],
       owner_name: "", email: "",
     };
 
@@ -60,9 +60,9 @@
       nav.className = "create-nav";
       nav.innerHTML =
         (currentStep > 1
-          ? '<button class="create-btn create-btn--ghost" id="btn-back">← Back</button>'
+          ? '<button type="button" class="create-btn create-btn--ghost" id="btn-back">← Back</button>'
           : '<div></div>') +
-        '<button class="create-btn create-btn--primary" id="btn-next">' +
+        '<button type="button" class="create-btn create-btn--primary" id="btn-next">' +
           (currentStep === TOTAL ? "Create Memorial" : "Next →") +
         '</button>';
       body.appendChild(content);
@@ -134,7 +134,7 @@
 
     function step3() {
       var tagHTML = fd.traits.map(function (t) {
-        return '<span class="trait-tag">' + esc(t) + '<button class="trait-remove" data-trait="' + esc(t) + '" aria-label="Remove ' + esc(t) + '">\xd7</button></span>';
+        return '<span class="trait-tag">' + esc(t) + '<button type="button" class="trait-remove" data-trait="' + esc(t) + '" aria-label="Remove ' + esc(t) + '">\xd7</button></span>';
       }).join("");
       var rowsHTML = fd.timeline.map(function (item, i) { return timelineRowHTML(item, i); }).join("");
       return '<h2 class="create-step-title">Step 3 — Traits &amp; Timeline</h2>' +
@@ -150,7 +150,7 @@
           '<label class="create-label">Life milestones <span class="opt">(optional)</span></label>' +
           '<p class="create-hint">Add key moments from your pet\'s life.</p>' +
           '<div class="timeline-rows" id="timeline-rows">' + rowsHTML + '</div>' +
-          '<button class="create-btn create-btn--ghost create-btn--sm" id="add-milestone">+ Add milestone</button>' +
+          '<button type="button" class="create-btn create-btn--ghost create-btn--sm" id="add-milestone">+ Add milestone</button>' +
         '</div>';
     }
 
@@ -158,7 +158,7 @@
       return '<div class="timeline-row" data-index="' + i + '">' +
         '<input class="create-input timeline-date" type="date" value="' + item.date + '" data-field="date" data-index="' + i + '">' +
         '<input class="create-input timeline-desc" type="text" placeholder="e.g. Born into the world" value="' + esc(item.description) + '" data-field="description" data-index="' + i + '">' +
-        '<button class="timeline-remove" data-index="' + i + '" aria-label="Remove milestone">\xd7</button>' +
+        '<button type="button" class="timeline-remove" data-index="' + i + '" aria-label="Remove milestone">\xd7</button>' +
       '</div>';
     }
 
@@ -288,7 +288,8 @@
       var galInput = document.getElementById("f-gallery");
       if (galInput) {
         galInput.addEventListener("change", function () {
-          fd.gallery = Array.from(galInput.files).map(function (f) { return URL.createObjectURL(f); });
+          fd.galleryFiles = Array.from(galInput.files);
+          fd.gallery = fd.galleryFiles.map(function (f) { return URL.createObjectURL(f); });
           document.getElementById("gallery-grid").innerHTML =
             fd.gallery.map(function (url) { return '<div class="gallery-thumb" style="background-image:url(' + url + ')"></div>'; }).join("");
         });
@@ -307,7 +308,7 @@
       var c = document.getElementById("trait-tags");
       if (!c) return;
       c.innerHTML = fd.traits.map(function (t) {
-        return '<span class="trait-tag">' + esc(t) + '<button class="trait-remove" data-trait="' + esc(t) + '" aria-label="Remove">\xd7</button></span>';
+        return '<span class="trait-tag">' + esc(t) + '<button type="button" class="trait-remove" data-trait="' + esc(t) + '" aria-label="Remove">\xd7</button></span>';
       }).join("");
     }
 
@@ -383,13 +384,52 @@
     }
 
     function handleSubmit() {
-      document.getElementById("create-body").innerHTML =
-        '<div class="create-success">' +
-          '<svg class="success-icon-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" stroke="#9a89b5" stroke-width="2"/><path d="M20 33l9 9 15-18" stroke="#5e4f76" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-          '<h2 class="success-title">Memorial Created</h2>' +
-          '<p class="success-msg">Your memorial for ' + esc(fd.pet_name) + ' has been created and is pending review. You’ll receive a confirmation email at ' + esc(fd.email) + ' with a temporary preview link.</p>' +
-          '<a href="/" class="create-btn create-btn--ghost">Back to home</a>' +
-        '</div>';
+      var btnNext = document.getElementById("btn-next");
+      if (btnNext) { btnNext.disabled = true; btnNext.textContent = "Saving…"; }
+
+      var formData = new FormData();
+      var csrf = document.querySelector("[name=csrfmiddlewaretoken]");
+      if (csrf) formData.append("csrfmiddlewaretoken", csrf.value);
+
+      formData.append("pet_name",    fd.pet_name);
+      formData.append("species",     fd.species);
+      formData.append("breed",       fd.breed);
+      formData.append("birth_date",  fd.birth_date);
+      formData.append("passing_date", fd.passing_date);
+      formData.append("epitaph",     fd.epitaph);
+      formData.append("story",       fd.story);
+      formData.append("owner_name",  fd.owner_name);
+
+      if (fd.photo) formData.append("photo", fd.photo);
+
+      fd.traits.forEach(function (t) {
+        if (t.trim()) formData.append("traits", t.trim());
+      });
+
+      fd.timeline.forEach(function (item) {
+        if (item.date || item.description) {
+          formData.append("timeline_date", item.date || "");
+          formData.append("timeline_desc", item.description || "");
+        }
+      });
+
+      (fd.galleryFiles || []).forEach(function (f) {
+        formData.append("gallery", f);
+      });
+
+      fetch("/create/", { method: "POST", body: formData })
+        .then(function (r) {
+          if (r.url && r.url.indexOf("/create/success/") !== -1) {
+            window.location.href = r.url;
+          } else {
+            if (btnNext) { btnNext.disabled = false; btnNext.textContent = "Create Memorial"; }
+            alert("Something went wrong. Please check all required fields and try again.");
+          }
+        })
+        .catch(function () {
+          if (btnNext) { btnNext.disabled = false; btnNext.textContent = "Create Memorial"; }
+          alert("Network error. Please check your connection and try again.");
+        });
     }
 
     function esc(str) {

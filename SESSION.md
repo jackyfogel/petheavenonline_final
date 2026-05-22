@@ -2,11 +2,20 @@
 
 ## Last completed step
 
-Phase 6C — Django models for memorials, scenes, placements
+Phase 6D.1 — Wire Create Memorial page to save real data to the database
 
 ---
 
 ## What was done
+
+### Phase 6D.1 — Real memorial creation (completed)
+
+- `memorials/forms.py` — NEW: `MemorialForm` ModelForm with fields: pet_name, species, breed, birth_date, passing_date, photo, epitaph, story, owner_name; story overridden as not-required to match wizard UX
+- `config/views.py` — updated `create_view`: GET renders form; POST validates, saves Memorial (with user + pending status + auto-slug), saves traits (getlist), timeline milestones (parallel date/desc lists), gallery photos; redirects to success page on save; added `create_success_view`
+- `config/urls.py` — added `create/success/<slug>/` URL mapping to `create_success_view`
+- `templates/create.html` — wrapped `#create-stage` in a real `<form method="post" enctype="multipart/form-data">` with `{% csrf_token %}`; added `{% if form.errors %}` banner listing field errors
+- `static/js/create.js` — added `galleryFiles: []` to `fd`; gallery listener now stores actual `File` objects in `fd.galleryFiles`; `handleSubmit()` replaced: builds a `FormData` from `fd` (including photo/gallery File objects, traits list, timeline date/desc pairs), POSTs to `/create/` via `fetch`, navigates to success URL on redirect or shows alert on error
+- `templates/create_success.html` — NEW: confirmation page extending base.html; shows pet name + pending status; links to preview (`/memorial/<slug>/`), create another (`/create/`), home (`/`)
 
 ### Phase 6C — Django models (completed)
 
@@ -304,6 +313,24 @@ Killed the Vite SPA client-side router. All pages now rendered server-side via D
 - `public/assets/memorials/mem-buddy.webp` through `mem-milo.webp` — 5 pet photos
 
 ---
+
+## What to test (most recent additions — Phase 6D.1 real memorial creation)
+
+- Start server: `.\venv\Scripts\python manage.py runserver`
+- Log in (register if needed), navigate to `/create/`
+- Complete the 5-step wizard:
+  - Step 1: enter pet name, species, breed, dates; upload a photo
+  - Step 2: enter epitaph and story
+  - Step 3: add 1–2 trait tags (press Enter); add a timeline milestone
+  - Step 4: upload 1–2 gallery photos (optional)
+  - Step 5: enter owner name and email; click "Create Memorial"
+- After submit, should redirect to `/create/success/<slug>/` with "Memorial Created!" and the pet's name
+- Verify links on success page: "View preview" opens `/memorial/<slug>/`, "Create another" goes to `/create/`, "Back to home" goes to `/`
+- The memorial detail page at `/memorial/<slug>/` will show not-found (it still uses the static MEMORIALS list) — that's expected until the memorial_view is wired to the DB
+- Check Django admin at `/admin/` → Memorials: new record should appear with status=pending, correct fields, traits, timeline milestones, gallery photos
+- Check that photo uploaded to `media/memorials/photos/`; gallery photos to `media/memorials/gallery/`
+- Test error case: submit without a photo — should show alert (client-side catches this first)
+- Test logged-out redirect: visit `/create/` while logged out → should redirect to `/register/`
 
 ## What to test (most recent additions — Django template conversion)
 

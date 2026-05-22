@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.utils.text import slugify
+from memorials.forms import MemorialForm
+from memorials.models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto
 
 MEMORIALS = [
     {
@@ -172,6 +175,28 @@ def home_view(request):
 
 
 def memorial_view(request, slug):
+    try:
+        db_m = Memorial.objects.get(slug=slug)
+        m = {
+            "slug": db_m.slug,
+            "name": db_m.pet_name,
+            "born": str(db_m.birth_date.year) if db_m.birth_date else "—",
+            "passed": str(db_m.passing_date.year) if db_m.passing_date else "—",
+            "species": db_m.species,
+            "epitaph": db_m.epitaph,
+            "photo": db_m.photo.url if db_m.photo else None,
+            "owner": db_m.owner_name,
+            "story": db_m.story,
+            "traits": [t.trait for t in db_m.traits.all()],
+            "timeline": [
+                {"year": item.date, "event": item.description}
+                for item in db_m.timeline.all()
+            ],
+        }
+        return render(request, "memorial.html", {"not_found": False, "m": m, "gallery_range": range(6)})
+    except Memorial.DoesNotExist:
+        pass
+
     m = _MEMORIAL_BY_SLUG.get(slug)
     if not m:
         return render(request, "memorial.html", {"not_found": True, "slug": slug}, status=404)
@@ -192,7 +217,53 @@ def browse_view(request):
 
 @login_required(login_url='/register/')
 def create_view(request):
-    return render(request, "create.html")
+    if request.method == 'POST':
+        form = MemorialForm(request.POST, request.FILES)
+        if form.is_valid():
+            memorial = form.save(commit=False)
+            memorial.user = request.user
+            memorial.status = 'pending'
+
+            base_slug = slugify(memorial.pet_name) or 'memorial'
+            slug = base_slug
+            counter = 1
+            while Memorial.objects.filter(slug=slug).exists():
+                slug = f'{base_slug}-{counter}'
+                counter += 1
+            memorial.slug = slug
+            memorial.save()
+
+            for trait in request.POST.getlist('traits'):
+                trait = trait.strip()
+                if trait:
+                    MemorialTrait.objects.create(memorial=memorial, trait=trait)
+
+            dates = request.POST.getlist('timeline_date')
+            descs = request.POST.getlist('timeline_desc')
+            for i, (date, desc) in enumerate(zip(dates, descs)):
+                date = date.strip()
+                desc = desc.strip()
+                if date or desc:
+                    TimelineMilestone.objects.create(
+                        memorial=memorial, date=date, description=desc, order=i
+                    )
+
+            for idx, photo_file in enumerate(request.FILES.getlist('gallery')):
+                GalleryPhoto.objects.create(memorial=memorial, photo=photo_file, order=idx)
+
+            return redirect('create_success', slug=memorial.slug)
+    else:
+        form = MemorialForm()
+
+    return render(request, 'create.html', {'form': form})
+
+
+def create_success_view(request, slug):
+    try:
+        memorial = Memorial.objects.get(slug=slug)
+    except Memorial.DoesNotExist:
+        return redirect('home')
+    return render(request, 'create_success.html', {'memorial': memorial})
 
 
 def contact_view(request):
