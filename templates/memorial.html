@@ -17,7 +17,12 @@
 
     <section class="mem-hero">
       <div class="mem-hero-inner">
-        <a href="/" class="mem-back-link">← Back to garden</a>
+        <div class="mem-hero-nav">
+          <a href="/" class="mem-back-link">← Back to garden</a>
+          {% if is_owner %}
+          <a href="/edit/{{ m.slug }}/" class="mem-edit-link">&#9998; Edit</a>
+          {% endif %}
+        </div>
         <div class="mem-hero-photo-wrap">
           {% if m.photo %}<img src="{{ m.photo }}" alt="{{ m.name }}">{% endif %}
         </div>

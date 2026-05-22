@@ -195,7 +195,8 @@ def memorial_view(request, slug):
                 for item in db_m.timeline.all()
             ],
         }
-        return render(request, "memorial.html", {"not_found": False, "m": m, "gallery_range": range(6)})
+        is_owner = request.user.is_authenticated and request.user == db_m.user
+        return render(request, "memorial.html", {"not_found": False, "m": m, "gallery_range": range(6), "is_owner": is_owner})
     except Memorial.DoesNotExist:
         pass
 

@@ -475,18 +475,37 @@ body.footer--inline #site-footer {
   gap: 0;
 }
 
+.mem-hero-nav {
+  align-self: stretch;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
 .mem-back-link {
-  align-self: flex-start;
   font-size: 12px;
   color: #5e4f76;
   text-decoration: none;
   letter-spacing: 0.04em;
-  margin-bottom: 32px;
   transition: color 0.2s ease;
 }
 
 .mem-back-link:hover {
   color: #2e2640;
+}
+
+.mem-edit-link {
+  font-size: 12px;
+  color: #5e4f76;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  opacity: 0.65;
+  transition: opacity 0.2s ease;
+}
+
+.mem-edit-link:hover {
+  opacity: 1;
 }
 
 .mem-hero-photo-wrap {
