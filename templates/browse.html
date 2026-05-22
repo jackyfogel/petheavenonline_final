@@ -28,20 +28,29 @@
 
       <div class="browse-controls">
         <div class="browse-pills" id="browse-pills" role="group" aria-label="Filter by species">
-          <button class="browse-pill pill--active" data-species="All">All</button>
-          <button class="browse-pill" data-species="Dogs">Dogs</button>
-          <button class="browse-pill" data-species="Cats">Cats</button>
-          <button class="browse-pill" data-species="Birds">Birds</button>
-          <button class="browse-pill" data-species="Other">Other</button>
+          <a class="browse-pill {% if not active_species %}pill--active{% endif %}"
+             href="/browse/?sort={{ sort }}{% if q %}&q={{ q }}{% endif %}">All</a>
+          <a class="browse-pill {% if active_species == 'Dog' %}pill--active{% endif %}"
+             href="/browse/?species=Dog&sort={{ sort }}{% if q %}&q={{ q }}{% endif %}">Dogs</a>
+          <a class="browse-pill {% if active_species == 'Cat' %}pill--active{% endif %}"
+             href="/browse/?species=Cat&sort={{ sort }}{% if q %}&q={{ q }}{% endif %}">Cats</a>
+          <a class="browse-pill {% if active_species == 'Bird' %}pill--active{% endif %}"
+             href="/browse/?species=Bird&sort={{ sort }}{% if q %}&q={{ q }}{% endif %}">Birds</a>
+          <a class="browse-pill {% if active_species == 'Other' %}pill--active{% endif %}"
+             href="/browse/?species=Other&sort={{ sort }}{% if q %}&q={{ q }}{% endif %}">Other</a>
         </div>
         <div class="browse-controls-right">
-          <select class="browse-sort" id="browse-sort" aria-label="Sort order">
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-            <option value="visited">Most visited</option>
-          </select>
-          <input class="browse-search" id="browse-search" type="search"
-            placeholder="Search by name…" aria-label="Search memorials">
+          <form method="get" action="/browse/" style="display:contents">
+            {% if active_species %}<input type="hidden" name="species" value="{{ active_species }}">{% endif %}
+            <select class="browse-sort" id="browse-sort" name="sort"
+                    aria-label="Sort order" onchange="this.form.submit()">
+              <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest first</option>
+              <option value="oldest" {% if sort == 'oldest' %}selected{% endif %}>Oldest first</option>
+              <option value="visited" {% if sort == 'visited' %}selected{% endif %}>Most visited</option>
+            </select>
+            <input class="browse-search" id="browse-search" name="q" type="search"
+              value="{{ q }}" placeholder="Search by name…" aria-label="Search memorials">
+          </form>
         </div>
       </div>
 
@@ -65,6 +74,8 @@
             <polyline points="9 18 15 12 9 6"/>
           </svg>
         </a>
+        {% empty %}
+        <p class="browse-empty">No memorials found. Try a different filter.</p>
         {% endfor %}
       </div>
 

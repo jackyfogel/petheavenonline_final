@@ -2,11 +2,16 @@
 
 ## Last completed step
 
-Phase 6D.1 — Wire Create Memorial page to save real data to the database
+Phase 6D.3 — Wire Browse page to show real memorials from the database
 
 ---
 
 ## What was done
+
+### Phase 6D.3 — Browse page wired to real data (completed)
+
+- `config/views.py` — `browse_view` rewritten: queries `Memorial.objects.filter(status='approved')` with `prefetch_related('traits')`; converts DB records to the same dict shape as static MEMORIALS (`name`, `born`, `passed`, `photo` URL, `traits` list, etc.); merges DB records first then static fallback (deduped by slug); `featured` = top 3 of the full unfiltered merged list sorted by year desc; applies server-side species filter (`?species=Dog`), name search (`?q=`), and sort (`?sort=newest/oldest/visited`); passes `active_species`, `q`, `sort` back to template
+- `templates/browse.html` — species pills changed from `<button>` to `<a>` links; each pill href includes current `sort` and `q` params so switching species preserves other state; `pill--active` applied server-side via `{% if active_species == '...' %}`; sort and search wrapped in `<form method="get" style="display:contents">` with hidden `species` input to preserve filter; sort select pre-selected from context; search input pre-filled with `{{ q }}`; `onchange="this.form.submit()"` on sort; `{% empty %}` block renders "No memorials found" when list is empty
 
 ### Phase 6D.1 — Real memorial creation (completed)
 

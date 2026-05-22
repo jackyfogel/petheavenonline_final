@@ -208,10 +208,58 @@ def memorial_view(request, slug):
 
 
 def browse_view(request):
-    featured = MEMORIALS[:3]
-    return render(request, "browse.html", {
-        "memorials": MEMORIALS,
-        "featured": featured,
+    species_filter = request.GET.get('species', '').strip()
+    q = request.GET.get('q', '').strip()
+    sort = request.GET.get('sort', 'newest')
+
+    db_qs = Memorial.objects.filter(status='approved').prefetch_related('traits')
+    db_list = []
+    for m in db_qs:
+        db_list.append({
+            'slug': m.slug,
+            'name': m.pet_name,
+            'born': str(m.birth_date.year) if m.birth_date else '—',
+            'passed': str(m.passing_date.year) if m.passing_date else '—',
+            'species': m.species,
+            'epitaph': m.epitaph,
+            'photo': m.photo.url if m.photo else None,
+            'owner': m.owner_name,
+            'story': m.story,
+            'traits': [t.trait for t in m.traits.all()],
+        })
+
+    db_slugs = {m['slug'] for m in db_list}
+    static_list = [m for m in MEMORIALS if m['slug'] not in db_slugs]
+    all_memorials = db_list + static_list
+
+    def _year(m):
+        try:
+            return int(m.get('passed') or 0)
+        except (ValueError, TypeError):
+            return 0
+
+    featured = sorted(all_memorials, key=_year, reverse=True)[:3]
+
+    if species_filter:
+        all_memorials = [m for m in all_memorials if m.get('species') == species_filter]
+
+    if q:
+        ql = q.lower()
+        all_memorials = [m for m in all_memorials if ql in m.get('name', '').lower()]
+
+    if sort == 'oldest':
+        all_memorials.sort(key=_year)
+    elif sort == 'visited':
+        all_memorials.sort(key=lambda m: m.get('name', '').lower())
+    else:
+        all_memorials.sort(key=_year, reverse=True)
+
+    return render(request, 'browse.html', {
+        'memorials': all_memorials,
+        'featured': featured,
+        'active_species': species_filter,
+        'q': q,
+        'sort': sort,
     })
 
 
