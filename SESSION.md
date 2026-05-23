@@ -8,6 +8,10 @@ Phase 6D.6 — Homepage scenes wired to real data + "Visit in garden" links
 
 ## What was done
 
+### Remove static/mock memorial data (completed)
+
+- `config/views.py` — removed the 170-line hardcoded `MEMORIALS` list and `_MEMORIAL_BY_SLUG` dict; removed unused `import json`; `memorial_view` now returns 404 directly if slug not found in DB (no static fallback); `browse_view` now queries DB only with no static merge logic
+
 ### Phase 6D.6 — Homepage scenes wired to real data (completed)
 
 - `memorials/management/commands/seed_scenes.py` — NEW: seeds 3 Scene records (Meadow Dawn, Sunset Lake, Twilight Garden) using `get_or_create`; already run
