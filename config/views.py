@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponseForbidden
 from django.utils.text import slugify
 from memorials.forms import MemorialForm, MemorialEditForm
-from memorials.models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto
+from memorials.models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto, Scene
 
 MEMORIALS = [
     {
@@ -172,8 +172,41 @@ MEMORIALS = [
 _MEMORIAL_BY_SLUG = {m["slug"]: m for m in MEMORIALS}
 
 
+def _approved_scene_pages():
+    """Returns {slug: 1-based scene page number} for all approved memorials."""
+    slugs = list(
+        Memorial.objects.filter(status='approved')
+        .order_by('created_at')
+        .values_list('slug', flat=True)
+    )
+    return {slug: (i // 5 + 1) for i, slug in enumerate(slugs)}
+
+
 def home_view(request):
-    return render(request, "home.html")
+    scenes = list(Scene.objects.filter(is_active=True).order_by('order'))
+    approved = list(Memorial.objects.filter(status='approved').order_by('created_at'))
+
+    scene_data = []
+    for i in range(0, max(len(approved), 1), 5):
+        batch = approved[i:i + 5]
+        sc = scenes[(i // 5) % len(scenes)] if scenes else None
+        scene_data.append({
+            'background': sc.background if sc else '/assets/scenes/meadow-dawn.webp',
+            'ambientColor': sc.ambient_color if sc else '#e8d5a8',
+            'memorials': [
+                {
+                    'slug': m.slug,
+                    'name': m.pet_name,
+                    'born': str(m.birth_date.year) if m.birth_date else '—',
+                    'passed': str(m.passing_date.year) if m.passing_date else '—',
+                    'epitaph': m.epitaph,
+                    'photo': m.photo.url if m.photo else None,
+                }
+                for m in batch
+            ],
+        })
+
+    return render(request, "home.html", {"scene_data": scene_data})
 
 
 def memorial_view(request, slug):
@@ -196,7 +229,12 @@ def memorial_view(request, slug):
             ],
         }
         is_owner = request.user.is_authenticated and request.user == db_m.user
-        return render(request, "memorial.html", {"not_found": False, "m": m, "gallery_range": range(6), "is_owner": is_owner})
+        scene_pages = _approved_scene_pages()
+        scene_page = scene_pages.get(slug)
+        return render(request, "memorial.html", {
+            "not_found": False, "m": m, "gallery_range": range(6),
+            "is_owner": is_owner, "scene_page": scene_page,
+        })
     except Memorial.DoesNotExist:
         pass
 
@@ -256,6 +294,12 @@ def browse_view(request):
         all_memorials.sort(key=lambda m: m.get('name', '').lower())
     else:
         all_memorials.sort(key=_year, reverse=True)
+
+    scene_pages = _approved_scene_pages()
+    for m in all_memorials:
+        m['scene_page'] = scene_pages.get(m['slug'])
+    for m in featured:
+        m['scene_page'] = scene_pages.get(m['slug'])
 
     return render(request, 'browse.html', {
         'memorials': all_memorials,
@@ -400,6 +444,9 @@ def account_view(request):
     else:
         initials = user.username[0].upper() if user.username else "?"
     memorials = list(Memorial.objects.filter(user=user).order_by('-created_at'))
+    scene_pages = _approved_scene_pages()
+    for m in memorials:
+        m.scene_page = scene_pages.get(m.slug)
     return render(request, "account.html", {"initials": initials, "memorials": memorials})
 
 

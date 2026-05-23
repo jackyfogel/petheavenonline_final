@@ -2,11 +2,22 @@
 
 ## Last completed step
 
-Phase 6D.4 — Build Edit Memorial page
+Phase 6D.6 — Homepage scenes wired to real data + "Visit in garden" links
 
 ---
 
 ## What was done
+
+### Phase 6D.6 — Homepage scenes wired to real data (completed)
+
+- `memorials/management/commands/seed_scenes.py` — NEW: seeds 3 Scene records (Meadow Dawn, Sunset Lake, Twilight Garden) using `get_or_create`; already run
+- `config/views.py` — added `Scene` import; added `_approved_scene_pages()` helper returning `{slug: page_number}` for approved memorials; `home_view` queries active Scenes + approved Memorials, batches into groups of 5, cycles through scene backgrounds, builds `scene_data` list; `memorial_view` passes `scene_page` to template; `browse_view` and `account_view` annotate each memorial with `scene_page`
+- `templates/home.html` — injects `window.SCENE_DATA` via `json_script` filter
+- `static/js/scene.js` — replaced hardcoded SCENES/MEMORIALS with `SLOT_CONFIGS` (3 authored position sets) + runtime `SCENES` built from `window.SCENE_DATA`; all rendering unchanged except `slot.memorial` replaces `MEMORIALS[slot.memorialId]`; added `?scene=N` URL param jump on init
+- `templates/memorial.html` — added `.mem-hero-nav-right` div with "Visit in garden →" link (conditional on `scene_page`)
+- `templates/account.html` — added "In garden" action link (shown for approved memorials only)
+- `templates/browse.html` — added `.browse-card-garden` span with onclick navigation (shown for approved DB memorials)
+- `static/css/main.css` — added styles for `.mem-hero-nav-right`, `.mem-garden-link`, `.browse-card-garden`
 
 ### Phase 6D.4 — Edit Memorial page (completed)
 

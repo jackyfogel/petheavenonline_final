@@ -1,81 +1,55 @@
 (function () {
-  var SCENES = [
+  // Authored slot positions for the 3 scene types, cycled by page index
+  var SLOT_CONFIGS = [
     {
-      id: "meadow-dawn",
-      ambientColor: "#e8d5a8",
-      background: "/assets/scenes/meadow-dawn.webp",
       slots: [
-        { x: 13, y: 78, scale: 0.90, memorialId: "mem-buddy"   },
-        { x: 31, y: 83, scale: 1.00, memorialId: "mem-luna"    },
-        { x: 50, y: 80, scale: 0.95, memorialId: "mem-oscar"   },
-        { x: 69, y: 84, scale: 1.05, memorialId: "mem-daisy"   },
-        { x: 87, y: 79, scale: 0.92, memorialId: "mem-milo"    },
+        { x: 13, y: 78, scale: 0.90 },
+        { x: 31, y: 83, scale: 1.00 },
+        { x: 50, y: 80, scale: 0.95 },
+        { x: 69, y: 84, scale: 1.05 },
+        { x: 87, y: 79, scale: 0.92 },
       ],
       slotsPortrait: [
-        { x: 13, y: 72, scale: 0.90, memorialId: "mem-buddy"   },
-        { x: 31, y: 77, scale: 1.00, memorialId: "mem-luna"    },
-        { x: 50, y: 74, scale: 0.95, memorialId: "mem-oscar"   },
-        { x: 69, y: 78, scale: 1.05, memorialId: "mem-daisy"   },
-        { x: 87, y: 73, scale: 0.92, memorialId: "mem-milo"    },
+        { x: 13, y: 72, scale: 0.90 },
+        { x: 31, y: 77, scale: 1.00 },
+        { x: 50, y: 74, scale: 0.95 },
+        { x: 69, y: 78, scale: 1.05 },
+        { x: 87, y: 73, scale: 0.92 },
       ],
     },
     {
-      id: "sunset-lake",
-      ambientColor: "#e8b078",
-      background: "/assets/scenes/sunset-lake.webp",
       slots: [
-        { x: 13, y: 80, scale: 0.88, memorialId: "mem-shadow"  },
-        { x: 31, y: 84, scale: 1.02, memorialId: "mem-maple"   },
-        { x: 50, y: 81, scale: 0.96, memorialId: "mem-bear"    },
-        { x: 69, y: 85, scale: 1.04, memorialId: "mem-willow"  },
-        { x: 87, y: 78, scale: 0.90, memorialId: "mem-chester" },
+        { x: 13, y: 80, scale: 0.88 },
+        { x: 31, y: 84, scale: 1.02 },
+        { x: 50, y: 81, scale: 0.96 },
+        { x: 69, y: 85, scale: 1.04 },
+        { x: 87, y: 78, scale: 0.90 },
       ],
       slotsPortrait: [
-        { x: 13, y: 74, scale: 0.88, memorialId: "mem-shadow"  },
-        { x: 31, y: 78, scale: 1.02, memorialId: "mem-maple"   },
-        { x: 50, y: 75, scale: 0.96, memorialId: "mem-bear"    },
-        { x: 69, y: 79, scale: 1.04, memorialId: "mem-willow"  },
-        { x: 87, y: 72, scale: 0.90, memorialId: "mem-chester" },
+        { x: 13, y: 74, scale: 0.88 },
+        { x: 31, y: 78, scale: 1.02 },
+        { x: 50, y: 75, scale: 0.96 },
+        { x: 69, y: 79, scale: 1.04 },
+        { x: 87, y: 72, scale: 0.90 },
       ],
     },
     {
-      id: "twilight-garden",
-      ambientColor: "#b8a5d4",
-      background: "/assets/scenes/twilight-garden.webp",
       slots: [
-        { x: 13, y: 77, scale: 0.91, memorialId: "mem-pearl"   },
-        { x: 31, y: 82, scale: 1.00, memorialId: "mem-sandy"   },
-        { x: 50, y: 79, scale: 0.94, memorialId: "mem-finn"    },
-        { x: 69, y: 83, scale: 1.06, memorialId: "mem-coral"   },
-        { x: 87, y: 78, scale: 0.93, memorialId: "mem-duke"    },
+        { x: 13, y: 77, scale: 0.91 },
+        { x: 31, y: 82, scale: 1.00 },
+        { x: 50, y: 79, scale: 0.94 },
+        { x: 69, y: 83, scale: 1.06 },
+        { x: 87, y: 78, scale: 0.93 },
       ],
       slotsPortrait: [
-        { x: 13, y: 71, scale: 0.91, memorialId: "mem-pearl"   },
-        { x: 31, y: 76, scale: 1.00, memorialId: "mem-sandy"   },
-        { x: 50, y: 73, scale: 0.94, memorialId: "mem-finn"    },
-        { x: 69, y: 77, scale: 1.06, memorialId: "mem-coral"   },
-        { x: 87, y: 72, scale: 0.93, memorialId: "mem-duke"    },
+        { x: 13, y: 71, scale: 0.91 },
+        { x: 31, y: 76, scale: 1.00 },
+        { x: 50, y: 73, scale: 0.94 },
+        { x: 69, y: 77, scale: 1.06 },
+        { x: 87, y: 72, scale: 0.93 },
       ],
     },
   ];
-
-  var MEMORIALS = {
-    "mem-buddy":   { slug: "buddy",   name: "Buddy",   born: "2010", passed: "2023", epitaph: "Loyal beyond measure.",              photo: "/assets/memorials/mem-buddy.webp"   },
-    "mem-luna":    { slug: "luna",    name: "Luna",    born: "2015", passed: "2024", epitaph: "She filled every room with light.",   photo: "/assets/memorials/mem-luna.webp"    },
-    "mem-oscar":   { slug: "oscar",   name: "Oscar",   born: "2008", passed: "2022", epitaph: "A gentleman until the very end.",     photo: "/assets/memorials/mem-oscar.webp"   },
-    "mem-daisy":   { slug: "daisy",   name: "Daisy",   born: "2012", passed: "2023", epitaph: "Forever chasing sunbeams.",           photo: "/assets/memorials/mem-daisy.webp"   },
-    "mem-milo":    { slug: "milo",    name: "Milo",    born: "2017", passed: "2025", epitaph: "Small paws, enormous heart.",         photo: "/assets/memorials/mem-milo.webp"    },
-    "mem-shadow":  { slug: "shadow",  name: "Shadow",  born: "2011", passed: "2022", epitaph: "He walked quietly beside us.",        photo: null },
-    "mem-maple":   { slug: "maple",   name: "Maple",   born: "2013", passed: "2024", epitaph: "Gentle and curious always.",          photo: null },
-    "mem-bear":    { slug: "bear",    name: "Bear",    born: "2009", passed: "2021", epitaph: "Brave, warm, and true.",              photo: null },
-    "mem-willow":  { slug: "willow",  name: "Willow",  born: "2016", passed: "2025", epitaph: "She taught us how to rest.",          photo: null },
-    "mem-chester": { slug: "chester", name: "Chester", born: "2007", passed: "2020", epitaph: "Steadfast to the last.",              photo: null },
-    "mem-pearl":   { slug: "pearl",   name: "Pearl",   born: "2014", passed: "2024", epitaph: "She shone in every quiet moment.",    photo: null },
-    "mem-sandy":   { slug: "sandy",   name: "Sandy",   born: "2012", passed: "2023", epitaph: "Always running toward the waves.",    photo: null },
-    "mem-finn":    { slug: "finn",    name: "Finn",    born: "2010", passed: "2022", epitaph: "Free and joyful every single day.",   photo: null },
-    "mem-coral":   { slug: "coral",   name: "Coral",   born: "2018", passed: "2025", epitaph: "Too bright, too brief.",              photo: null },
-    "mem-duke":    { slug: "duke",    name: "Duke",    born: "2006", passed: "2019", epitaph: "A long life, well and fully lived.",  photo: null },
-  };
 
   var MOBILE_POSITIONS = [
     { x: 50, y: 78 },
@@ -85,12 +59,41 @@
     { x: 67, y: 90 },
   ];
 
+  // Build SCENES from server-injected window.SCENE_DATA
+  var RAW = window.SCENE_DATA || [];
+  var SCENES = RAW.map(function (sd, i) {
+    var cfg = SLOT_CONFIGS[i % SLOT_CONFIGS.length];
+    return {
+      background: sd.background,
+      ambientColor: sd.ambientColor,
+      slots: sd.memorials.map(function (m, j) {
+        var pos = cfg.slots[j] || { x: 50, y: 80, scale: 1.0 };
+        return { x: pos.x, y: pos.y, scale: pos.scale, memorial: m };
+      }),
+      slotsPortrait: sd.memorials.map(function (m, j) {
+        var pos = cfg.slotsPortrait[j] || { x: 50, y: 74, scale: 1.0 };
+        return { x: pos.x, y: pos.y, scale: pos.scale, memorial: m };
+      }),
+    };
+  });
+
+  if (SCENES.length === 0) {
+    SCENES = [{ background: '/assets/scenes/meadow-dawn.webp', ambientColor: '#e8d5a8', slots: [], slotsPortrait: [] }];
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     var stage   = document.getElementById("stage");
     var sceneEl = document.getElementById("scene");
     if (!stage || !sceneEl) return;
 
-    var currentIndex   = 0;
+    // Read ?scene=N param (1-based) to start on a specific page
+    var urlParams = new URLSearchParams(window.location.search);
+    var sceneParam = parseInt(urlParams.get('scene'), 10);
+    var startIndex = (!isNaN(sceneParam) && sceneParam >= 1 && sceneParam <= SCENES.length)
+      ? sceneParam - 1
+      : 0;
+
+    var currentIndex   = startIndex;
     var isTransitioning = false;
     var previewCard    = null;
     var markerEls      = [];
@@ -164,7 +167,7 @@
       markerEls.forEach(function (el) {
         el.classList.add(el === markerEl ? "marker--active" : "marker--dimmed");
       });
-      var m    = MEMORIALS[slot.memorialId];
+      var m    = slot.memorial;
       var card = document.createElement("div");
       card.className = "preview-card";
       card.style.left = slot.x + "%";
@@ -188,7 +191,7 @@
       markerEls.forEach(function (el) {
         el.classList.add(el === markerEl ? "marker--active" : "marker--dimmed");
       });
-      var m       = MEMORIALS[slot.memorialId];
+      var m       = slot.memorial;
       var overlay = document.createElement("div");
       overlay.className = "mobile-card-overlay";
       overlay.addEventListener("click", closePreview);
@@ -230,7 +233,7 @@
       img.alt = "";
       img.draggable = false;
       marker.appendChild(img);
-      var m = MEMORIALS[slot.memorialId];
+      var m = slot.memorial;
       var ov = document.createElement("div");
       ov.className = "marker-overlay";
       ov.innerHTML =

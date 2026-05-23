@@ -5,6 +5,8 @@
 
 {% block extra_head %}
 <style>html, body { height: 100%; overflow: hidden; }</style>
+{{ scene_data|json_script:"scene-data" }}
+<script>window.SCENE_DATA = JSON.parse(document.getElementById('scene-data').textContent);</script>
 {% endblock %}
 
 {% block content %}

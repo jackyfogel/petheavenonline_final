@@ -19,9 +19,14 @@
       <div class="mem-hero-inner">
         <div class="mem-hero-nav">
           <a href="/" class="mem-back-link">← Back to garden</a>
-          {% if is_owner %}
-          <a href="/edit/{{ m.slug }}/" class="mem-edit-link">&#9998; Edit</a>
-          {% endif %}
+          <div class="mem-hero-nav-right">
+            {% if scene_page %}
+            <a href="/?scene={{ scene_page }}" class="mem-garden-link">Visit in garden →</a>
+            {% endif %}
+            {% if is_owner %}
+            <a href="/edit/{{ m.slug }}/" class="mem-edit-link">&#9998; Edit</a>
+            {% endif %}
+          </div>
         </div>
         <div class="mem-hero-photo-wrap">
           {% if m.photo %}<img src="{{ m.photo }}" alt="{{ m.name }}">{% endif %}

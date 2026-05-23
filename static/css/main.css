@@ -508,6 +508,39 @@ body.footer--inline #site-footer {
   opacity: 1;
 }
 
+.mem-hero-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mem-garden-link {
+  font-size: 12px;
+  color: #5e4f76;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  opacity: 0.65;
+  transition: opacity 0.2s ease;
+}
+
+.mem-garden-link:hover {
+  opacity: 1;
+}
+
+.browse-card-garden {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #7a6a96;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.browse-card-garden:hover {
+  opacity: 1;
+}
+
 .mem-hero-photo-wrap {
   width: 140px;
   height: 140px;
