@@ -753,41 +753,6 @@ body.footer--inline #site-footer {
 
 /* Flowers */
 
-.mem-flowers {
-  display: flex;
-  justify-content: center;
-  gap: 36px;
-}
-
-.mem-flower-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-}
-
-.mem-flower-circle {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  border: 2px solid rgba(154, 137, 181, 0.35);
-}
-
-.mem-flower-circle--rose    { background-color: #e8c8d0; }
-.mem-flower-circle--lily    { background-color: #e0d8b8; }
-.mem-flower-circle--bouquet { background-color: #c8bada; }
-
-.mem-flower-name {
-  font-size: 13px;
-  color: #2e2640;
-}
-
-.mem-flower-price {
-  font-size: 11px;
-  color: #9a89b5;
-}
-
 /* Tributes */
 
 .mem-tributes-list {
