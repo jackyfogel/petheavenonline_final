@@ -68,7 +68,7 @@
             <div class="browse-card-detail">{% if m.traits %}{{ m.traits.0 }} &middot; {% endif %}{{ m.species }}</div>
             <div class="browse-card-dates">{{ m.born }} &ndash; {{ m.passed }}</div>
             <p class="browse-card-epitaph">{{ m.epitaph }}</p>
-            {% if m.scene_page %}<span class="browse-card-garden" onclick="event.preventDefault();event.stopPropagation();window.location.href='/?scene={{ m.scene_page }}';">Visit in garden →</span>{% endif %}
+            {% if m.scene_page %}<span class="browse-card-garden" onclick="event.preventDefault();event.stopPropagation();window.location.href='/?scene={{ m.scene_page }}';">Visit {{ m.name }} in the garden →</span>{% endif %}
           </div>
           <svg class="browse-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">

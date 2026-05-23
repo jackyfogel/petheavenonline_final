@@ -19,6 +19,12 @@ Phase 6D.6 — Homepage scenes wired to real data + "Visit in garden" links
 - `templates/browse.html` — added `.browse-card-garden` span with onclick navigation (shown for approved DB memorials)
 - `static/css/main.css` — added styles for `.mem-hero-nav-right`, `.mem-garden-link`, `.browse-card-garden`
 
+### Garden link text update (completed)
+
+- `templates/memorial.html` — garden link text changed to "Visit {{ m.name }} in the garden →"
+- `templates/account.html` — garden link text changed to "Visit {{ memorial.pet_name }} in the garden →"
+- `templates/browse.html` — garden link text changed to "Visit {{ m.name }} in the garden →"
+
 ### Phase 6D.4 — Edit Memorial page (completed)
 
 - `memorials/forms.py` — added `MemorialEditForm(MemorialForm)` with `photo = forms.ImageField(required=False)` so editing without changing the photo doesn't fail validation
