@@ -36,6 +36,7 @@ def home_view(request):
                     'passed': str(m.passing_date.year) if m.passing_date else '—',
                     'epitaph': m.epitaph,
                     'photo': m.photo.url if m.photo else None,
+                    'owner': m.owner_name,
                 }
                 for m in batch
             ],

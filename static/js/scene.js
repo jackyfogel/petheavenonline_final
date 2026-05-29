@@ -162,6 +162,19 @@
       markerEls.forEach(function (el) { el.classList.remove("marker--active", "marker--dimmed"); });
     }
 
+    function buildCardHTML(m) {
+      return (
+        '<button class="preview-close" aria-label="Close">&#215;</button>' +
+        '<div class="preview-photo">' + (m.photo ? '<img src="' + m.photo + '" alt="' + m.name + '">' : '') + '</div>' +
+        '<p class="preview-eyebrow">In Loving Memory of</p>' +
+        '<div class="preview-name">' + m.name + '</div>' +
+        '<div class="preview-dates">' + m.born + ' &mdash; ' + m.passed + '</div>' +
+        '<div class="preview-epitaph">' + m.epitaph + '</div>' +
+        (m.owner ? '<div class="preview-owner">Created by ' + m.owner + '</div>' : '') +
+        '<a class="preview-enter" href="/memorial/' + m.slug + '/">View Memorial</a>'
+      );
+    }
+
     function activateMarker(slot, markerEl) {
       closePreview();
       markerEls.forEach(function (el) {
@@ -172,13 +185,7 @@
       card.className = "preview-card";
       card.style.left = slot.x + "%";
       card.style.top  = slot.y + "%";
-      card.innerHTML =
-        '<button class="preview-close" aria-label="Close">&#215;</button>' +
-        '<div class="preview-photo"></div>' +
-        '<div class="preview-name">'   + m.name    + '</div>' +
-        '<div class="preview-dates">'  + m.born + ' &ndash; ' + m.passed + '</div>' +
-        '<div class="preview-epitaph">' + m.epitaph + '</div>' +
-        '<a class="preview-enter" href="/memorial/' + m.slug + '/">Enter Memorial</a>';
+      card.innerHTML = buildCardHTML(m);
       card.querySelector(".preview-close").addEventListener("click", function (e) {
         e.stopPropagation(); closePreview();
       });
@@ -197,13 +204,7 @@
       overlay.addEventListener("click", closePreview);
       var card = document.createElement("div");
       card.className = "preview-card preview-card--mobile";
-      card.innerHTML =
-        '<button class="preview-close" aria-label="Close">&#215;</button>' +
-        '<div class="preview-photo"></div>' +
-        '<div class="preview-name">'   + m.name    + '</div>' +
-        '<div class="preview-dates">'  + m.born + ' &ndash; ' + m.passed + '</div>' +
-        '<div class="preview-epitaph">' + m.epitaph + '</div>' +
-        '<a class="preview-enter" href="/memorial/' + m.slug + '/">Enter Memorial</a>';
+      card.innerHTML = buildCardHTML(m);
       card.querySelector(".preview-close").addEventListener("click", function (e) {
         e.stopPropagation(); closePreview();
       });
