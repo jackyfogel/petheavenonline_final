@@ -96,7 +96,7 @@ class Tribute(models.Model):
 class Scene(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
-    background = models.CharField(max_length=200)
+    background = models.ImageField(upload_to='scenes/', blank=True)
     ambient_color = models.CharField(max_length=7)
     order = models.PositiveIntegerField(default=0)
     is_active = models.BooleanField(default=True)

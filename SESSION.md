@@ -8,6 +8,13 @@ Phase 6D.6 — Homepage scenes wired to real data + "Visit in garden" links
 
 ## What was done
 
+### Scene background ImageField (completed)
+
+- `memorials/models.py` — `Scene.background` changed from `CharField(max_length=200)` to `ImageField(upload_to='scenes/', blank=True)` — backgrounds now upload to S3 via admin
+- `memorials/migrations/0002_alter_scene_background.py` — generated and applied
+- `memorials/management/commands/seed_scenes.py` — removed hardcoded background paths; scenes seeded with title/slug/ambient_color/order only
+- `config/views.py` — `home_view` now uses `sc.background.url` (ImageField URL) instead of raw string; falls back to empty string if no image uploaded
+
 ### Phase 6E — AWS S3 media storage (completed)
 
 - `requirements.txt` — added `boto3==1.37.28` and `django-storages==1.14.6`

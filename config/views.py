@@ -26,7 +26,7 @@ def home_view(request):
         page_index = i // 5
         sc = scenes[page_index] if page_index < len(scenes) else scenes[0] if scenes else None
         scene_data.append({
-            'background': sc.background if sc else '/assets/scenes/meadow-dawn.webp',
+            'background': sc.background.url if sc and sc.background else '',
             'ambientColor': sc.ambient_color if sc else '#e8d5a8',
             'memorials': [
                 {
