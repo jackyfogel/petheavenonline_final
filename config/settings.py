@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
     'accounts',
     'memorials',
 ]
@@ -87,10 +88,40 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'dist', BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+_AWS_BUCKET = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+if _AWS_BUCKET:
+    _AWS_REGION = os.environ.get('AWS_S3_REGION_NAME', 'us-east-1')
+    MEDIA_URL = f'https://{_AWS_BUCKET}.s3.amazonaws.com/'
+    STORAGES = {
+        'default': {
+            'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+            'OPTIONS': {
+                'bucket_name': _AWS_BUCKET,
+                'region_name': _AWS_REGION,
+                'access_key': os.environ.get('AWS_ACCESS_KEY_ID'),
+                'secret_key': os.environ.get('AWS_SECRET_ACCESS_KEY'),
+                'custom_domain': f'{_AWS_BUCKET}.s3.amazonaws.com',
+                'querystring_auth': False,
+                'default_acl': None,
+                'object_parameters': {'CacheControl': 'max-age=86400'},
+            },
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        },
+    }
+else:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
+    STORAGES = {
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        },
+    }
 
 CSRF_TRUSTED_ORIGINS = [
     'https://petheavenonline.com',

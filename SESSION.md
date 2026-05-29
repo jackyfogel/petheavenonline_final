@@ -8,6 +8,11 @@ Phase 6D.6 — Homepage scenes wired to real data + "Visit in garden" links
 
 ## What was done
 
+### Phase 6E — AWS S3 media storage (completed)
+
+- `requirements.txt` — added `boto3==1.37.28` and `django-storages==1.14.6`
+- `config/settings.py` — added `'storages'` to INSTALLED_APPS; replaced the `MEDIA_URL`/`MEDIA_ROOT` block with a conditional: if `AWS_STORAGE_BUCKET_NAME` env var exists, configures `S3Boto3Storage` as `DEFAULT_FILE_STORAGE` with public-read ACL, no signed URLs, 1-day cache headers, and `MEDIA_URL` pointing to `https://<bucket>.s3.amazonaws.com/`; if env var absent, falls back to local `/media/` storage unchanged
+
 ### Remove static/mock memorial data (completed)
 
 - `config/views.py` — removed the 170-line hardcoded `MEMORIALS` list and `_MEMORIAL_BY_SLUG` dict; removed unused `import json`; `memorial_view` now returns 404 directly if slug not found in DB (no static fallback); `browse_view` now queries DB only with no static merge logic
