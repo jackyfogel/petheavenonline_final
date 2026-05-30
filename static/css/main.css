@@ -911,6 +911,65 @@ body.footer--inline #site-footer {
   line-height: 1.65;
 }
 
+.mem-tributes-empty {
+  font-size: 14px;
+  color: #9a89b5;
+  margin-bottom: 24px;
+}
+
+.mem-tribute-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #e6e0f0;
+}
+
+.mem-tribute-form-label {
+  font-size: 13px;
+  color: #5e4f76;
+}
+
+.mem-tribute-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d5cde5;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #2e2640;
+  font-family: inherit;
+  resize: vertical;
+  background: #fdfbff;
+  box-sizing: border-box;
+}
+
+.mem-tribute-textarea:focus {
+  outline: none;
+  border-color: #9a89b5;
+}
+
+.mem-tribute-submit {
+  align-self: flex-start;
+}
+
+.mem-tribute-login {
+  font-size: 14px;
+  color: #5e4f76;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #e6e0f0;
+}
+
+.mem-tribute-login a {
+  color: #5e4f76;
+  font-weight: 500;
+}
+
+.mem-tribute-login a:hover {
+  text-decoration: underline;
+}
+
 /* Share */
 
 .mem-share-intro {

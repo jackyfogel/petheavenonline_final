@@ -81,10 +81,12 @@ class GalleryPhoto(models.Model):
 
 
 class Tribute(models.Model):
-    memorial = models.ForeignKey(Memorial, on_delete=models.CASCADE, related_name='tributes')
+    memorial    = models.ForeignKey(Memorial, on_delete=models.CASCADE, related_name='tributes')
+    user        = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='tributes')
     author_name = models.CharField(max_length=100)
-    message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    message     = models.TextField()
+    is_approved = models.BooleanField(default=True)
+    created_at  = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-created_at']

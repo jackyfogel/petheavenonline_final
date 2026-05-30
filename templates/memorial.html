@@ -97,42 +97,40 @@
       </div>
     </section>
 
-    <section class="mem-section">
+    <section class="mem-section" id="tributes">
       <div class="mem-section-inner">
         <h2 class="mem-heading">Tributes</h2>
+
+        {% if tributes %}
         <div class="mem-tributes-list">
+          {% for tribute in tributes %}
           <div class="mem-tribute">
-            <div class="mem-tribute-avatar">SM</div>
+            <div class="mem-tribute-avatar">{{ tribute.author_name|slice:":1"|upper }}{% if tribute.author_name|length > 1 %}{{ tribute.author_name.split|last|slice:":1"|upper }}{% endif %}</div>
             <div class="mem-tribute-body">
               <div class="mem-tribute-header">
-                <span class="mem-tribute-name">Sarah M.</span>
-                <span class="mem-tribute-time">2 days ago</span>
+                <span class="mem-tribute-name">{{ tribute.author_name }}</span>
+                <span class="mem-tribute-time">{{ tribute.created_at|date:"N j, Y" }}</span>
               </div>
-              <p class="mem-tribute-message">{{ m.name }} was such a wonderful companion. Our hearts go out to your whole family.</p>
+              <p class="mem-tribute-message">{{ tribute.message }}</p>
             </div>
           </div>
-          <div class="mem-tribute">
-            <div class="mem-tribute-avatar">TL</div>
-            <div class="mem-tribute-body">
-              <div class="mem-tribute-header">
-                <span class="mem-tribute-name">Tom &amp; Lisa</span>
-                <span class="mem-tribute-time">1 week ago</span>
-              </div>
-              <p class="mem-tribute-message">We'll never forget the joy {{ m.name }} brought to every gathering. A truly special soul.</p>
-            </div>
-          </div>
-          <div class="mem-tribute">
-            <div class="mem-tribute-avatar">RF</div>
-            <div class="mem-tribute-body">
-              <div class="mem-tribute-header">
-                <span class="mem-tribute-name">The Rivera Family</span>
-                <span class="mem-tribute-time">2 weeks ago</span>
-              </div>
-              <p class="mem-tribute-message">May {{ m.name }} rest in eternal peace. Thinking of you all.</p>
-            </div>
-          </div>
+          {% endfor %}
         </div>
-        <button class="mem-btn">Leave a Tribute</button>
+        {% else %}
+        <p class="mem-tributes-empty">Be the first to leave a tribute for {{ m.name }}.</p>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <form class="mem-tribute-form" method="post" action="/memorial/{{ m.slug }}/tribute/">
+          {% csrf_token %}
+          <p class="mem-tribute-form-label">Leave a tribute as <strong>{{ user_full_name }}</strong></p>
+          <textarea class="mem-tribute-textarea" name="message" rows="3" placeholder="Share a memory or kind words…" required></textarea>
+          <button class="mem-btn mem-tribute-submit" type="submit">Post Tribute</button>
+        </form>
+        {% else %}
+        <p class="mem-tribute-login"><a href="/login/?next=/memorial/{{ m.slug }}/">Sign in</a> to leave a tribute for {{ m.name }}.</p>
+        {% endif %}
+
       </div>
     </section>
 

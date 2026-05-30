@@ -19,6 +19,7 @@ urlpatterns = [
     path('privacy/', views.privacy_view, name='privacy'),
     path('memorial/<slug:slug>/', views.memorial_view, name='memorial'),
     path('memorial/<slug:slug>/light-candle/', views.light_candle_view, name='light_candle'),
+    path('memorial/<slug:slug>/tribute/', views.leave_tribute_view, name='leave_tribute'),
     re_path(r'^assets/(?P<path>.*)$', serve, {'document_root': settings.BASE_DIR / 'dist' / 'assets'}),
 ]
 

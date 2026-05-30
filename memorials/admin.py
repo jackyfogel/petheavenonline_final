@@ -39,7 +39,10 @@ class PlacementAdmin(admin.ModelAdmin):
 
 @admin.register(Tribute)
 class TributeAdmin(admin.ModelAdmin):
-    list_display = ('memorial', 'author_name', 'created_at')
+    list_display = ('memorial', 'author_name', 'user', 'is_approved', 'created_at')
+    list_filter = ('is_approved',)
+    list_editable = ('is_approved',)
+    search_fields = ('author_name', 'message')
 
 
 @admin.register(Candle)

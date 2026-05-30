@@ -2,11 +2,21 @@
 
 ## Last completed step
 
-Phase 6D.6 — Homepage scenes wired to real data + "Visit in garden" links
+Phase 6F.2 — Tributes/Comments feature
 
 ---
 
 ## What was done
+
+### Phase 6F.2 — Tributes/Comments feature (completed)
+
+- `memorials/models.py` — added `user` (FK to User, null/blank) and `is_approved` (BooleanField, default=True) to `Tribute` model
+- `memorials/migrations/0004_tribute_is_approved_tribute_user.py` — generated and applied
+- `memorials/admin.py` — updated `TributeAdmin`: list_display now includes user and is_approved; added list_filter and list_editable for is_approved; added search_fields
+- `config/views.py` — added `Tribute` to imports; updated `memorial_view` to query approved tributes and pass `tributes` + `user_full_name` to template; added `leave_tribute_view` (POST only, login required, creates Tribute and redirects to `#tributes`)
+- `config/urls.py` — added `memorial/<slug>/tribute/` URL
+- `templates/memorial.html` — replaced static mock tributes with dynamic loop; added leave-tribute form for logged-in users; added login prompt for anonymous users; added empty state when no tributes exist
+- `static/css/main.css` — added `.mem-tributes-empty`, `.mem-tribute-form`, `.mem-tribute-form-label`, `.mem-tribute-textarea`, `.mem-tribute-submit`, `.mem-tribute-login` styles
 
 ### Phase 6F.1 — Light a Candle feature (completed)
 

@@ -4,7 +4,7 @@ from django.http import Http404, HttpResponseForbidden, JsonResponse
 from django.views.decorators.http import require_POST
 from django.utils.text import slugify
 from memorials.forms import MemorialForm, MemorialEditForm
-from memorials.models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto, Scene, Candle
+from memorials.models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto, Scene, Candle, Tribute
 
 
 def _approved_scene_pages():
@@ -79,10 +79,17 @@ def memorial_view(request, slug):
             request.session.session_key and
             Candle.objects.filter(memorial=db_m, session_key=request.session.session_key).exists()
         )
+
+    tributes = Tribute.objects.filter(memorial=db_m, is_approved=True).select_related('user')
+    user_full_name = ''
+    if request.user.is_authenticated:
+        user_full_name = request.user.get_full_name().strip() or request.user.username
+
     return render(request, "memorial.html", {
         "not_found": False, "m": m, "gallery_range": range(6),
         "is_owner": is_owner, "scene_page": scene_page,
         "candle_count": candle_count, "already_lit": already_lit,
+        "tributes": tributes, "user_full_name": user_full_name,
     })
 
 
@@ -165,6 +172,26 @@ def light_candle_view(request, slug):
 
     count = Candle.objects.filter(memorial=memorial).count()
     return JsonResponse({'already_lit': already_lit, 'count': count})
+
+
+@login_required(login_url='/login/')
+@require_POST
+def leave_tribute_view(request, slug):
+    try:
+        memorial = Memorial.objects.get(slug=slug)
+    except Memorial.DoesNotExist:
+        raise Http404
+
+    message = request.POST.get('message', '').strip()
+    if message:
+        author_name = request.user.get_full_name().strip() or request.user.username
+        Tribute.objects.create(
+            memorial=memorial,
+            user=request.user,
+            author_name=author_name,
+            message=message,
+        )
+    return redirect(f'/memorial/{slug}/#tributes')
 
 
 @login_required(login_url='/register/')
