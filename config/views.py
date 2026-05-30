@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponseForbidden
+from django.http import Http404, HttpResponseForbidden, JsonResponse
+from django.views.decorators.http import require_POST
 from django.utils.text import slugify
 from memorials.forms import MemorialForm, MemorialEditForm
-from memorials.models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto, Scene
+from memorials.models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto, Scene, Candle
 
 
 def _approved_scene_pages():
@@ -70,9 +71,18 @@ def memorial_view(request, slug):
     is_owner = request.user.is_authenticated and request.user == db_m.user
     scene_pages = _approved_scene_pages()
     scene_page = scene_pages.get(slug)
+    candle_count = Candle.objects.filter(memorial=db_m).count()
+    if request.user.is_authenticated:
+        already_lit = Candle.objects.filter(memorial=db_m, user=request.user).exists()
+    else:
+        already_lit = bool(
+            request.session.session_key and
+            Candle.objects.filter(memorial=db_m, session_key=request.session.session_key).exists()
+        )
     return render(request, "memorial.html", {
         "not_found": False, "m": m, "gallery_range": range(6),
         "is_owner": is_owner, "scene_page": scene_page,
+        "candle_count": candle_count, "already_lit": already_lit,
     })
 
 
@@ -132,6 +142,29 @@ def browse_view(request):
         'q': q,
         'sort': sort,
     })
+
+
+@require_POST
+def light_candle_view(request, slug):
+    try:
+        memorial = Memorial.objects.get(slug=slug)
+    except Memorial.DoesNotExist:
+        return JsonResponse({'error': 'not found'}, status=404)
+
+    if request.user.is_authenticated:
+        already_lit = Candle.objects.filter(memorial=memorial, user=request.user).exists()
+        if not already_lit:
+            Candle.objects.create(memorial=memorial, user=request.user)
+    else:
+        if not request.session.session_key:
+            request.session.create()
+        session_key = request.session.session_key
+        already_lit = Candle.objects.filter(memorial=memorial, session_key=session_key).exists()
+        if not already_lit:
+            Candle.objects.create(memorial=memorial, session_key=session_key)
+
+    count = Candle.objects.filter(memorial=memorial).count()
+    return JsonResponse({'already_lit': already_lit, 'count': count})
 
 
 @login_required(login_url='/register/')

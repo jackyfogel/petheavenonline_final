@@ -8,6 +8,16 @@ Phase 6D.6 — Homepage scenes wired to real data + "Visit in garden" links
 
 ## What was done
 
+### Phase 6F.1 — Light a Candle feature (completed)
+
+- `memorials/models.py` — added `Candle` model: FK to Memorial, nullable FK to User, nullable `session_key` CharField; two conditional unique constraints (one per user per memorial, one per session per memorial)
+- `memorials/migrations/0003_candle.py` — generated and applied
+- `memorials/admin.py` — registered `CandleAdmin` with list_display and readonly created_at
+- `config/views.py` — added `JsonResponse`/`require_POST` imports and `Candle` import; added `light_candle_view` (POST only, handles auth and anonymous, returns `{already_lit, count}`); updated `memorial_view` to pass `candle_count` and `already_lit` to template
+- `config/urls.py` — added `memorial/<slug>/light-candle/` URL
+- `templates/memorial.html` — replaced static candle section with data-attribute-driven section; added `{% block extra_scripts %}` with inline IIFE that renders animated candle grid, handles button click via fetch, shows nudge for anonymous users after lighting
+- `static/css/main.css` — replaced old `.mem-candle-icon` CSS with animated candle system: `.mem-candle`, `.mem-candle-flame` (CSS `candle-flicker` keyframes with `--flicker-dur`/`--flicker-delay` custom props), `.mem-candle-body`, `.mem-candle-base`, `.mem-candle--new` appear animation, `.mem-candle-btn--lit`, `.mem-candle-nudge`
+
 ### Scene background ImageField (completed)
 
 - `memorials/models.py` — `Scene.background` changed from `CharField(max_length=200)` to `ImageField(upload_to='scenes/', blank=True)` — backgrounds now upload to S3 via admin

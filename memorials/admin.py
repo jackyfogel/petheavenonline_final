@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto, Tribute, Scene, Placement
+from .models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto, Tribute, Scene, Placement, Candle
 
 
 class MemorialTraitInline(admin.TabularInline):
@@ -40,3 +40,10 @@ class PlacementAdmin(admin.ModelAdmin):
 @admin.register(Tribute)
 class TributeAdmin(admin.ModelAdmin):
     list_display = ('memorial', 'author_name', 'created_at')
+
+
+@admin.register(Candle)
+class CandleAdmin(admin.ModelAdmin):
+    list_display = ('memorial', 'user', 'session_key', 'created_at')
+    list_filter = ('created_at',)
+    readonly_fields = ('created_at',)

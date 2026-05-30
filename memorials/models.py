@@ -93,6 +93,30 @@ class Tribute(models.Model):
         return f'Tribute from {self.author_name} for {self.memorial.pet_name}'
 
 
+class Candle(models.Model):
+    memorial    = models.ForeignKey(Memorial, on_delete=models.CASCADE, related_name='candles')
+    user        = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='candles')
+    session_key = models.CharField(max_length=40, null=True, blank=True)
+    created_at  = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'memorial'],
+                condition=models.Q(user__isnull=False),
+                name='unique_user_memorial_candle',
+            ),
+            models.UniqueConstraint(
+                fields=['session_key', 'memorial'],
+                condition=models.Q(session_key__isnull=False),
+                name='unique_session_memorial_candle',
+            ),
+        ]
+
+    def __str__(self):
+        return f'Candle for {self.memorial.pet_name}'
+
+
 class Scene(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)

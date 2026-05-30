@@ -79,18 +79,21 @@
       </div>
     </section>
 
-    <section class="mem-section mem-section--alt">
+    <section class="mem-section mem-section--alt"
+             id="candle-section"
+             data-slug="{{ m.slug }}"
+             data-name="{{ m.name|escapejs }}"
+             data-count="{{ candle_count }}"
+             data-already-lit="{% if already_lit %}true{% else %}false{% endif %}"
+             data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
       <div class="mem-section-inner mem-section-inner--center">
         <h2 class="mem-heading">Light a Candle</h2>
-        <p class="mem-candle-count">247 candles have been lit for {{ m.name }}</p>
-        <div class="mem-candle-row">
-          <div class="mem-candle-icon"></div>
-          <div class="mem-candle-icon"></div>
-          <div class="mem-candle-icon"></div>
-          <div class="mem-candle-icon"></div>
-          <div class="mem-candle-icon"></div>
-        </div>
-        <button class="mem-btn">Light a Candle</button>
+        <div class="mem-candle-grid" id="candle-grid"></div>
+        <p class="mem-candle-count" id="candle-count-text"></p>
+        <button class="mem-btn mem-candle-btn" id="candle-btn" type="button">Light a Candle</button>
+        <p class="mem-candle-nudge" id="candle-nudge" hidden>
+          Want to leave a tribute? <a href="/register/">Create an account →</a>
+        </p>
       </div>
     </section>
 
@@ -150,5 +153,94 @@
 
   </div>
 </div>
+{% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+{% if not not_found %}
+<script>
+(function () {
+  var section = document.getElementById('candle-section');
+  if (!section) return;
+
+  var slug       = section.dataset.slug;
+  var petName    = section.dataset.name;
+  var count      = parseInt(section.dataset.count, 10) || 0;
+  var alreadyLit = section.dataset.alreadyLit === 'true';
+  var authed     = section.dataset.authenticated === 'true';
+  var csrf       = '{{ csrf_token }}';
+
+  var grid      = document.getElementById('candle-grid');
+  var countText = document.getElementById('candle-count-text');
+  var btn       = document.getElementById('candle-btn');
+  var nudge     = document.getElementById('candle-nudge');
+
+  function makeCandle(isNew) {
+    var el = document.createElement('div');
+    el.className = 'mem-candle' + (isNew ? ' mem-candle--new' : '');
+    el.style.setProperty('--flicker-delay', (Math.random() * 2.5).toFixed(2) + 's');
+    el.style.setProperty('--flicker-dur',   (1.8 + Math.random() * 0.7).toFixed(2) + 's');
+    el.innerHTML =
+      '<div class="mem-candle-flame"></div>' +
+      '<div class="mem-candle-body"></div>' +
+      '<div class="mem-candle-base"></div>';
+    return el;
+  }
+
+  function renderCount() {
+    if (count === 0) {
+      countText.textContent = 'Be the first to light a candle for ' + petName;
+    } else if (count === 1) {
+      countText.textContent = '1 candle has been lit for ' + petName;
+    } else {
+      countText.textContent = count + ' candles have been lit for ' + petName;
+    }
+  }
+
+  function renderGrid(addNew) {
+    var display = Math.min(count, 12);
+    if (addNew && display > 0 && grid.children.length < display) {
+      grid.appendChild(makeCandle(true));
+    } else if (!addNew) {
+      grid.innerHTML = '';
+      for (var i = 0; i < display; i++) {
+        grid.appendChild(makeCandle(false));
+      }
+    }
+    renderCount();
+  }
+
+  function setLit() {
+    btn.textContent = "You’ve lit a candle ♥";
+    btn.disabled = true;
+    btn.classList.add('mem-candle-btn--lit');
+    if (!authed) nudge.hidden = false;
+  }
+
+  renderGrid(false);
+  if (alreadyLit) setLit();
+
+  btn.addEventListener('click', function () {
+    if (btn.disabled) return;
+    btn.disabled = true;
+    btn.textContent = 'Lighting…';
+
+    fetch('/memorial/' + slug + '/light-candle/', {
+      method: 'POST',
+      headers: { 'X-CSRFToken': csrf },
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        count = data.count;
+        renderGrid(!data.already_lit);
+        setLit();
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Light a Candle';
+      });
+  });
+})();
+</script>
 {% endif %}
 {% endblock %}
