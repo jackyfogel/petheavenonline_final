@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponseForbidden, JsonResponse
+from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
 from django.views.decorators.http import require_POST
 from django.utils.text import slugify
 from memorials.forms import MemorialForm, MemorialEditForm
@@ -340,3 +340,19 @@ def terms_view(request):
 
 def privacy_view(request):
     return render(request, "privacy.html")
+
+
+def robots_txt_view(request):
+    lines = [
+        'User-agent: *',
+        'Allow: /',
+        'Disallow: /admin/',
+        'Disallow: /account/',
+        'Disallow: /login/',
+        'Disallow: /register/',
+        'Disallow: /logout/',
+        'Disallow: /edit/',
+        '',
+        'Sitemap: https://petheavenonline.com/sitemap.xml',
+    ]
+    return HttpResponse('\n'.join(lines), content_type='text/plain')

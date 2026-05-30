@@ -2,11 +2,30 @@
 
 ## Last completed step
 
-Share section — functional share buttons on memorial page
+Phase 7 — SEO basics across the entire site
 
 ---
 
 ## What was done
+
+### Phase 7 — SEO basics (completed)
+
+- `templates/base.html` — added full SEO head: `<meta name="description">`, `<link rel="canonical">`, `{% block robots %}` (for noindex pages), Open Graph tags (og:type, og:site_name, og:title, og:description, og:url, og:image), Twitter card; all as overridable blocks
+- `templates/home.html` — added `{% block meta_description %}`
+- `templates/memorial.html` — updated title to "In Loving Memory of [name] | PetHeavenOnline"; added meta_description, og_type (article), og_title, og_description, og_image (pet S3 photo URL) blocks — all conditional on `not not_found`; updated hero photo alt to "Memorial photo of {{ m.name }}"
+- `templates/browse.html` — updated title to pipe format; added meta_description block
+- `templates/create.html` — updated title to pipe format; added meta_description block
+- `templates/contact.html` — updated title to pipe format; added meta_description block
+- `templates/account.html` — updated title to pipe format; added `{% block robots %}<meta name="robots" content="noindex">{% endblock %}`
+- `templates/accounts/login.html` — updated title to pipe format; added noindex robots block
+- `templates/accounts/register.html` — updated title to pipe format; added meta_description block
+- `templates/terms.html` — updated title to pipe format
+- `templates/privacy.html` — updated title to pipe format
+- `static/js/scene.js` — updated tombstone marker overlay photo alt to "Photo of [name]"
+- `config/settings.py` — added `django.contrib.sitemaps` to INSTALLED_APPS
+- `config/sitemaps.py` — NEW: `StaticViewSitemap` (home/browse/create/contact with priorities) and `MemorialSitemap` (approved memorials, lastmod from updated_at)
+- `config/views.py` — added `robots_txt_view` serving plain-text robots.txt; disallows /admin/, /account/, /login/, /register/, /logout/, /edit/; points to sitemap
+- `config/urls.py` — added `sitemap.xml` and `robots.txt` URL patterns; imported sitemap view and sitemaps dict
 
 ### Share section — functional share buttons (completed)
 

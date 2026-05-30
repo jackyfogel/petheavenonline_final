@@ -4,7 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}PetHeavenOnline{% endblock %}</title>
+  <title>{% block title %}PetHeavenOnline — A peaceful place to remember them{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Create a lasting memorial for your beloved pet in our beautiful online garden.{% endblock %}">
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  {% block robots %}{% endblock %}
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:site_name" content="PetHeavenOnline">
+  <meta property="og:title" content="{% block og_title %}PetHeavenOnline{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}A peaceful place to remember your beloved pets{% endblock %}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:image" content="{% block og_image %}/assets/scenes/heaven-hero.webp{% endblock %}">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">

@@ -1,5 +1,12 @@
 {% extends "base.html" %}
-{% block title %}{% if not_found %}Memorial Not Found{% else %}{{ m.name }} — PetHeavenOnline{% endif %}{% endblock %}
+{% block title %}{% if not_found %}Memorial Not Found | PetHeavenOnline{% else %}In Loving Memory of {{ m.name }} | PetHeavenOnline{% endif %}{% endblock %}
+{% if not not_found %}
+{% block meta_description %}{{ m.epitaph }} — A memorial for {{ m.name }} ({{ m.born }}–{{ m.passed }}). Created by {{ m.owner }}.{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}In Loving Memory of {{ m.name }}{% endblock %}
+{% block og_description %}{{ m.epitaph }}{% endblock %}
+{% block og_image %}{% if m.photo %}{{ m.photo }}{% endif %}{% endblock %}
+{% endif %}
 
 {% block content %}
 {% if not_found %}
@@ -29,7 +36,7 @@
           </div>
         </div>
         <div class="mem-hero-photo-wrap">
-          {% if m.photo %}<img src="{{ m.photo }}" alt="{{ m.name }}">{% endif %}
+          {% if m.photo %}<img src="{{ m.photo }}" alt="Memorial photo of {{ m.name }}">{% endif %}
         </div>
         <p class="mem-hero-eyebrow">In Loving Memory of</p>
         <h1 class="mem-hero-name">{{ m.name }}</h1>

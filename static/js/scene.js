@@ -238,7 +238,7 @@
       var ov = document.createElement("div");
       ov.className = "marker-overlay";
       ov.innerHTML =
-        '<div class="marker-photo">' + (m.photo ? '<img src="' + m.photo + '" alt="' + m.name + '">' : "") + '</div>' +
+        '<div class="marker-photo">' + (m.photo ? '<img src="' + m.photo + '" alt="Photo of ' + m.name + '">' : "") + '</div>' +
         '<div class="marker-name">'  + m.name + '</div>' +
         '<div class="marker-dates">' + m.born + "–" + m.passed + '</div>';
       marker.appendChild(ov);
