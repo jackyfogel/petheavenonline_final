@@ -975,34 +975,42 @@ body.footer--inline #site-footer {
 .mem-share-intro {
   font-size: 14px;
   color: #5e4f76;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .mem-share-buttons {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 36px;
+  gap: 10px;
 }
 
-.mem-qr {
-  display: flex;
-  flex-direction: column;
+.mem-share-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 7px;
+  padding: 10px 20px;
+  border: 1.5px solid #d5cde5;
+  border-radius: 24px;
+  background: transparent;
+  color: #5e4f76;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
-.mem-qr-placeholder {
-  width: 120px;
-  height: 120px;
-  background-color: #d5cde5;
-  border-radius: 8px;
+.mem-share-btn:hover {
+  background: #e8e0f5;
+  border-color: #9a89b5;
+  color: #2e2640;
 }
 
-.mem-qr-label {
-  font-size: 11px;
-  color: #9a89b5;
-  letter-spacing: 0.05em;
+.mem-share-btn--copied {
+  background: #d5cde5;
+  border-color: #9a89b5;
+  color: #2e2640;
 }
 
 /* Button */

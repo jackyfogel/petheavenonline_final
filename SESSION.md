@@ -2,11 +2,16 @@
 
 ## Last completed step
 
-Phase 6F.2 — Tributes/Comments feature
+Share section — functional share buttons on memorial page
 
 ---
 
 ## What was done
+
+### Share section — functional share buttons (completed)
+
+- `templates/memorial.html` — replaced static share section with 4 functional share buttons (Copy link, WhatsApp, Facebook, Email); added `id="share-section"` with `data-name` attribute; removed QR placeholder; added share IIFE in `{% block extra_scripts %}` that wires up WhatsApp/Facebook/Email hrefs dynamically from the current URL and handles clipboard copy with "Copied!" feedback
+- `static/css/main.css` — replaced `.mem-qr*` styles with `.mem-share-btn` (pill button with icon+label, border, hover) and `.mem-share-btn--copied` state; updated `.mem-share-buttons` to flex-wrap
 
 ### Phase 6F.2 — Tributes/Comments feature (completed)
 
