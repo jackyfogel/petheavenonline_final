@@ -36,17 +36,30 @@ def register_view(request):
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
             try:
+                plain = (
+                    f"Hi {first_name},\n\n"
+                    "Welcome to PetHeavenOnline.\n\n"
+                    "Your account has been created successfully.\n\n"
+                    "You can now create lasting memorials for your beloved pets. "
+                    "Visit petheavenonline.com/create to get started.\n\n"
+                    "With warmth,\n"
+                    "The PetHeavenOnline Team"
+                )
+                html = (
+                    '<div style="font-family:Arial,sans-serif;max-width:600px;color:#2e2640;">'
+                    f'<p>Hi {first_name},</p>'
+                    '<p>Welcome to PetHeavenOnline.</p>'
+                    '<p>Your account has been created successfully.</p>'
+                    '<p>You can now create lasting memorials for your beloved pets. Visit '
+                    '<a href="https://petheavenonline.com/create/" style="color:#9a89b5;">'
+                    'petheavenonline.com/create</a> to get started.</p>'
+                    '<p>With warmth,<br>The PetHeavenOnline Team</p>'
+                    '</div>'
+                )
                 send_mail(
                     subject=_email_subject('🐾 Welcome to PetHeavenOnline!'),
-                    message=(
-                        f"Hi {first_name},\n\n"
-                        "Welcome to PetHeavenOnline.\n\n"
-                        "Your account has been created successfully.\n\n"
-                        "You can now create lasting memorials for your beloved pets. "
-                        "Visit petheavenonline.com/create to get started.\n\n"
-                        "With warmth,\n"
-                        "The PetHeavenOnline Team"
-                    ),
+                    message=plain,
+                    html_message=html,
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[email],
                     fail_silently=False,

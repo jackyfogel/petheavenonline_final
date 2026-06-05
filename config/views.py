@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
 from django.views.decorators.http import require_POST
-from django.core.mail import EmailMessage, BadHeaderError
+from django.core.mail import EmailMultiAlternatives, BadHeaderError
+from django.utils.html import escape
 from django.conf import settings
 from django.utils.text import slugify
 from memorials.forms import MemorialForm, MemorialEditForm
@@ -333,15 +334,25 @@ def contact_view(request):
         if not all([name, email, subject, message]):
             return JsonResponse({'ok': False, 'error': 'All fields are required.'})
 
-        body = f"Name: {name}\nEmail: {email}\nSubject: {subject}\n\n{message}"
+        plain = f"Name: {name}\nEmail: {email}\nSubject: {subject}\n\n{message}"
+        html = (
+            '<div style="font-family:Arial,sans-serif;max-width:600px;color:#2e2640;">'
+            f'<p><strong>Name:</strong> {escape(name)}</p>'
+            f'<p><strong>Email:</strong> <a href="mailto:{escape(email)}" style="color:#9a89b5;">{escape(email)}</a></p>'
+            f'<p><strong>Subject:</strong> {escape(subject)}</p>'
+            '<p><strong>Message:</strong></p>'
+            f'<p style="white-space:pre-wrap;">{escape(message)}</p>'
+            '</div>'
+        )
         try:
-            msg = EmailMessage(
+            msg = EmailMultiAlternatives(
                 subject=_email_subject(f'[PetHeavenOnline Contact] {subject}'),
-                body=body,
+                body=plain,
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 to=['admin@petheavenonline.com'],
                 reply_to=[email],
             )
+            msg.attach_alternative(html, 'text/html')
             msg.send()
         except (BadHeaderError, Exception):
             return JsonResponse({'ok': False, 'error': 'Failed to send your message. Please try again.'})

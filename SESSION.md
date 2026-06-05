@@ -8,6 +8,11 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### HTML emails — welcome + contact (completed)
+
+- `accounts/views.py` — welcome email now sends both plain text and HTML (`html_message` param on `send_mail`); HTML version has styled div, proper paragraphs, and clickable link to /create/
+- `config/views.py` — swapped `EmailMessage` for `EmailMultiAlternatives`; added `escape` import; contact email now attaches HTML alternative with sender's email as a clickable mailto link and message in `white-space:pre-wrap`
+
 ### Welcome email on registration (completed)
 
 - `accounts/views.py` — added `send_mail`, `settings`, and `_email_subject` imports; after user creation and login, sends a welcome email to the new user's address; wrapped in `try/except` so a mail failure never blocks registration
