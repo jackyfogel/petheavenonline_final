@@ -8,6 +8,13 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Contact form — real email sending (completed)
+
+- `config/settings.py` — added Gmail SMTP email config: `EMAIL_BACKEND`, `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USE_TLS`, `EMAIL_HOST_USER`/`PASSWORD` from env vars, `DEFAULT_FROM_EMAIL`
+- `config/views.py` — added `EmailMessage`/`BadHeaderError`/`settings` imports; `contact_view` now handles POST: validates all fields, sends email to `admin@petheavenonline.com` with Reply-To set to the sender, returns `JsonResponse({'ok': True})` on success or `{'ok': False, 'error': '...'}` on failure; GET unchanged
+- `templates/contact.html` — added `method="post"` to form; added `#contact-error` div (reuses `.auth-error-box` style) above the form
+- `static/js/contact.js` — replaced fake success with real `fetch` POST; on success shows existing success div; on error shows `#contact-error` message; button disabled during send with "Sending…" text
+
 ### S3 dev/prod upload prefix (completed)
 
 - `config/settings.py` — inside the `if _AWS_BUCKET:` block, added `if DEBUG: STORAGES['default']['OPTIONS']['location'] = 'dev'`; when S3 is active and DEBUG is True, all uploads are prefixed with `dev/` (e.g. `dev/memorials/photos/`, `dev/scenes/`); production (DEBUG=False) uploads go to the bucket root unchanged; local media storage unaffected

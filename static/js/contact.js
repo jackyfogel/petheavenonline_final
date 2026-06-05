@@ -31,15 +31,47 @@
 
       if (!ok) return;
 
-      var email = emailEl.value.trim();
-      form.style.display = "none";
-      var successEl = document.getElementById("contact-success");
-      var msgTextEl = document.getElementById("contact-success-msg");
-      if (msgTextEl) {
-        msgTextEl.textContent = "Thanks for reaching out! We’ll get back to you at " + email + " as soon as possible.";
-      }
-      if (successEl) successEl.style.display = "flex";
+      var btn = form.querySelector(".contact-btn");
+      btn.disabled = true;
+      btn.textContent = "Sending…";
+
+      var fd = new FormData(form);
+
+      fetch("/contact/", {
+        method: "POST",
+        body: fd,
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.ok) {
+            form.style.display = "none";
+            var successEl = document.getElementById("contact-success");
+            var msgTextEl = document.getElementById("contact-success-msg");
+            if (msgTextEl) {
+              msgTextEl.textContent =
+                "Thanks for reaching out! We'll get back to you at " +
+                emailEl.value.trim() + " as soon as possible.";
+            }
+            if (successEl) successEl.style.display = "flex";
+          } else {
+            showError(data.error || "Something went wrong. Please try again.");
+            btn.disabled = false;
+            btn.textContent = "Send Message";
+          }
+        })
+        .catch(function () {
+          showError("Something went wrong. Please try again.");
+          btn.disabled = false;
+          btn.textContent = "Send Message";
+        });
     });
+
+    function showError(msg) {
+      var el = document.getElementById("contact-error");
+      if (!el) return;
+      el.textContent = msg;
+      el.style.display = "block";
+    }
 
     function markError(el, msg) {
       if (!el) return;
@@ -51,6 +83,8 @@
     }
 
     function clearErrors() {
+      var errEl = document.getElementById("contact-error");
+      if (errEl) errEl.style.display = "none";
       document.querySelectorAll(".input-error").forEach(function (el) { el.classList.remove("input-error"); });
       document.querySelectorAll(".create-error-msg").forEach(function (el) { el.remove(); });
     }

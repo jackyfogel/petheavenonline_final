@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
 from django.views.decorators.http import require_POST
+from django.core.mail import EmailMessage, BadHeaderError
+from django.conf import settings
 from django.utils.text import slugify
 from memorials.forms import MemorialForm, MemorialEditForm
 from memorials.models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto, Scene, Candle, Tribute
@@ -317,6 +319,30 @@ def edit_view(request, slug):
 
 
 def contact_view(request):
+    if request.method == 'POST':
+        name    = request.POST.get('name', '').strip()
+        email   = request.POST.get('email', '').strip()
+        subject = request.POST.get('subject', '').strip()
+        message = request.POST.get('message', '').strip()
+
+        if not all([name, email, subject, message]):
+            return JsonResponse({'ok': False, 'error': 'All fields are required.'})
+
+        body = f"Name: {name}\nEmail: {email}\nSubject: {subject}\n\n{message}"
+        try:
+            msg = EmailMessage(
+                subject=f'[PetHeavenOnline Contact] {subject}',
+                body=body,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=['admin@petheavenonline.com'],
+                reply_to=[email],
+            )
+            msg.send()
+        except (BadHeaderError, Exception):
+            return JsonResponse({'ok': False, 'error': 'Failed to send your message. Please try again.'})
+
+        return JsonResponse({'ok': True})
+
     return render(request, "contact.html")
 
 
