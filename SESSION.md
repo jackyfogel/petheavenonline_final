@@ -8,6 +8,10 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Welcome email on registration (completed)
+
+- `accounts/views.py` — added `send_mail`, `settings`, and `_email_subject` imports; after user creation and login, sends a welcome email to the new user's address; wrapped in `try/except` so a mail failure never blocks registration
+
 ### [DEV] email subject prefix (completed)
 
 - `config/views.py` — added `_email_subject(subject)` helper: prepends `[DEV] ` when `settings.DEBUG` is True, no prefix in production; updated contact form email to use it

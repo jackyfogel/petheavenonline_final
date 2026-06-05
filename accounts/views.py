@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.conf import settings
 from .forms import RegisterForm
+from config.views import _email_subject
 
 
 def _safe_next(url):
@@ -31,6 +34,26 @@ def register_view(request):
                 last_name=last_name,
             )
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+
+            try:
+                send_mail(
+                    subject=_email_subject('🐾 Welcome to PetHeavenOnline!'),
+                    message=(
+                        f"Hi {first_name},\n\n"
+                        "Welcome to PetHeavenOnline.\n\n"
+                        "Your account has been created successfully.\n\n"
+                        "You can now create lasting memorials for your beloved pets. "
+                        "Visit petheavenonline.com/create to get started.\n\n"
+                        "With warmth,\n"
+                        "The PetHeavenOnline Team"
+                    ),
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[email],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                print(f"Welcome email error: {e}")
+
             return redirect(next_url or '/welcome/')
     else:
         next_url = _safe_next(request.GET.get('next', ''))
