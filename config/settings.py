@@ -112,6 +112,8 @@ if _AWS_BUCKET:
             'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
         },
     }
+    if DEBUG:
+        STORAGES['default']['OPTIONS']['location'] = 'dev'
 else:
     MEDIA_URL = '/media/'
     MEDIA_ROOT = BASE_DIR / 'media'

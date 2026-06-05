@@ -2,11 +2,19 @@
 
 ## Last completed step
 
-Phase 7 — SEO basics across the entire site
+S3 dev/prod upload prefix separation
 
 ---
 
 ## What was done
+
+### S3 dev/prod upload prefix (completed)
+
+- `config/settings.py` — inside the `if _AWS_BUCKET:` block, added `if DEBUG: STORAGES['default']['OPTIONS']['location'] = 'dev'`; when S3 is active and DEBUG is True, all uploads are prefixed with `dev/` (e.g. `dev/memorials/photos/`, `dev/scenes/`); production (DEBUG=False) uploads go to the bucket root unchanged; local media storage unaffected
+
+---
+
+## What was done (prior)
 
 ### Phase 7 — SEO basics (completed)
 
