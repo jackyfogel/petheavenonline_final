@@ -85,8 +85,10 @@ def memorial_view(request, slug):
     if request.user.is_authenticated:
         user_full_name = request.user.get_full_name().strip() or request.user.username
 
+    gallery_photos = [g.photo.url for g in db_m.gallery.all().order_by('order') if g.photo]
+
     return render(request, "memorial.html", {
-        "not_found": False, "m": m, "gallery_range": range(6),
+        "not_found": False, "m": m, "gallery_photos": gallery_photos,
         "is_owner": is_owner, "scene_page": scene_page,
         "candle_count": candle_count, "already_lit": already_lit,
         "tributes": tributes, "user_full_name": user_full_name,

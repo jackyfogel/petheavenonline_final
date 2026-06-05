@@ -58,16 +58,18 @@
       </div>
     </section>
 
+    {% if gallery_photos %}
     <section class="mem-section mem-section--alt">
       <div class="mem-section-inner">
         <h2 class="mem-heading">Memories</h2>
         <div class="mem-gallery">
-          {% for i in gallery_range %}
-          <div class="mem-gallery-item"{% if m.photo %} style="background-image:url({{ m.photo }})"{% endif %}></div>
+          {% for photo_url in gallery_photos %}
+          <div class="mem-gallery-item" style="background-image:url({{ photo_url }})"></div>
           {% endfor %}
         </div>
       </div>
     </section>
+    {% endif %}
 
     <section class="mem-section">
       <div class="mem-section-inner">
