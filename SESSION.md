@@ -8,6 +8,10 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### [DEV] email subject prefix (completed)
+
+- `config/views.py` — added `_email_subject(subject)` helper: prepends `[DEV] ` when `settings.DEBUG` is True, no prefix in production; updated contact form email to use it
+
 ### Contact form — real email sending (completed)
 
 - `config/settings.py` — added Gmail SMTP email config: `EMAIL_BACKEND`, `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USE_TLS`, `EMAIL_HOST_USER`/`PASSWORD` from env vars, `DEFAULT_FROM_EMAIL`

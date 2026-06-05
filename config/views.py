@@ -9,6 +9,11 @@ from memorials.forms import MemorialForm, MemorialEditForm
 from memorials.models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto, Scene, Candle, Tribute
 
 
+def _email_subject(subject):
+    prefix = "[DEV] " if settings.DEBUG else ""
+    return f"{prefix}{subject}"
+
+
 def _approved_scene_pages():
     """Returns {slug: 1-based scene page number} for all approved memorials."""
     slugs = list(
@@ -331,7 +336,7 @@ def contact_view(request):
         body = f"Name: {name}\nEmail: {email}\nSubject: {subject}\n\n{message}"
         try:
             msg = EmailMessage(
-                subject=f'[PetHeavenOnline Contact] {subject}',
+                subject=_email_subject(f'[PetHeavenOnline Contact] {subject}'),
                 body=body,
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 to=['admin@petheavenonline.com'],
