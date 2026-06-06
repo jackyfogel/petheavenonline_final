@@ -8,6 +8,10 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Memorial submission confirmation email (completed)
+
+- `config/views.py` — after saving a new memorial (including traits, timeline, gallery), sends HTML + plain text confirmation email to `request.user.email`; subject uses `_email_subject`; includes pet name, pending status message, and clickable preview link; wrapped in `try/except` so failure never blocks the redirect to success page
+
 ### HTML emails — welcome + contact (completed)
 
 - `accounts/views.py` — welcome email now sends both plain text and HTML (`html_message` param on `send_mail`); HTML version has styled div, proper paragraphs, and clickable link to /create/

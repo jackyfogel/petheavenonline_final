@@ -240,6 +240,36 @@ def create_view(request):
             for idx, photo_file in enumerate(request.FILES.getlist('gallery')):
                 GalleryPhoto.objects.create(memorial=memorial, photo=photo_file, order=idx)
 
+            try:
+                first_name = request.user.first_name or request.user.get_full_name().split()[0] if request.user.get_full_name() else request.user.username
+                plain = (
+                    f"Hi {first_name},\n\n"
+                    f"Your memorial for {memorial.pet_name} has been submitted and is pending review.\n\n"
+                    "We'll notify you once it's been approved and placed in our garden.\n\n"
+                    f"You can preview your memorial here: https://petheavenonline.com/memorial/{memorial.slug}/\n\n"
+                    "With warmth,\n"
+                    "The PetHeavenOnline Team"
+                )
+                html = (
+                    '<div style="font-family:Arial,sans-serif;max-width:600px;color:#2e2640;">'
+                    f'<p>Hi {escape(first_name)},</p>'
+                    f'<p>Your memorial for <strong>{escape(memorial.pet_name)}</strong> has been submitted and is pending review.</p>'
+                    "<p>We'll notify you once it's been approved and placed in our garden.</p>"
+                    f'<p><a href="https://petheavenonline.com/memorial/{memorial.slug}/" style="color:#9a89b5;">View preview</a></p>'
+                    '<p>With warmth,<br>The PetHeavenOnline Team</p>'
+                    '</div>'
+                )
+                msg = EmailMultiAlternatives(
+                    subject=_email_subject(f'🐾 Memorial for {memorial.pet_name} submitted!'),
+                    body=plain,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=[request.user.email],
+                )
+                msg.attach_alternative(html, 'text/html')
+                msg.send()
+            except Exception as e:
+                print(f"Memorial confirmation email error: {e}")
+
             return redirect('create_success', slug=memorial.slug)
     else:
         form = MemorialForm()
