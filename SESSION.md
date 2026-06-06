@@ -8,6 +8,13 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Delete account flow (completed)
+
+- `accounts/views.py` — added `delete_account_view`: GET renders confirmation page; POST checks `confirmation == 'DELETE'`, deletes user's memorials (cascades to all related data), logs out, deletes user, redirects to `/`; wrong confirmation re-renders with error
+- `accounts/urls.py` — added `path('account/delete/', ...)` before password reset URLs
+- `templates/accounts/delete_account.html` — NEW: warning box listing what gets deleted, text confirmation input, red submit button disabled until "DELETE" typed exactly (inline JS), cancel link
+- `templates/account.html` — "Delete account" button changed to `<a href="/account/delete/">` link
+
 ### Password reset flow (completed)
 
 - `accounts/urls.py` — added 4 password reset URL patterns using Django's built-in auth views; `PasswordResetView` configured with custom templates, email/subject templates, success URL, and `extra_email_context={'is_dev': settings.DEBUG}` for DEV subject prefix

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Delete Account | PetHeavenOnline{% endblock %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+
+{% block content %}
+<main class="auth-page">
+  <div class="auth-inner">
+    <h1 class="auth-title">Delete your account</h1>
+
+    <div style="background:#fff0f0;border:1px solid #f5c6c6;border-radius:10px;padding:16px 20px;margin-bottom:24px;color:#8b2020;">
+      <strong>This action cannot be undone.</strong><br>
+      This will permanently delete your account and all your memorials. Friends and family will no longer be able to visit them.
+      <ul style="margin:10px 0 0 0;padding-left:20px;">
+        <li>Your account</li>
+        <li>All your memorials</li>
+        <li>All memorial photos and gallery images</li>
+        <li>All tributes left on your memorials</li>
+      </ul>
+    </div>
+
+    {% if error %}
+      <div class="auth-error-box">{{ error }}</div>
+    {% endif %}
+
+    <form class="auth-form" method="post">
+      {% csrf_token %}
+      <div class="auth-field-group">
+        <label class="auth-label" for="id_confirmation">Type <strong>DELETE</strong> to confirm</label>
+        <input class="auth-input" type="text" name="confirmation" id="id_confirmation"
+               autocomplete="off" placeholder="DELETE">
+      </div>
+      <button type="submit" id="delete-btn" class="auth-btn"
+              style="background:#c0392b;border-color:#c0392b;opacity:0.4;cursor:not-allowed;"
+              disabled>Delete my account</button>
+    </form>
+
+    <div class="auth-switch" style="margin-top:16px;">
+      <a href="/account/" class="auth-link">Cancel — go back to my account</a>
+    </div>
+  </div>
+</main>
+
+<script>
+(function () {
+  var input = document.getElementById('id_confirmation');
+  var btn = document.getElementById('delete-btn');
+  input.addEventListener('input', function () {
+    var ready = input.value === 'DELETE';
+    btn.disabled = !ready;
+    btn.style.opacity = ready ? '1' : '0.4';
+    btn.style.cursor = ready ? 'pointer' : 'not-allowed';
+  });
+})();
+</script>
+{% endblock %}

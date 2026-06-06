@@ -100,3 +100,17 @@ def logout_view(request):
 
 def welcome_view(request):
     return render(request, 'accounts/welcome.html')
+
+
+@login_required(login_url='/login/')
+def delete_account_view(request):
+    if request.method == 'POST':
+        if request.POST.get('confirmation') != 'DELETE':
+            return render(request, 'accounts/delete_account.html', {'error': 'Please type DELETE to confirm.'})
+        user = request.user
+        from memorials.models import Memorial
+        Memorial.objects.filter(user=user).delete()
+        logout(request)
+        user.delete()
+        return redirect('/')
+    return render(request, 'accounts/delete_account.html')
