@@ -8,6 +8,10 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Account deletion confirmation email (completed)
+
+- `accounts/views.py` — added `EmailMultiAlternatives` import; `delete_account_view` now saves `email` and `first_name` before any deletion, sends HTML + plain goodbye email, then proceeds with deleting memorials/user; failure prints to terminal without blocking deletion
+
 ### Delete account flow (completed)
 
 - `accounts/views.py` — added `delete_account_view`: GET renders confirmation page; POST checks `confirmation == 'DELETE'`, deletes user's memorials (cascades to all related data), logs out, deletes user, redirects to `/`; wrong confirmation re-renders with error

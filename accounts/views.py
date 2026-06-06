@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from .forms import RegisterForm
 from config.views import _email_subject, _base_url
@@ -108,6 +109,35 @@ def delete_account_view(request):
         if request.POST.get('confirmation') != 'DELETE':
             return render(request, 'accounts/delete_account.html', {'error': 'Please type DELETE to confirm.'})
         user = request.user
+        saved_email = user.email
+        saved_first = user.first_name or (user.get_full_name().split()[0] if user.get_full_name() else user.username)
+
+        try:
+            plain = (
+                f"Hi {saved_first},\n\n"
+                "Your account and all associated memorials have been permanently deleted as requested.\n\n"
+                "We're sorry to see you go. If you ever want to create new memorials in the future, you're always welcome back.\n\n"
+                "With warmth,\nThe PetHeavenOnline Team"
+            )
+            html = (
+                '<div style="font-family:Arial,sans-serif;max-width:600px;color:#2e2640;">'
+                f'<p>Hi {saved_first},</p>'
+                '<p>Your account and all associated memorials have been permanently deleted as requested.</p>'
+                "<p>We're sorry to see you go. If you ever want to create new memorials in the future, you're always welcome back.</p>"
+                '<p>With warmth,<br>The PetHeavenOnline Team</p>'
+                '</div>'
+            )
+            msg = EmailMultiAlternatives(
+                subject=_email_subject('🐾 Your PetHeavenOnline account has been deleted'),
+                body=plain,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[saved_email],
+            )
+            msg.attach_alternative(html, 'text/html')
+            msg.send()
+        except Exception as e:
+            print(f"Account deletion email error: {e}")
+
         from memorials.models import Memorial
         Memorial.objects.filter(user=user).delete()
         logout(request)
