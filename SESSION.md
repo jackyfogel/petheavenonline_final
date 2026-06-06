@@ -8,6 +8,12 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Real Terms of Service and Privacy Policy (completed)
+
+- `templates/terms.html` — replaced placeholder with 12 real sections: service description, account registration (13+), user content ownership + license, acceptable use, memorial review/approval, account termination, donations (voluntary/non-refundable), disclaimer, limitation of liability, changes to terms, governing law (Israel), contact (admin@petheavenonline.com); date updated to June 2026
+- `templates/privacy.html` — replaced placeholder with 12 real sections: data collected, how used, public vs private content, third-party services (AWS S3, Google, Render, PayPal — with specifics on each), cookies (session only, no tracking), data retention (immediate deletion on account delete), user rights, children's privacy (13+), data security (HTTPS + hashed passwords), international transfers (US via AWS/Render), changes policy, contact; date updated to June 2026
+- `static/css/main.css` — added `.legal-link` (lavender, underline) and `.legal-list` / `.legal-list li` styles for the third-party services bullet list in privacy policy
+
 ### Remove Vite / clean up old SPA files (completed)
 
 - `static/assets/` — NEW: moved all static image assets here from `public/assets/` (scenes, markers, memorials webp files)

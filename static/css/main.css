@@ -2497,6 +2497,23 @@ body.footer--inline #site-footer {
   color: #4a4060;
   line-height: 1.75;
 }
+.legal-link {
+  color: #9a89b5;
+  text-decoration: underline;
+}
+.legal-link:hover {
+  color: #5e4f76;
+}
+.legal-list {
+  font-size: 15px;
+  color: #4a4060;
+  line-height: 1.75;
+  padding-left: 20px;
+  margin: 10px 0 14px;
+}
+.legal-list li {
+  margin-bottom: 8px;
+}
 
 @media (max-width: 600px) {
   .legal-inner {
