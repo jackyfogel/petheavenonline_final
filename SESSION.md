@@ -8,6 +8,10 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Approval email when admin approves memorial (completed)
+
+- `memorials/admin.py` — added `EmailMultiAlternatives`, `settings`, `escape`, `_email_subject`, `_approved_scene_pages` imports; `MemorialAdmin.save_model` fetches old status before save, sends HTML + plain approval email to the owner if status just changed to 'approved'; includes memorial link and garden link (if scene page exists); wrapped in `try/except` with print
+
 ### Remove email field from create wizard (completed)
 
 - `static/js/create.js` — removed `email` from initial `fd`, removed email field HTML from step 5, removed `fd.email` collection in `saveStep`, removed email validation from step 5 validation block; user's email comes from `request.user.email` server-side
