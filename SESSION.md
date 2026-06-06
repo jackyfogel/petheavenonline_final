@@ -8,6 +8,16 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Dev email URLs point to localhost:8000 (completed)
+
+- `config/views.py` — added `_base_url()` helper: returns `http://localhost:8000` when `DEBUG=True`, `https://petheavenonline.com` in production; all email link URLs in views.py, accounts/views.py, and memorials/admin.py updated to use it
+- `accounts/views.py` — imports `_base_url`; welcome email link uses it
+- `memorials/admin.py` — imports `_base_url`; approval email links use it
+
+### Tribute and candle notification emails (completed)
+
+- `config/views.py` — `leave_tribute_view`: after saving a tribute, emails the memorial owner if the tribute author is not the owner; HTML body includes quoted message with blockquote styling and link to #tributes anchor; `light_candle_view`: after creating a new candle for an authenticated non-owner user, emails the memorial owner with candle count and link to memorial; both wrapped in `try/except` with print
+
 ### Approval email when admin approves memorial (completed)
 
 - `memorials/admin.py` — added `EmailMultiAlternatives`, `settings`, `escape`, `_email_subject`, `_approved_scene_pages` imports; `MemorialAdmin.save_model` fetches old status before save, sends HTML + plain approval email to the owner if status just changed to 'approved'; includes memorial link and garden link (if scene page exists); wrapped in `try/except` with print

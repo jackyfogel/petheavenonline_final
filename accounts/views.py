@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import RegisterForm
-from config.views import _email_subject
+from config.views import _email_subject, _base_url
 
 
 def _safe_next(url):
@@ -51,7 +51,7 @@ def register_view(request):
                     '<p>Welcome to PetHeavenOnline.</p>'
                     '<p>Your account has been created successfully.</p>'
                     '<p>You can now create lasting memorials for your beloved pets. Visit '
-                    '<a href="https://petheavenonline.com/create/" style="color:#9a89b5;">'
+                    '<a href="{_base_url()}/create/" style="color:#9a89b5;">'
                     'petheavenonline.com/create</a> to get started.</p>'
                     '<p>With warmth,<br>The PetHeavenOnline Team</p>'
                     '</div>'

@@ -15,6 +15,10 @@ def _email_subject(subject):
     return f"{prefix}{subject}"
 
 
+def _base_url():
+    return "http://localhost:8000" if settings.DEBUG else "https://petheavenonline.com"
+
+
 def _approved_scene_pages():
     """Returns {slug: 1-based scene page number} for all approved memorials."""
     slugs = list(
@@ -172,6 +176,36 @@ def light_candle_view(request, slug):
         already_lit = Candle.objects.filter(memorial=memorial, user=request.user).exists()
         if not already_lit:
             Candle.objects.create(memorial=memorial, user=request.user)
+            if memorial.user and memorial.user != request.user and memorial.user.email:
+                try:
+                    count = Candle.objects.filter(memorial=memorial).count()
+                    owner_first = memorial.user.first_name or (memorial.user.get_full_name().split()[0] if memorial.user.get_full_name() else memorial.user.username)
+                    plain = (
+                        f"Hi {owner_first},\n\n"
+                        f"Someone lit a candle for {memorial.pet_name}. "
+                        f"{count} candle{'s have' if count != 1 else ' has'} been lit in {memorial.pet_name}'s memory.\n\n"
+                        f"Visit {memorial.pet_name}'s memorial: {_base_url()}/memorial/{slug}/\n\n"
+                        "With warmth,\nThe PetHeavenOnline Team"
+                    )
+                    html = (
+                        '<div style="font-family:Arial,sans-serif;max-width:600px;color:#2e2640;">'
+                        f'<p>Hi {escape(owner_first)},</p>'
+                        f'<p>Someone lit a candle for <strong>{escape(memorial.pet_name)}</strong>. '
+                        f'{count} candle{"s have" if count != 1 else " has"} been lit in {escape(memorial.pet_name)}\'s memory.</p>'
+                        f'<p><a href="{_base_url()}/memorial/{slug}/" style="color:#9a89b5;">Visit {escape(memorial.pet_name)}\'s memorial</a></p>'
+                        '<p>With warmth,<br>The PetHeavenOnline Team</p>'
+                        '</div>'
+                    )
+                    msg = EmailMultiAlternatives(
+                        subject=_email_subject(f'🐾 Someone lit a candle for {memorial.pet_name}'),
+                        body=plain,
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        to=[memorial.user.email],
+                    )
+                    msg.attach_alternative(html, 'text/html')
+                    msg.send()
+                except Exception as e:
+                    print(f"Candle notification email error: {e}")
     else:
         if not request.session.session_key:
             request.session.create()
@@ -201,6 +235,36 @@ def leave_tribute_view(request, slug):
             author_name=author_name,
             message=message,
         )
+        if memorial.user and memorial.user != request.user and memorial.user.email:
+            try:
+                owner_first = memorial.user.first_name or (memorial.user.get_full_name().split()[0] if memorial.user.get_full_name() else memorial.user.username)
+                plain = (
+                    f"Hi {owner_first},\n\n"
+                    f"{author_name} left a tribute for {memorial.pet_name}:\n\n"
+                    f'"{message}"\n\n'
+                    f"View tribute: {_base_url()}/memorial/{slug}/#tributes\n\n"
+                    "With warmth,\nThe PetHeavenOnline Team"
+                )
+                html = (
+                    '<div style="font-family:Arial,sans-serif;max-width:600px;color:#2e2640;">'
+                    f'<p>Hi {escape(owner_first)},</p>'
+                    f'<p><strong>{escape(author_name)}</strong> left a tribute for <strong>{escape(memorial.pet_name)}</strong>:</p>'
+                    f'<p style="font-style:italic;border-left:3px solid #d5cde5;padding-left:12px;">&ldquo;{escape(message)}&rdquo;</p>'
+                    f'<p><a href="{_base_url()}/memorial/{slug}/#tributes" style="color:#9a89b5;">View tribute</a></p>'
+                    '<p>With warmth,<br>The PetHeavenOnline Team</p>'
+                    '</div>'
+                )
+                msg = EmailMultiAlternatives(
+                    subject=_email_subject(f'🐾 Someone left a tribute for {memorial.pet_name}'),
+                    body=plain,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=[memorial.user.email],
+                )
+                msg.attach_alternative(html, 'text/html')
+                msg.send()
+            except Exception as e:
+                print(f"Tribute notification email error: {e}")
+
     return redirect(f'/memorial/{slug}/#tributes')
 
 
@@ -246,7 +310,7 @@ def create_view(request):
                     f"Hi {first_name},\n\n"
                     f"Your memorial for {memorial.pet_name} has been submitted and is pending review.\n\n"
                     "We'll notify you once it's been approved and placed in our garden.\n\n"
-                    f"You can preview your memorial here: https://petheavenonline.com/memorial/{memorial.slug}/\n\n"
+                    f"You can preview your memorial here: {_base_url()}/memorial/{memorial.slug}/\n\n"
                     "With warmth,\n"
                     "The PetHeavenOnline Team"
                 )
@@ -255,7 +319,7 @@ def create_view(request):
                     f'<p>Hi {escape(first_name)},</p>'
                     f'<p>Your memorial for <strong>{escape(memorial.pet_name)}</strong> has been submitted and is pending review.</p>'
                     "<p>We'll notify you once it's been approved and placed in our garden.</p>"
-                    f'<p><a href="https://petheavenonline.com/memorial/{memorial.slug}/" style="color:#9a89b5;">View preview</a></p>'
+                    f'<p><a href="{_base_url()}/memorial/{memorial.slug}/" style="color:#9a89b5;">View preview</a></p>'
                     '<p>With warmth,<br>The PetHeavenOnline Team</p>'
                     '</div>'
                 )

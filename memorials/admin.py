@@ -3,7 +3,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.utils.html import escape
 from .models import Memorial, MemorialTrait, TimelineMilestone, GalleryPhoto, Tribute, Scene, Placement, Candle
-from config.views import _email_subject, _approved_scene_pages
+from config.views import _email_subject, _approved_scene_pages, _base_url
 
 
 class MemorialTraitInline(admin.TabularInline):
@@ -42,16 +42,16 @@ class MemorialAdmin(admin.ModelAdmin):
                 plain = (
                     f"Hi {first_name},\n\n"
                     f"Great news! Your memorial for {obj.pet_name} has been approved and is now live in our garden.\n\n"
-                    f"Visit {obj.pet_name}'s memorial: https://petheavenonline.com/memorial/{obj.slug}/\n\n"
-                    + (f"Visit {obj.pet_name} in the garden: https://petheavenonline.com/?scene={scene_page}\n\n" if scene_page else "")
+                    f"Visit {obj.pet_name}'s memorial: {_base_url()}/memorial/{obj.slug}/\n\n"
+                    + (f"Visit {obj.pet_name} in the garden: {_base_url()}/?scene={scene_page}\n\n" if scene_page else "")
                     + "With warmth,\nThe PetHeavenOnline Team"
                 )
                 html = (
                     '<div style="font-family:Arial,sans-serif;max-width:600px;color:#2e2640;">'
                     f'<p>Hi {escape(first_name)},</p>'
                     f'<p>Great news! Your memorial for <strong>{escape(obj.pet_name)}</strong> has been approved and is now live in our garden.</p>'
-                    f'<p><a href="https://petheavenonline.com/memorial/{obj.slug}/" style="color:#9a89b5;">Visit {escape(obj.pet_name)}\'s memorial</a></p>'
-                    + (f'<p><a href="https://petheavenonline.com/?scene={scene_page}" style="color:#9a89b5;">Visit {escape(obj.pet_name)} in the garden</a></p>' if scene_page else '')
+                    f'<p><a href="{_base_url()}/memorial/{obj.slug}/" style="color:#9a89b5;">Visit {escape(obj.pet_name)}\'s memorial</a></p>'
+                    + (f'<p><a href="{_base_url()}/?scene={scene_page}" style="color:#9a89b5;">Visit {escape(obj.pet_name)} in the garden</a></p>' if scene_page else '')
                     + '<p>With warmth,<br>The PetHeavenOnline Team</p>'
                     '</div>'
                 )
