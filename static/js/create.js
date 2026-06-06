@@ -17,7 +17,7 @@
       traits: [],
       timeline: [{ date: "", description: "" }, { date: "", description: "" }],
       gallery: [], galleryFiles: [],
-      owner_name: "", email: "",
+      owner_name: "",
     };
 
     var page = document.createElement("div");
@@ -190,11 +190,6 @@
           '<input class="create-input" id="f-owner_name" name="owner_name" type="text" value="' + esc(fd.owner_name) + '" placeholder="e.g. The Johnson Family">' +
         '</div>' +
         '<div class="create-field-group">' +
-          '<label class="create-label" for="f-email">Email address <span class="req">*</span></label>' +
-          '<p class="create-hint">Used to access your memorial later. Not shown publicly.</p>' +
-          '<input class="create-input" id="f-email" name="email" type="email" value="' + esc(fd.email) + '" placeholder="you@example.com">' +
-        '</div>' +
-        '<div class="create-field-group">' +
           '<label class="create-label">Memorial preview</label>' +
           '<div class="create-preview-hero" id="preview-hero">' +
             '<div class="preview-hero-photo" id="preview-photo">' + (fd.photoUrl ? '<img src="' + fd.photoUrl + '" alt="' + esc(fd.pet_name) + '">' : "") + '</div>' +
@@ -326,7 +321,7 @@
       } else if (currentStep === 2) {
         fd.epitaph = v("f-epitaph"); fd.story = v("f-story");
       } else if (currentStep === 5) {
-        fd.owner_name = v("f-owner_name"); fd.email = v("f-email");
+        fd.owner_name = v("f-owner_name");
       }
     }
 
@@ -352,11 +347,6 @@
         need("f-epitaph", "Please write a short epitaph for the tombstone.");
       } else if (currentStep === 5) {
         need("f-owner_name", "Please enter your name or family name.");
-        need("f-email", "Please enter your email address.");
-        var emailEl = document.getElementById("f-email");
-        if (emailEl && emailEl.value && !emailEl.value.includes("@")) {
-          markError(emailEl, "Please enter a valid email address."); ok = false;
-        }
       }
       return ok;
     }

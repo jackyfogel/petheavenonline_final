@@ -8,6 +8,10 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Remove email field from create wizard (completed)
+
+- `static/js/create.js` — removed `email` from initial `fd`, removed email field HTML from step 5, removed `fd.email` collection in `saveStep`, removed email validation from step 5 validation block; user's email comes from `request.user.email` server-side
+
 ### Memorial submission confirmation email (completed)
 
 - `config/views.py` — after saving a new memorial (including traits, timeline, gallery), sends HTML + plain text confirmation email to `request.user.email`; subject uses `_email_subject`; includes pet name, pending status message, and clickable preview link; wrapped in `try/except` so failure never blocks the redirect to success page
