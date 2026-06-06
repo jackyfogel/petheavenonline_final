@@ -8,6 +8,18 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Password reset flow (completed)
+
+- `accounts/urls.py` — added 4 password reset URL patterns using Django's built-in auth views; `PasswordResetView` configured with custom templates, email/subject templates, success URL, and `extra_email_context={'is_dev': settings.DEBUG}` for DEV subject prefix
+- `templates/accounts/password_reset.html` — NEW: email input form, lavender auth styling
+- `templates/accounts/password_reset_done.html` — NEW: "Check your email" confirmation page
+- `templates/accounts/password_reset_confirm.html` — NEW: new password + confirm fields; invalid link state handled
+- `templates/accounts/password_reset_complete.html` — NEW: success page with Log in button
+- `templates/accounts/password_reset_subject.txt` — NEW: subject template with optional [DEV] prefix
+- `templates/accounts/password_reset_email.html` — NEW: plain text email body with reset link using `{{ protocol }}://{{ domain }}/...`
+- `templates/accounts/login.html` — "Forgot your password?" link updated from `#` to `/password-reset/`
+- `templates/account.html` — "Change password" button changed to `<a href="/password-reset/">` link
+
 ### Dev email URLs point to localhost:8000 (completed)
 
 - `config/views.py` — added `_base_url()` helper: returns `http://localhost:8000` when `DEBUG=True`, `https://petheavenonline.com` in production; all email link URLs in views.py, accounts/views.py, and memorials/admin.py updated to use it
