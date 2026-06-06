@@ -78,7 +78,7 @@
   });
 
   if (SCENES.length === 0) {
-    SCENES = [{ background: '/assets/scenes/meadow-dawn.webp', ambientColor: '#e8d5a8', slots: [], slotsPortrait: [] }];
+    SCENES = [{ background: '/static/assets/scenes/meadow-dawn.webp', ambientColor: '#e8d5a8', slots: [], slotsPortrait: [] }];
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -230,7 +230,7 @@
       marker.style.top  = y + "%";
       marker.style.setProperty("--base-scale", scale);
       var img = document.createElement("img");
-      img.src = "/assets/markers/tombstone.webp";
+      img.src = "/static/assets/markers/tombstone.webp";
       img.alt = "";
       img.draggable = false;
       marker.appendChild(img);

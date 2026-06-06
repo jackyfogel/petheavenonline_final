@@ -372,7 +372,7 @@ body.footer--inline #site-footer {
       rgba(240, 237, 245, 0.60) 0%,
       rgba(240, 237, 245, 0.88) 55%,
       rgba(240, 237, 245, 1.00) 100%),
-    url(/assets/scenes/heaven-hero.webp);
+    url(/static/assets/scenes/heaven-hero.webp);
   background-size: cover;
   background-position: center top;
   border-radius: 12px;
@@ -507,7 +507,7 @@ body.footer--inline #site-footer {
       rgba(240, 237, 245, 0.55) 0%,
       rgba(240, 237, 245, 0.65) 65%,
       rgba(240, 237, 245, 1.00) 100%),
-    url(/assets/scenes/heaven-hero.webp);
+    url(/static/assets/scenes/heaven-hero.webp);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

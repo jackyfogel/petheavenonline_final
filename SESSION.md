@@ -8,6 +8,17 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Remove Vite / clean up old SPA files (completed)
+
+- `static/assets/` — NEW: moved all static image assets here from `public/assets/` (scenes, markers, memorials webp files)
+- `static/css/main.css` — updated 2 `heaven-hero.webp` CSS URLs from `/assets/...` to `/static/assets/...`
+- `static/js/scene.js` — updated tombstone and meadow-dawn fallback URLs from `/assets/...` to `/static/assets/...`
+- `config/urls.py` — removed custom `/assets/` URL pattern and `serve` import (no longer needed)
+- `config/settings.py` — removed `BASE_DIR / 'dist'` from `STATICFILES_DIRS`
+- `build.sh` — removed `npm install` and `npm run build` lines
+- **Deleted**: `src/`, `dist/`, `public/`, `vite.config.js`, `package.json`, `package-lock.json`
+- `manage.py check` — 0 issues confirmed
+
 ### Account deletion confirmation email (completed)
 
 - `accounts/views.py` — added `EmailMultiAlternatives` import; `delete_account_view` now saves `email` and `first_name` before any deletion, sends HTML + plain goodbye email, then proceeds with deleting memorials/user; failure prints to terminal without blocking deletion

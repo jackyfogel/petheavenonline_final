@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.static import serve
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import StaticViewSitemap, MemorialSitemap
 from . import views
@@ -29,7 +28,6 @@ urlpatterns = [
     path('memorial/<slug:slug>/tribute/', views.leave_tribute_view, name='leave_tribute'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', views.robots_txt_view, name='robots_txt'),
-    re_path(r'^assets/(?P<path>.*)$', serve, {'document_root': settings.BASE_DIR / 'dist' / 'assets'}),
 ]
 
 if settings.DEBUG:
