@@ -8,6 +8,14 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Fix tribute author name — never expose email (completed)
+
+- `config/views.py` — `leave_tribute_view`: `author_name` now uses `get_full_name() or first_name or 'Anonymous'`; never falls back to `user.username` (which is the email address) since tributes are publicly visible
+
+### Privacy note on registration email field (completed)
+
+- `templates/accounts/register.html` — added 12px muted note under email input: "Used for login and notifications only. Never shared."
+
 ### Real Terms of Service and Privacy Policy (completed)
 
 - `templates/terms.html` — replaced placeholder with 12 real sections: service description, account registration (13+), user content ownership + license, acceptable use, memorial review/approval, account termination, donations (voluntary/non-refundable), disclaimer, limitation of liability, changes to terms, governing law (Israel), contact (admin@petheavenonline.com); date updated to June 2026

@@ -228,7 +228,7 @@ def leave_tribute_view(request, slug):
 
     message = request.POST.get('message', '').strip()
     if message:
-        author_name = request.user.get_full_name().strip() or request.user.username
+        author_name = request.user.get_full_name().strip() or request.user.first_name.strip() or 'Anonymous'
         Tribute.objects.create(
             memorial=memorial,
             user=request.user,
