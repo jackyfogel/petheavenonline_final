@@ -119,6 +119,11 @@
       nextBtn.classList.toggle("nav--muted", currentIndex === SCENES.length - 1);
     }
 
+    function updateHero() {
+      var heroEl = document.getElementById('hero');
+      if (heroEl) heroEl.style.display = currentIndex === 0 ? '' : 'none';
+    }
+
     function applyScene(sc) {
       stage.style.backgroundColor = sc.ambientColor;
       sceneEl.style.backgroundImage = sc.background ? "url(" + sc.background + ")" : "";
@@ -275,7 +280,7 @@
         currentIndex = index;
         applyScene(SCENES[currentIndex]);
         renderMarkers(SCENES[currentIndex]);
-        updateArrows();
+        updateArrows(); updateHero();
         void sceneEl.offsetWidth;
         sceneEl.style.opacity = "";
         sceneEl.classList.add(enterClass);
