@@ -22,6 +22,16 @@
 <div class="memorial-page">
   <div class="mem-page">
 
+    {% if memorial_status == 'pending' %}
+    <div class="mem-status-banner mem-status-banner--pending">
+      This memorial is pending review and only visible to you.
+    </div>
+    {% elif memorial_status == 'rejected' %}
+    <div class="mem-status-banner mem-status-banner--rejected">
+      This memorial was not approved. You can <a href="/edit/{{ m.slug }}/" class="mem-status-link">edit and resubmit it</a>.
+    </div>
+    {% endif %}
+
     <section class="mem-hero">
       <div class="mem-hero-inner">
         <div class="mem-hero-nav">

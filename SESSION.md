@@ -8,6 +8,12 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Pending/rejected memorials restricted to owner and staff (completed)
+
+- `config/views.py` — `memorial_view`: after fetching memorial, if status is not 'approved', checks if user is authenticated and is the owner or staff; unauthorized users (including anonymous) get a 404; passes `memorial_status` to template
+- `templates/memorial.html` — status banner shown at top for pending ("pending review, only visible to you") and rejected ("not approved, edit and resubmit" with link to /edit/slug/); approved memorials show nothing
+- `static/css/main.css` — added `.mem-status-banner`, `.mem-status-banner--pending` (lavender), `.mem-status-banner--rejected` (soft red), `.mem-status-link` styles
+
 ### Fix tribute author name — never expose email (completed)
 
 - `config/views.py` — `leave_tribute_view`: `author_name` now uses `get_full_name() or first_name or 'Anonymous'`; never falls back to `user.username` (which is the email address) since tributes are publicly visible

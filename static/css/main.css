@@ -545,6 +545,31 @@ body.footer--inline #site-footer {
   color: #2e2640;
 }
 
+.mem-status-banner {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin: 70px auto 20px;
+  max-width: 820px;
+  text-align: center;
+  line-height: 1.5;
+}
+.mem-status-banner--pending {
+  background: #ede9f5;
+  color: #5e4f76;
+  border: 1px solid #d5cde5;
+}
+.mem-status-banner--rejected {
+  background: #fdf0f0;
+  color: #7a2e2e;
+  border: 1px solid #f0c8c8;
+}
+.mem-status-link {
+  color: inherit;
+  text-decoration: underline;
+}
+
 .mem-edit-link {
   font-size: 12px;
   color: #5e4f76;

@@ -64,6 +64,14 @@ def memorial_view(request, slug):
     except Memorial.DoesNotExist:
         return render(request, "memorial.html", {"not_found": True, "slug": slug}, status=404)
 
+    if db_m.status != 'approved':
+        is_authorized = (
+            request.user.is_authenticated and
+            (request.user == db_m.user or request.user.is_staff)
+        )
+        if not is_authorized:
+            return render(request, "memorial.html", {"not_found": True, "slug": slug}, status=404)
+
     m = {
         "slug": db_m.slug,
         "name": db_m.pet_name,
@@ -104,6 +112,7 @@ def memorial_view(request, slug):
         "is_owner": is_owner, "scene_page": scene_page,
         "candle_count": candle_count, "already_lit": already_lit,
         "tributes": tributes, "user_full_name": user_full_name,
+        "memorial_status": db_m.status,
     })
 
 
