@@ -124,6 +124,10 @@
       var heroEl = document.getElementById('hero');
       if (heroEl) heroEl.style.display = currentIndex === 0 ? '' : 'none';
       if (currentIndex === 0) showPetals(); else hidePetals();
+      var contentEl = document.getElementById('home-content');
+      if (contentEl) contentEl.style.display = currentIndex === 0 ? '' : 'none';
+      stage.style.height = currentIndex === 0 ? '88vh' : '100vh';
+      fitScene();
     }
 
     function createPetals() {
@@ -172,7 +176,7 @@
 
     function fitScene() {
       var vw = window.innerWidth;
-      var vh = window.innerHeight;
+      var vh = stage.offsetHeight;
       if (isMobile()) {
         sceneEl.style.position = "absolute";
         sceneEl.style.top      = "54px";
@@ -387,5 +391,6 @@
     fitScene();
     renderMarkers(SCENES[currentIndex]);
     updateArrows();
+    updateHero();
   });
 })();

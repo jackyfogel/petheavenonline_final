@@ -56,7 +56,21 @@ def home_view(request):
             ],
         })
 
-    return render(request, "home.html", {"scene_data": scene_data})
+    featured_memorials = [
+        {
+            'slug': m.slug,
+            'pet_name': m.pet_name,
+            'born': str(m.birth_date.year) if m.birth_date else '—',
+            'passed': str(m.passing_date.year) if m.passing_date else '—',
+            'photo': m.photo.url if m.photo else None,
+        }
+        for m in Memorial.objects.filter(status='approved').order_by('-created_at')[:4]
+    ]
+
+    return render(request, "home.html", {
+        "scene_data": scene_data,
+        "featured_memorials": featured_memorials,
+    })
 
 
 def memorial_view(request, slug):

@@ -8,6 +8,25 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Homepage content section — premium restyle (completed)
+
+- `templates/home.html` — replaced 3 emoji icons (🕯️💜🐾) with thin-line SVG icons using `stroke="#9a89b5"` stroke-width 1.5; candle, heart, and paw outlines
+- `static/css/main.css` — full rewrite of home content CSS block: `#home-content` gets unified `background: #FAF9F6` + subtle `border-top`; all section backgrounds removed (no alternating blocks); intro padded 96px 0 80px; tagline 28px / line-height 1.65; steps gap 64px, titles letter-spacing 0.05em, body text `#4a4a4a` weight 300; CTA button uppercase, letter-spacing 0.15em, 11px, hover lift + shadow; featured cards white bg with shadow, lift on hover, gap 20px; responsive at 768px and 480px
+
+### Scene order swap + per-scene height (completed)
+
+- **DB change**: `sunset-lake` order changed from 2 → 1, `meadow-dawn` order changed from 1 → 2 (via Django shell). Sunset Lake is now the landing scene. First 5 approved memorials are now placed on Sunset Lake.
+- `static/js/scene.js` — `updateHero()` now also sets `stage.style.height` to `88vh` on scene index 0 and `100vh` on all others, then calls `fitScene()` to recompute scene dimensions. Tombstone positions are percentages of the scene element so they scale correctly at both heights.
+
+### Homepage content section below scene (completed)
+
+- `templates/home.html` — body_class changed to `footer--inline` (page now scrollable); extra_head style changed from `height: 100%; overflow: hidden` to `min-height: 100%` + `#stage { height: 88vh }`; added `#home-content` div (hidden by default) with intro tagline, 3 how-it-works steps, CTA button, and featured memorials grid (up to 4, only shown if any exist)
+- `static/js/scene.js` — `fitScene()` now uses `stage.offsetHeight` instead of `window.innerHeight` so 16:9 letterbox calculates against the 88vh stage; `updateHero()` now also toggles `#home-content` visibility (show on scene 1, hide on scenes 2+)
+- `config/views.py` — `home_view` adds `featured_memorials` (up to 4 most recent approved, with slug/pet_name/born/passed/photo) to template context
+- `static/css/main.css` — added all home content section styles: `.home-intro-section`, `.home-how-section`, `.home-how-steps`, `.home-cta-section`, `.home-cta-btn`, `.home-featured-section`, `.home-featured-grid`, `.home-featured-card` etc.; responsive at 768px and 480px
+
+**Scene height note:** Stage reduced to 88vh. `fitScene()` now uses `stage.offsetHeight` (88vh) as `vh` for the 16:9 calculation. Tombstone positions are percentages of the scene element — they scale proportionally with the scene and are visually unchanged.
+
 ### Honeypot spam protection on contact form (completed)
 
 - `templates/contact.html` — added hidden `website` honeypot field (position absolute, off-screen, aria-hidden, tabindex=-1) and hidden `form_time` timestamp field inside the form
