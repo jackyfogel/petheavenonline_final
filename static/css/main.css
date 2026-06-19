@@ -137,6 +137,24 @@ body.nav--solid .nav-link:hover {
   background-position: center;
   background-repeat: no-repeat;
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.petal {
+  position: absolute;
+  border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
+  background: rgba(255, 255, 255, var(--op, 0.55));
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform;
+  animation: petalDrift var(--dur, 20s) linear var(--del, 0s) infinite;
+}
+
+@keyframes petalDrift {
+  0%   { transform: translateX(0)     translateY(0)               rotate(var(--r0, 0deg));   opacity: 0; }
+  8%   { opacity: var(--op, 0.55); }
+  90%  { opacity: var(--op, 0.55); }
+  100% { transform: translateX(110vw) translateY(var(--dy, 60px)) rotate(var(--r1, 360deg)); opacity: 0; }
 }
 
 /* --- Footer --- */

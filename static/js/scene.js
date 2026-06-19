@@ -97,6 +97,7 @@
     var isTransitioning = false;
     var previewCard    = null;
     var markerEls      = [];
+    var petalEls       = [];
 
     function isPortrait() { return window.innerHeight > window.innerWidth; }
     function isMobile()   { return window.innerWidth < 768; }
@@ -122,6 +123,44 @@
     function updateHero() {
       var heroEl = document.getElementById('hero');
       if (heroEl) heroEl.style.display = currentIndex === 0 ? '' : 'none';
+      if (currentIndex === 0) showPetals(); else hidePetals();
+    }
+
+    function createPetals() {
+      var configs = [
+        { size: 9,  ratio: 1.6, top: 22, dur: 22, del: -3,  op: 0.55, r0: 20  , dy: 55 },
+        { size: 11, ratio: 1.5, top: 45, dur: 18, del: -9,  op: 0.50, r0: 140 , dy: 80 },
+        { size: 8,  ratio: 1.7, top: 35, dur: 25, del: -1,  op: 0.60, r0: 70  , dy: 45 },
+        { size: 10, ratio: 1.4, top: 60, dur: 20, del: -14, op: 0.52, r0: 200 , dy: 70 },
+        { size: 12, ratio: 1.5, top: 28, dur: 17, del: -7,  op: 0.58, r0: 310 , dy: 60 },
+        { size: 9,  ratio: 1.6, top: 52, dur: 23, del: -18, op: 0.48, r0: 95  , dy: 90 },
+      ];
+      configs.forEach(function (c) {
+        var p = document.createElement('div');
+        p.className = 'petal';
+        p.style.cssText = [
+          'width:'  + c.size + 'px',
+          'height:' + Math.round(c.size * c.ratio) + 'px',
+          'top:'    + c.top + '%',
+          'left:-20px',
+          '--dur:'  + c.dur + 's',
+          '--del:'  + c.del + 's',
+          '--op:'   + c.op,
+          '--r0:'   + c.r0 + 'deg',
+          '--r1:'   + (c.r0 + 260 + Math.floor(Math.random() * 100)) + 'deg',
+          '--dy:'   + c.dy + 'px',
+        ].join(';');
+        sceneEl.appendChild(p);
+        petalEls.push(p);
+      });
+    }
+
+    function showPetals() {
+      petalEls.forEach(function (p) { p.style.visibility = 'visible'; });
+    }
+
+    function hidePetals() {
+      petalEls.forEach(function (p) { p.style.visibility = 'hidden'; });
     }
 
     function applyScene(sc) {
@@ -341,6 +380,8 @@
     var heartSVG = '<svg class="hero-icon hero-icon--heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
     hero.innerHTML = '<h1 id="hero-headline">' + pawSVG + 'A peaceful place to remember them' + pawSVG + heartSVG + '</h1>';
     sceneEl.appendChild(hero);
+
+    createPetals();
 
     applyScene(SCENES[currentIndex]);
     fitScene();
