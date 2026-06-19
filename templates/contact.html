@@ -15,6 +15,10 @@
 
       <form class="contact-form" id="contact-form" method="post" novalidate>
         {% csrf_token %}
+        <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+          <input type="text" name="website" value="" tabindex="-1" autocomplete="off">
+          <input type="hidden" name="form_time" id="form_time">
+        </div>
         <div class="contact-field-group">
           <label class="contact-label" for="c-name">Name <span class="req">*</span></label>
           <input class="create-input" id="c-name" name="name" type="text" placeholder="Your name">

@@ -3,6 +3,9 @@
     var form = document.getElementById("contact-form");
     if (!form) return;
 
+    var timeEl = document.getElementById("form_time");
+    if (timeEl) timeEl.value = Date.now();
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       clearErrors();

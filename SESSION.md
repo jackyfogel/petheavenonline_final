@@ -8,6 +8,23 @@ S3 dev/prod upload prefix separation
 
 ## What was done
 
+### Honeypot spam protection on contact form (completed)
+
+- `templates/contact.html` — added hidden `website` honeypot field (position absolute, off-screen, aria-hidden, tabindex=-1) and hidden `form_time` timestamp field inside the form
+- `static/js/contact.js` — sets `form_time` to `Date.now()` on DOMContentLoaded so the server can measure time-to-submit
+- `config/views.py` — added `import time`; `contact_view` now silently returns `{'ok': True}` (no email sent) if honeypot `website` field is non-empty OR if form was submitted in under 3 seconds; real users unaffected
+
+### Floating petals on Scene 1 (completed)
+
+- `static/css/main.css` — added `overflow: hidden` to `#scene` to clip petals; added `.petal` (position absolute, oval border-radius, z-index 1, CSS vars for timing/opacity/rotation); added `@keyframes petalDrift` (translateX 0→110vw + translateY dy + rotate, fade in/out at edges)
+- `static/js/scene.js` — added `petalEls` array; `createPetals()` creates 6 hand-tuned petal elements with varied size/speed/position/opacity appended to `sceneEl`; `showPetals()`/`hidePetals()` toggle `visibility` (keeps animations running in background); `updateHero()` now also calls show/hide based on `currentIndex`; `createPetals()` called once after hero is appended
+
+### Homepage premium upgrade — headline above scene + animations (completed)
+
+- `templates/home.html` — wrapped content in `.home-layout` flex column; headline moved from JS injection to static HTML in `.home-headline-section` above `#stage`; paw SVGs inline in template
+- `static/js/scene.js` — removed JS `#hero` and vignette injection (vignette kept); `fitScene()` now uses `stage.offsetHeight` instead of `window.innerHeight` for correct 16:9 letterbox with shorter stage; added `isFirstRender` flag; markers on first load get `.marker--entering` class + staggered `animation-delay` (0.6s base + 0.3s per marker); `isFirstRender = false` after first `renderMarkers`; mobile `fitScene` simplified to fill stage width/height
+- `static/css/main.css` — added `.home-layout` (flex column, page fade-in animation), `.home-headline-section` (lavender bg, padding clears nav), `.home-headline` (Lora 26px, wide letter-spacing), `.home-hl-icon`; `@keyframes homeFadeIn` (0→1 opacity, 0.5s); `@keyframes markerFadeIn` (0→1 opacity); `.marker--entering`; `#stage` updated to `flex:1 min-height:0`; mobile 480px overrides for new headline
+
 ### Pending/rejected memorials restricted to owner and staff (completed)
 
 - `config/views.py` — `memorial_view`: after fetching memorial, if status is not 'approved', checks if user is authenticated and is the owner or staff; unauthorized users (including anonymous) get a 404; passes `memorial_status` to template

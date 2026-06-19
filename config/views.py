@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
@@ -429,6 +430,18 @@ def edit_view(request, slug):
 
 def contact_view(request):
     if request.method == 'POST':
+        # Honeypot — bots fill this, humans never see it
+        if request.POST.get('website', ''):
+            return JsonResponse({'ok': True})
+
+        # Time check — reject if submitted in under 3 seconds
+        try:
+            elapsed = time.time() - int(request.POST.get('form_time', 0)) / 1000
+            if elapsed < 3:
+                return JsonResponse({'ok': True})
+        except (ValueError, TypeError):
+            pass
+
         name    = request.POST.get('name', '').strip()
         email   = request.POST.get('email', '').strip()
         subject = request.POST.get('subject', '').strip()
