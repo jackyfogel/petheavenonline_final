@@ -239,6 +239,18 @@
       });
       sceneEl.appendChild(card);
       previewCard = card;
+
+      // Clamp card so it never hides behind the fixed nav (54px)
+      requestAnimationFrame(function () {
+        if (!card.parentNode) return;
+        var rect   = card.getBoundingClientRect();
+        var minTop = 54 + 12; // nav height + breathing room
+        if (rect.top < minTop) {
+          var overflow     = minTop - rect.top;
+          var currentTopPx = (parseFloat(card.style.top) / 100) * sceneEl.offsetHeight;
+          card.style.top   = ((currentTopPx + overflow) / sceneEl.offsetHeight * 100).toFixed(2) + '%';
+        }
+      });
     }
 
     function activateMobileMarker(slot, markerEl) {
