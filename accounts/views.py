@@ -68,6 +68,35 @@ def register_view(request):
             except Exception as e:
                 print(f"Welcome email error: {e}")
 
+            try:
+                from django.utils import timezone
+                registered_at = timezone.now().strftime('%Y-%m-%d %H:%M UTC')
+                admin_plain = (
+                    f"A new user has registered.\n\n"
+                    f"Name: {full_name}\n"
+                    f"Email: {email}\n"
+                    f"Registered: {registered_at}"
+                )
+                admin_html = (
+                    '<div style="font-family:Arial,sans-serif;max-width:600px;color:#2e2640;">'
+                    '<p>A new user has registered.</p>'
+                    f'<p><strong>Name:</strong> {full_name}<br>'
+                    f'<strong>Email:</strong> {email}<br>'
+                    f'<strong>Registered:</strong> {registered_at}</p>'
+                    '</div>'
+                )
+                admin_msg = EmailMultiAlternatives(
+                    subject=_email_subject(f'New user registered: {full_name}'),
+                    body=admin_plain,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=['admin@petheavenonline.com'],
+                    cc=['jackyfogel@gmail.com'],
+                )
+                admin_msg.attach_alternative(admin_html, 'text/html')
+                admin_msg.send()
+            except Exception as e:
+                print(f"Registration admin notification error: {e}")
+
             return redirect(next_url or '/welcome/')
     else:
         next_url = _safe_next(request.GET.get('next', ''))

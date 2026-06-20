@@ -358,6 +358,36 @@ def create_view(request):
             except Exception as e:
                 print(f"Memorial confirmation email error: {e}")
 
+            try:
+                submitter_name = request.user.get_full_name().strip() or request.user.username
+                admin_plain = (
+                    f"A new memorial has been submitted and is awaiting review.\n\n"
+                    f"Pet: {memorial.pet_name}\n"
+                    f"Species: {memorial.species}\n"
+                    f"Submitted by: {submitter_name} ({request.user.email})\n\n"
+                    f"Review it: {_base_url()}/admin/memorials/memorial/{memorial.id}/change/"
+                )
+                admin_html = (
+                    '<div style="font-family:Arial,sans-serif;max-width:600px;color:#2e2640;">'
+                    '<p>A new memorial has been submitted and is awaiting review.</p>'
+                    f'<p><strong>Pet:</strong> {escape(memorial.pet_name)}<br>'
+                    f'<strong>Species:</strong> {escape(memorial.species)}<br>'
+                    f'<strong>Submitted by:</strong> {escape(submitter_name)} ({escape(request.user.email)})</p>'
+                    f'<p><a href="{_base_url()}/admin/memorials/memorial/{memorial.id}/change/" style="color:#9a89b5;">Open in admin</a></p>'
+                    '</div>'
+                )
+                admin_msg = EmailMultiAlternatives(
+                    subject=_email_subject(f'New memorial submitted: {memorial.pet_name}'),
+                    body=admin_plain,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=['admin@petheavenonline.com'],
+                    cc=['jackyfogel@gmail.com'],
+                )
+                admin_msg.attach_alternative(admin_html, 'text/html')
+                admin_msg.send()
+            except Exception as e:
+                print(f"Memorial admin notification error: {e}")
+
             return redirect('create_success', slug=memorial.slug)
     else:
         form = MemorialForm()
