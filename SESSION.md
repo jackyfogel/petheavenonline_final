@@ -38,6 +38,30 @@ S3 dev/prod upload prefix separation
 - `templates/accounts/register.html` — added hidden `website` honeypot field (off-screen, aria-hidden, tabindex=-1) and hidden `reg_form_time` timestamp field stamped via inline script on page load
 - `accounts/views.py` — `register_view` checks honeypot and time elapsed before validating the form; both checks silently redirect to /welcome/ without creating a user or sending emails; bots get no indication they were rejected
 
+### Preview card nav clamping (completed)
+
+- `static/js/scene.js` — `activateMarker` now uses `requestAnimationFrame` to measure the card's actual viewport position after render; if `rect.top < 66px` (nav + 12px padding), shifts the card's top percentage down by the overflow amount so the × is always reachable
+
+### Scene-to-content fade extended to 200px (completed)
+
+- `static/css/main.css` — `#home-content::before` height increased from 110px to 200px for a longer, smoother dissolve from the lake scene into the cream content section
+
+### Candlelight hover glow on tombstones (completed)
+
+- `static/css/main.css` — added `filter: drop-shadow(0 0 18px rgba(255, 190, 90, 0.52))` and `scale(1.02x)` on `.marker:hover:not(.marker--dimmed)`; added `filter 0.35s ease` to existing `.marker` transition
+
+### Tombstone grounding shadows (completed)
+
+- `static/css/main.css` — `.marker::after` enhanced: height 5px → 22px, added `filter: blur(5px)`, `z-index: -1`, `bottom: -6px`; gives each tombstone a soft diffuse shadow grounding it in the grass
+
+### Nav gradient overlay on scene (completed)
+
+- `static/css/main.css` — added `#scene::before` pseudo-element: `height: 140px`, `linear-gradient(to bottom, rgba(0,0,0,0.30), transparent)`, `z-index: 3`; darkens only the top strip behind the nav on all scenes
+
+### Homepage H1 headline color (completed)
+
+- `static/css/main.css` — `#hero-headline` color changed from `#3d2e1e` to `#4a3b2a` (warm walnut brown)
+
 ### Admin notifications for new registrations and memorials (completed)
 
 - `config/views.py` — after memorial confirmation email in `create_view`, sends admin notification to `admin@petheavenonline.com` CC `jackyfogel@gmail.com`; HTML body includes pet name, species, submitter name/email, and direct admin link; uses `_email_subject` and `_base_url`; wrapped in separate try/except
