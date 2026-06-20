@@ -38,6 +38,11 @@ S3 dev/prod upload prefix separation
 - `templates/accounts/register.html` — added hidden `website` honeypot field (off-screen, aria-hidden, tabindex=-1) and hidden `reg_form_time` timestamp field stamped via inline script on page load
 - `accounts/views.py` — `register_view` checks honeypot and time elapsed before validating the form; both checks silently redirect to /welcome/ without creating a user or sending emails; bots get no indication they were rejected
 
+### Homepage content section refinements (completed)
+
+- `templates/home.html` — tagline changed to "Some loves stay with us long after they're gone."; SVG icons replaced with `<div class="home-how-num">01/02/03</div>` serif numerals
+- `static/css/main.css` — added `.home-how-num` (Lora 44px, weight 400, `#9a89b5`); removed `.home-how-icon`; `.home-how-desc` color `#6b6358` → `#3a342e`; CTA horizontal padding 42px → 46px; intro bottom 80px → 54px; CTA bottom 96px → 64px; featured section top padding 0 → 32px, bottom 100px → 72px; 480px breakpoints tightened to match
+
 ### Preview card nav clamping (completed)
 
 - `static/js/scene.js` — `activateMarker` now uses `requestAnimationFrame` to measure the card's actual viewport position after render; if `rect.top < 66px` (nav + 12px padding), shifts the card's top percentage down by the overflow amount so the × is always reachable
