@@ -38,6 +38,11 @@ S3 dev/prod upload prefix separation
 - `templates/accounts/register.html` — added hidden `website` honeypot field (off-screen, aria-hidden, tabindex=-1) and hidden `reg_form_time` timestamp field stamped via inline script on page load
 - `accounts/views.py` — `register_view` checks honeypot and time elapsed before validating the form; both checks silently redirect to /welcome/ without creating a user or sending emails; bots get no indication they were rejected
 
+### Hero headline — remove all decorative marks (completed)
+
+- `static/js/scene.js` — `hero.innerHTML` simplified to `<h1 id="hero-headline">A peaceful place to remember them</h1>`; all paw SVGs, heart, and hl-side/hl-line spans removed
+- `static/css/main.css` — removed `display: flex; align-items: center` from `#hero-headline`; removed `.hl-side`, `.hl-side--left/right`, `.hl-line`, `.hl-paw` rules; removed their 480px breakpoint overrides; `#hero-headline` text styles (Lora, size, color, shadow) unchanged
+
 ### Hero headline flourish decoration (completed)
 
 - `static/js/scene.js` — replaced paw+heart icon vars with single `pawSVG` using new `.hl-paw` class; `hero.innerHTML` restructured to `[hl-side--left: line + paw] text [hl-side--right: paw + line]`; heart removed entirely

@@ -392,12 +392,7 @@
 
     var hero = document.createElement("div");
     hero.id = "hero";
-    var pawSVG = '<svg class="hl-paw" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><ellipse cx="50" cy="75" rx="24" ry="19"/><ellipse cx="20" cy="46" rx="12" ry="14" transform="rotate(-12 20 46)"/><ellipse cx="39" cy="34" rx="12" ry="14"/><ellipse cx="61" cy="34" rx="12" ry="14"/><ellipse cx="80" cy="46" rx="12" ry="14" transform="rotate(12 80 46)"/></svg>';
-    hero.innerHTML = '<h1 id="hero-headline">' +
-      '<span class="hl-side hl-side--left"><span class="hl-line"></span>' + pawSVG + '</span>' +
-      'A peaceful place to remember them' +
-      '<span class="hl-side hl-side--right">' + pawSVG + '<span class="hl-line"></span></span>' +
-      '</h1>';
+    hero.innerHTML = '<h1 id="hero-headline">A peaceful place to remember them</h1>';
     sceneEl.appendChild(hero);
 
     createPetals();
