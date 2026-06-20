@@ -27,6 +27,12 @@ S3 dev/prod upload prefix separation
 
 **Scene height note:** Stage reduced to 88vh. `fitScene()` now uses `stage.offsetHeight` (88vh) as `vh` for the 16:9 calculation. Tombstone positions are percentages of the scene element — they scale proportionally with the scene and are visually unchanged.
 
+### Fix broken email URLs — SITE_URL setting (completed)
+
+- `config/settings.py` — added `SITE_URL = 'http://localhost:8000' if DEBUG else 'https://petheavenonline.com'`
+- `config/views.py` — `_base_url()` now returns `settings.SITE_URL`; admin notification links hardcoded to `https://petheavenonline.com/admin/...` (always production, per requirement)
+- `accounts/views.py` — fixed welcome email HTML line 64: added missing `f` prefix to the string containing `{_base_url()}/create/` — this was the only broken literal
+
 ### Honeypot spam protection on registration form (completed)
 
 - `templates/accounts/register.html` — added hidden `website` honeypot field (off-screen, aria-hidden, tabindex=-1) and hidden `reg_form_time` timestamp field stamped via inline script on page load

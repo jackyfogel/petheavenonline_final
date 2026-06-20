@@ -17,7 +17,7 @@ def _email_subject(subject):
 
 
 def _base_url():
-    return "http://localhost:8000" if settings.DEBUG else "https://petheavenonline.com"
+    return settings.SITE_URL
 
 
 def _approved_scene_pages():
@@ -365,7 +365,7 @@ def create_view(request):
                     f"Pet: {memorial.pet_name}\n"
                     f"Species: {memorial.species}\n"
                     f"Submitted by: {submitter_name} ({request.user.email})\n\n"
-                    f"Review it: {_base_url()}/admin/memorials/memorial/{memorial.id}/change/"
+                    f"Review it: https://petheavenonline.com/admin/memorials/memorial/{memorial.id}/change/"
                 )
                 admin_html = (
                     '<div style="font-family:Arial,sans-serif;max-width:600px;color:#2e2640;">'
@@ -373,7 +373,7 @@ def create_view(request):
                     f'<p><strong>Pet:</strong> {escape(memorial.pet_name)}<br>'
                     f'<strong>Species:</strong> {escape(memorial.species)}<br>'
                     f'<strong>Submitted by:</strong> {escape(submitter_name)} ({escape(request.user.email)})</p>'
-                    f'<p><a href="{_base_url()}/admin/memorials/memorial/{memorial.id}/change/" style="color:#9a89b5;">Open in admin</a></p>'
+                    f'<p><a href="https://petheavenonline.com/admin/memorials/memorial/{memorial.id}/change/" style="color:#9a89b5;">Open in admin</a></p>'
                     '</div>'
                 )
                 admin_msg = EmailMultiAlternatives(

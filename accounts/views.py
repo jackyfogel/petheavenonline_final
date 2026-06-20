@@ -61,7 +61,7 @@ def register_view(request):
                     '<p>Welcome to PetHeavenOnline.</p>'
                     '<p>Your account has been created successfully.</p>'
                     '<p>You can now create lasting memorials for your beloved pets. Visit '
-                    '<a href="{_base_url()}/create/" style="color:#9a89b5;">'
+                    f'<a href="{_base_url()}/create/" style="color:#9a89b5;">'
                     'petheavenonline.com/create</a> to get started.</p>'
                     '<p>With warmth,<br>The PetHeavenOnline Team</p>'
                     '</div>'
