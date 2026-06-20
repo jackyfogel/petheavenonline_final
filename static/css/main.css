@@ -140,6 +140,18 @@ body.nav--solid .nav-link:hover {
   overflow: hidden;
 }
 
+#scene::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.30), rgba(0,0,0,0));
+  pointer-events: none;
+  z-index: 3;
+}
+
 .petal {
   position: absolute;
   border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
