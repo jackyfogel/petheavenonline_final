@@ -27,6 +27,11 @@ S3 dev/prod upload prefix separation
 
 **Scene height note:** Stage reduced to 88vh. `fitScene()` now uses `stage.offsetHeight` (88vh) as `vh` for the 16:9 calculation. Tombstone positions are percentages of the scene element — they scale proportionally with the scene and are visually unchanged.
 
+### Honeypot spam protection on registration form (completed)
+
+- `templates/accounts/register.html` — added hidden `website` honeypot field (off-screen, aria-hidden, tabindex=-1) and hidden `reg_form_time` timestamp field stamped via inline script on page load
+- `accounts/views.py` — `register_view` checks honeypot and time elapsed before validating the form; both checks silently redirect to /welcome/ without creating a user or sending emails; bots get no indication they were rejected
+
 ### Admin notifications for new registrations and memorials (completed)
 
 - `config/views.py` — after memorial confirmation email in `create_view`, sends admin notification to `admin@petheavenonline.com` CC `jackyfogel@gmail.com`; HTML body includes pet name, species, submitter name/email, and direct admin link; uses `_email_subject` and `_base_url`; wrapped in separate try/except

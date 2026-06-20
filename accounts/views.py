@@ -19,6 +19,15 @@ def register_view(request):
         return redirect('/')
     if request.method == 'POST':
         next_url = _safe_next(request.POST.get('next', ''))
+        if request.POST.get('website', ''):
+            return redirect(next_url or '/welcome/')
+        try:
+            import time as _time
+            elapsed = _time.time() - int(request.POST.get('form_time', 0)) / 1000
+            if elapsed < 3:
+                return redirect(next_url or '/welcome/')
+        except (ValueError, TypeError):
+            pass
         form = RegisterForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']

@@ -23,6 +23,11 @@
     <form class="auth-form" method="post" novalidate>
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ next }}">
+      <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+        <input type="text" name="website" value="" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="form_time" id="reg_form_time">
+      </div>
+      <script>document.getElementById('reg_form_time').value = Date.now();</script>
 
       <div class="auth-field-group">
         <label class="auth-label" for="id_full_name">Full name</label>
