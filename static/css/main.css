@@ -3259,7 +3259,7 @@ body.nav--solid #nav-hamburger span {
 
 .home-intro-section {
   text-align: center;
-  padding: 96px 32px 80px;
+  padding: 96px 32px 54px;
 }
 
 .home-intro-tagline {
@@ -3293,10 +3293,14 @@ body.nav--solid #nav-hamburger span {
   max-width: 230px;
 }
 
-.home-how-icon {
-  margin-bottom: 24px;
-  display: flex;
-  justify-content: center;
+.home-how-num {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 44px;
+  font-weight: 400;
+  color: #9a89b5;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .home-how-title {
@@ -3312,7 +3316,7 @@ body.nav--solid #nav-hamburger span {
 .home-how-desc {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  color: #6b6358;
+  color: #3a342e;
   line-height: 1.75;
   margin: 0;
   font-weight: 300;
@@ -3322,7 +3326,7 @@ body.nav--solid #nav-hamburger span {
 
 .home-cta-section {
   text-align: center;
-  padding: 0 32px 96px;
+  padding: 0 32px 64px;
 }
 
 .home-cta-btn {
@@ -3332,7 +3336,7 @@ body.nav--solid #nav-hamburger span {
   font-family: 'Inter', sans-serif;
   font-size: 11px;
   font-weight: 500;
-  padding: 15px 42px;
+  padding: 15px 46px;
   border-radius: 100px;
   text-decoration: none;
   letter-spacing: 0.15em;
@@ -3349,7 +3353,7 @@ body.nav--solid #nav-hamburger span {
 /* --- Featured memorials --- */
 
 .home-featured-section {
-  padding: 0 32px 100px;
+  padding: 32px 32px 72px;
   text-align: center;
 }
 
@@ -3442,7 +3446,7 @@ body.nav--solid #nav-hamburger span {
 
 @media (max-width: 480px) {
   .home-intro-section {
-    padding: 64px 20px 56px;
+    padding: 64px 20px 36px;
   }
 
   .home-intro-tagline {
@@ -3459,11 +3463,11 @@ body.nav--solid #nav-hamburger span {
   }
 
   .home-cta-section {
-    padding: 0 20px 64px;
+    padding: 0 20px 40px;
   }
 
   .home-featured-section {
-    padding: 0 16px 72px;
+    padding: 20px 16px 56px;
   }
 
   .home-featured-grid {
