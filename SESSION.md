@@ -38,6 +38,12 @@ S3 dev/prod upload prefix separation
 - `templates/accounts/register.html` — added hidden `website` honeypot field (off-screen, aria-hidden, tabindex=-1) and hidden `reg_form_time` timestamp field stamped via inline script on page load
 - `accounts/views.py` — `register_view` checks honeypot and time elapsed before validating the form; both checks silently redirect to /welcome/ without creating a user or sending emails; bots get no indication they were rejected
 
+### is_demo flag on Memorial model (completed)
+
+- `memorials/models.py` — added `is_demo = models.BooleanField(default=False)` to `Memorial`; migration NOT applied — run `makemigrations` + `migrate` manually
+- `config/views.py` — `_approved_scene_pages()` and `home_view` approved query both changed to `.order_by('is_demo', 'created_at')` so demo memorials (True) sort after real ones (False)
+- `memorials/admin.py` — `is_demo` added to `list_display`, `list_editable`, and `list_filter` on `MemorialAdmin`
+
 ### Tombstone text color — dark engraving (completed)
 
 - `static/css/main.css` — `.marker-name` and `.marker-dates` color changed from light cream to `#262626`; `text-shadow` removed from both; mobile breakpoint font-size overrides untouched

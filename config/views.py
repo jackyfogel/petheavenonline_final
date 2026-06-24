@@ -24,7 +24,7 @@ def _approved_scene_pages():
     """Returns {slug: 1-based scene page number} for all approved memorials."""
     slugs = list(
         Memorial.objects.filter(status='approved')
-        .order_by('created_at')
+        .order_by('is_demo', 'created_at')
         .values_list('slug', flat=True)
     )
     return {slug: (i // 5 + 1) for i, slug in enumerate(slugs)}
@@ -32,7 +32,7 @@ def _approved_scene_pages():
 
 def home_view(request):
     scenes = list(Scene.objects.filter(is_active=True).order_by('order'))
-    approved = list(Memorial.objects.filter(status='approved').order_by('created_at'))
+    approved = list(Memorial.objects.filter(status='approved').order_by('is_demo', 'created_at'))
 
     scene_data = []
     for i in range(0, max(len(approved), 1), 5):

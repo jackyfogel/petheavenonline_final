@@ -32,6 +32,7 @@ class Memorial(models.Model):
     story = models.TextField()
     owner_name = models.CharField(max_length=100)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    is_demo = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     candle_count = models.PositiveIntegerField(default=0)

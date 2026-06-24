@@ -23,8 +23,9 @@ class GalleryPhotoInline(admin.TabularInline):
 
 @admin.register(Memorial)
 class MemorialAdmin(admin.ModelAdmin):
-    list_display = ('pet_name', 'species', 'user', 'status', 'created_at')
-    list_filter = ('status', 'species')
+    list_display = ('pet_name', 'species', 'user', 'status', 'is_demo', 'created_at')
+    list_editable = ('is_demo',)
+    list_filter = ('status', 'species', 'is_demo')
     search_fields = ('pet_name', 'owner_name')
     prepopulated_fields = {'slug': ('pet_name',)}
     inlines = [MemorialTraitInline, TimelineMilestoneInline, GalleryPhotoInline]
