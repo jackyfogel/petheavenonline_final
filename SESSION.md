@@ -38,6 +38,10 @@ S3 dev/prod upload prefix separation
 - `templates/accounts/register.html` — added hidden `website` honeypot field (off-screen, aria-hidden, tabindex=-1) and hidden `reg_form_time` timestamp field stamped via inline script on page load
 - `accounts/views.py` — `register_view` checks honeypot and time elapsed before validating the form; both checks silently redirect to /welcome/ without creating a user or sending emails; bots get no indication they were rejected
 
+### Tombstone text color — dark engraving (completed)
+
+- `static/css/main.css` — `.marker-name` and `.marker-dates` color changed from light cream to `#262626`; `text-shadow` removed from both; mobile breakpoint font-size overrides untouched
+
 ### Hero headline — remove all decorative marks (completed)
 
 - `static/js/scene.js` — `hero.innerHTML` simplified to `<h1 id="hero-headline">A peaceful place to remember them</h1>`; all paw SVGs, heart, and hl-side/hl-line spans removed
