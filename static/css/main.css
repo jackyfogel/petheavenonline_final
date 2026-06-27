@@ -2979,9 +2979,9 @@ body.nav--solid #nav-hamburger span {
 @media (max-width: 767px) {
   #nav-prev,
   #nav-next {
-    color: rgba(255, 255, 255, 0.85);
-    background: rgba(0, 0, 0, 0.25);
-    border-radius: 50%;
+    color: #ffffff;
+    background: none;
+    border-radius: 0;
     width: 48px;
     height: 48px;
     padding: 0;
@@ -2996,13 +2996,14 @@ body.nav--solid #nav-hamburger span {
 
   #nav-prev svg,
   #nav-next svg {
-    width: 44px;
-    height: 44px;
+    width: 28px;
+    height: 28px;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.38));
   }
 
   #nav-prev:active,
   #nav-next:active {
-    color: #ffffff;
+    color: rgba(255, 255, 255, 0.70);
   }
 
   #nav-prev.nav--muted,

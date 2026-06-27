@@ -44,6 +44,10 @@ S3 dev/prod upload prefix separation
 - `config/views.py` — `_approved_scene_pages()` and `home_view` approved query both changed to `.order_by('is_demo', 'created_at')` so demo memorials (True) sort after real ones (False)
 - `memorials/admin.py` — `is_demo` added to `list_display`, `list_editable`, and `list_filter` on `MemorialAdmin`
 
+### Mobile nav arrows — bare chevrons (completed)
+
+- `static/css/main.css` — in `@media (max-width: 767px)`: removed `background: rgba(0,0,0,0.25)` and `border-radius: 50%` from `#nav-prev/next`; kept `width/height: 48px` for touch target; color set to `#ffffff`; SVG shrunk to 28px with `filter: drop-shadow(0 1px 3px rgba(0,0,0,0.38))` for legibility; desktop styles unchanged
+
 ### Tombstone text color — dark engraving (completed)
 
 - `static/css/main.css` — `.marker-name` and `.marker-dates` color changed from light cream to `#262626`; `text-shadow` removed from both; mobile breakpoint font-size overrides untouched
