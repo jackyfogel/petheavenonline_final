@@ -44,6 +44,10 @@ S3 dev/prod upload prefix separation
 - `config/views.py` — `_approved_scene_pages()` and `home_view` approved query both changed to `.order_by('is_demo', 'created_at')` so demo memorials (True) sort after real ones (False)
 - `memorials/admin.py` — `is_demo` added to `list_display`, `list_editable`, and `list_filter` on `MemorialAdmin`
 
+### Add requests dependency (completed)
+
+- `requirements.txt` — added `requests==2.32.5` (required by `_verify_turnstile()` in config/views.py)
+
 ### Cloudflare Turnstile on contact + registration forms (completed)
 
 - `config/settings.py` — added `TURNSTILE_SITE_KEY` (test key in DEBUG, env var in prod) and `TURNSTILE_SECRET_KEY` (same pattern)
