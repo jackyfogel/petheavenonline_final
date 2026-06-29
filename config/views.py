@@ -1,4 +1,5 @@
 import time
+import requests as _requests
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
@@ -18,6 +19,24 @@ def _email_subject(subject):
 
 def _base_url():
     return settings.SITE_URL
+
+
+def _verify_turnstile(token, remote_ip):
+    if not token:
+        return False
+    try:
+        resp = _requests.post(
+            'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+            data={
+                'secret': settings.TURNSTILE_SECRET_KEY,
+                'response': token,
+                'remoteip': remote_ip,
+            },
+            timeout=5,
+        )
+        return resp.json().get('success', False)
+    except Exception:
+        return False
 
 
 def _approved_scene_pages():
@@ -486,6 +505,11 @@ def contact_view(request):
         except (ValueError, TypeError):
             pass
 
+        # Turnstile verification
+        remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', ''))
+        if not _verify_turnstile(request.POST.get('cf-turnstile-response'), remote_ip):
+            return JsonResponse({'ok': True})
+
         name    = request.POST.get('name', '').strip()
         email   = request.POST.get('email', '').strip()
         subject = request.POST.get('subject', '').strip()
@@ -519,7 +543,7 @@ def contact_view(request):
 
         return JsonResponse({'ok': True})
 
-    return render(request, "contact.html")
+    return render(request, "contact.html", {'TURNSTILE_SITE_KEY': settings.TURNSTILE_SITE_KEY})
 
 
 @login_required

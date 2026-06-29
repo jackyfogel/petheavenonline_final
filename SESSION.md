@@ -44,6 +44,14 @@ S3 dev/prod upload prefix separation
 - `config/views.py` — `_approved_scene_pages()` and `home_view` approved query both changed to `.order_by('is_demo', 'created_at')` so demo memorials (True) sort after real ones (False)
 - `memorials/admin.py` — `is_demo` added to `list_display`, `list_editable`, and `list_filter` on `MemorialAdmin`
 
+### Cloudflare Turnstile on contact + registration forms (completed)
+
+- `config/settings.py` — added `TURNSTILE_SITE_KEY` (test key in DEBUG, env var in prod) and `TURNSTILE_SECRET_KEY` (same pattern)
+- `config/views.py` — added `import requests as _requests`; added `_verify_turnstile(token, remote_ip)` helper (POSTs to siteverify, returns bool, silent on exception); `contact_view` checks Turnstile after honeypot/time-check, silent-rejects with `{'ok': True}` on failure; passes `TURNSTILE_SITE_KEY` to template
+- `accounts/views.py` — imports `_verify_turnstile`; `register_view` checks Turnstile after honeypot/time-check, silent-redirects on failure; passes `TURNSTILE_SITE_KEY` to template
+- `templates/contact.html` — added `<div class="cf-turnstile">` above submit; Turnstile script in `extra_scripts`
+- `templates/accounts/register.html` — added `<div class="cf-turnstile">` above submit; added `extra_scripts` block with Turnstile script
+
 ### Mobile nav arrows — bare chevrons (completed)
 
 - `static/css/main.css` — in `@media (max-width: 767px)`: removed `background: rgba(0,0,0,0.25)` and `border-radius: 50%` from `#nav-prev/next`; kept `width/height: 48px` for touch target; color set to `#ffffff`; SVG shrunk to 28px with `filter: drop-shadow(0 1px 3px rgba(0,0,0,0.38))` for legibility; desktop styles unchanged

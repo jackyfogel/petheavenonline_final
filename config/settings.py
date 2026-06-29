@@ -136,6 +136,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SITE_URL = 'http://localhost:8000' if DEBUG else 'https://petheavenonline.com'
 
+TURNSTILE_SITE_KEY   = '1x00000000000000000000AA' if DEBUG else os.environ.get('TURNSTILE_SITE_KEY')
+TURNSTILE_SECRET_KEY = '1x0000000000000000000000000000000AA' if DEBUG else os.environ.get('TURNSTILE_SECRET_KEY')
+
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

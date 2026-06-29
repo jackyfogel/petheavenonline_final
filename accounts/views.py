@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from .forms import RegisterForm
-from config.views import _email_subject, _base_url
+from config.views import _email_subject, _base_url, _verify_turnstile
 
 
 def _safe_next(url):
@@ -28,6 +28,9 @@ def register_view(request):
                 return redirect(next_url or '/welcome/')
         except (ValueError, TypeError):
             pass
+        remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', ''))
+        if not _verify_turnstile(request.POST.get('cf-turnstile-response'), remote_ip):
+            return redirect(next_url or '/welcome/')
         form = RegisterForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
@@ -110,7 +113,7 @@ def register_view(request):
     else:
         next_url = _safe_next(request.GET.get('next', ''))
         form = RegisterForm()
-    return render(request, 'accounts/register.html', {'form': form, 'next': next_url})
+    return render(request, 'accounts/register.html', {'form': form, 'next': next_url, 'TURNSTILE_SITE_KEY': settings.TURNSTILE_SITE_KEY})
 
 
 def login_view(request):

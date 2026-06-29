@@ -46,6 +46,7 @@
             placeholder="Write your message here&hellip;"></textarea>
         </div>
 
+        <div class="cf-turnstile" data-sitekey="{{ TURNSTILE_SITE_KEY }}" style="margin: 16px 0;"></div>
         <button class="contact-btn" type="submit">Send Message</button>
       </form>
 
@@ -64,5 +65,6 @@
 {% endblock %}
 
 {% block extra_scripts %}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script src="{% static 'js/contact.js' %}"></script>
 {% endblock %}
